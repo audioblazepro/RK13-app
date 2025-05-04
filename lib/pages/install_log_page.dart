@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // ¡IMPORTANTE para usar rootBundle!
 
 class InstallLogPage extends StatefulWidget {
   final String scriptPath;
@@ -13,26 +13,29 @@ class InstallLogPage extends StatefulWidget {
 }
 
 class _InstallLogPageState extends State<InstallLogPage> {
-  String logContent = "Preparando instalación...";
+  String logContent = "📦 Preparando instalación...";
   double progreso = 0.05;
   late Timer _timer;
 
   @override
   void initState() {
     super.initState();
-    copiarScriptYActivar();
+    copiarScriptDesdeAssets();
     _timer = Timer.periodic(Duration(seconds: 2), (_) => leerLogs());
   }
 
-  Future<void> copiarScriptYActivar() async {
+  Future<void> copiarScriptDesdeAssets() async {
     try {
-      final asset = await File(widget.scriptPath).readAsString(); // Si estás leyendo desde sistema de archivos local
+      // Leer desde assets usando rootBundle
+      final asset = await rootBundle.loadString(widget.scriptPath);
+
+      // Escribir el script en /Download
       final scriptFile = File('/storage/emulated/0/Download/command.sh');
       final logFile = File('/storage/emulated/0/Download/logs.txt');
 
       await logFile.writeAsString("🛠️ Instalación iniciada...\n");
       await scriptFile.writeAsString('''$asset
-echo "✅ Instalación completa" >> /sdcard/Download/logs.txt
+echo "✅ Instalación completa." >> /sdcard/Download/logs.txt
 ''');
 
       // Lanzar Termux automáticamente
@@ -40,7 +43,7 @@ echo "✅ Instalación completa" >> /sdcard/Download/logs.txt
       await Process.run('am', ['start', '-a', 'android.intent.action.VIEW', '-d', intent.toString()]);
     } catch (e) {
       setState(() {
-        logContent = "Error: $e";
+        logContent = "❌ Error: $e";
       });
     }
   }
@@ -58,7 +61,7 @@ echo "✅ Instalación completa" >> /sdcard/Download/logs.txt
 
   double calcularProgreso(String log) {
     if (log.contains("✅ Instalación completa")) return 1.0;
-    if (log.contains("install") || log.contains("cloning")) return 0.6;
+    if (log.contains("install") || log.contains("pkg") || log.contains("clone")) return 0.6;
     return 0.2;
   }
 
