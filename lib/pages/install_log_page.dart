@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:clipboard/clipboard.dart';
-import 'package:android_intent_plus/android_intent.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../utils/file_helper.dart';
-import '../utils/termux_launcher.dart';
 import '../models/repo_model.dart';
 
 class InstallLogPage extends StatefulWidget {
@@ -49,7 +48,6 @@ class _InstallLogPageState extends State<InstallLogPage>
         return;
       }
 
-      // Guarda y copia el script a ~/.termux/boot/start_<repo>.sh
       scriptPath = await guardarYCopiarScript(widget.repo.name, widget.repo.assetPath);
 
       final contenido = await rootBundle.loadString(widget.repo.assetPath);
@@ -81,18 +79,19 @@ class _InstallLogPageState extends State<InstallLogPage>
 
   double _calcularProgreso(String log) {
     if (log.contains("✅")) return 1.0;
-    if (log.contains("pkg") || log.contains("python") || log.contains("node"))
-      return 0.6;
+    if (log.contains("pkg") || log.contains("python") || log.contains("node")) return 0.6;
     return 0.2;
   }
 
   Future<void> abrirTermuxManual() async {
-    final intent = AndroidIntent(
-      action: 'android.intent.action.MAIN',
-      package: 'com.termux',
-      componentName: 'com.termux.app.TermuxActivity',
-    );
-    await intent.launch();
+    final uri = Uri.parse('intent://#Intent;package=com.termux;scheme=android-app;end');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('❌ No se pudo abrir Termux')),
+      );
+    }
   }
 
   Future<void> copiarScriptAlPortapapeles(BuildContext context) async {
@@ -169,7 +168,7 @@ class _InstallLogPageState extends State<InstallLogPage>
                     backgroundColor: Colors.redAccent,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                  onPressed: () => copiarScriptAlPortapapapeles(context),
+                  onPressed: () => copiarScriptAlPortapapeles(context),
                 ),
               ),
             ],
