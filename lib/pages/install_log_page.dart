@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // ¡IMPORTANTE para usar rootBundle!
+import 'package:flutter/services.dart';
 
 class InstallLogPage extends StatefulWidget {
   final String scriptPath;
@@ -20,48 +20,54 @@ class _InstallLogPageState extends State<InstallLogPage> {
   @override
   void initState() {
     super.initState();
-    copiarScriptDesdeAssets();
-    _timer = Timer.periodic(Duration(seconds: 2), (_) => leerLogs());
+    _iniciarInstalacion();
+    _timer = Timer.periodic(Duration(seconds: 2), (_) => _leerLogs());
   }
 
-  Future<void> copiarScriptDesdeAssets() async {
+  Future<void> _iniciarInstalacion() async {
     try {
-      // Leer desde assets usando rootBundle
-      final asset = await rootBundle.loadString(widget.scriptPath);
+      // ✅ Cargar contenido del script desde assets
+      final contenido = await rootBundle.loadString(widget.scriptPath);
 
-      // Escribir el script en /Download
+      // ✅ Escribirlo como command.sh
       final scriptFile = File('/storage/emulated/0/Download/command.sh');
       final logFile = File('/storage/emulated/0/Download/logs.txt');
 
       await logFile.writeAsString("🛠️ Instalación iniciada...\n");
-      await scriptFile.writeAsString('''$asset
-echo "✅ Instalación completa." >> /sdcard/Download/logs.txt
+      await scriptFile.writeAsString('''$contenido
+echo "✅ Instalación completa" >> /sdcard/Download/logs.txt
 ''');
 
-      // Lanzar Termux automáticamente
+      // ✅ Abrir Termux (requiere que esté instalado)
       final intent = Uri.parse('intent:#Intent;package=com.termux;end');
-      await Process.run('am', ['start', '-a', 'android.intent.action.VIEW', '-d', intent.toString()]);
+      await Process.run('am', [
+        'start',
+        '-a',
+        'android.intent.action.VIEW',
+        '-d',
+        intent.toString()
+      ]);
     } catch (e) {
       setState(() {
-        logContent = "❌ Error: $e";
+        logContent = "❌ Error cargando script: $e";
       });
     }
   }
 
-  Future<void> leerLogs() async {
+  Future<void> _leerLogs() async {
     final logFile = File('/storage/emulated/0/Download/logs.txt');
     if (await logFile.exists()) {
       final content = await logFile.readAsString();
       setState(() {
         logContent = content;
-        progreso = calcularProgreso(content);
+        progreso = _calcularProgreso(content);
       });
     }
   }
 
-  double calcularProgreso(String log) {
+  double _calcularProgreso(String log) {
     if (log.contains("✅ Instalación completa")) return 1.0;
-    if (log.contains("install") || log.contains("pkg") || log.contains("clone")) return 0.6;
+    if (log.contains("npm") || log.contains("pkg") || log.contains("git")) return 0.6;
     return 0.2;
   }
 
