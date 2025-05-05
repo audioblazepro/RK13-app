@@ -40,13 +40,24 @@ class _InstallLogPageState extends State<InstallLogPage>
 
   Future<void> _iniciarInstalacion() async {
     try {
-      await Permission.manageExternalStorage.request();
-      scriptPath =
-          await guardarYCopiarScript(widget.repo.name, widget.repo.assetPath);
+      final permiso = await Permission.manageExternalStorage.request();
+      if (!permiso.isGranted) {
+        setState(() => logContent = "❌ Permiso de almacenamiento denegado");
+        return;
+      }
+
+      // Guarda y copia el script a ~/.termux/boot/start_<repo>.sh
+      scriptPath = await guardarYCopiarScript(widget.repo.name, widget.repo.assetPath);
+
       final logFile = File('$dir/rk13_logs.txt');
       await logFile.writeAsString("🛠️ Instalación iniciada...\n");
 
-      await abrirTermuxConScript(scriptPath);
+      // Intentar abrir Termux para ejecutar automáticamente
+      await abrirTermux();
+
+      setState(() {
+        logContent = "✅ Script copiado a Termux Boot:\n$scriptPath\n\nAbre Termux o reinicia para que se ejecute.";
+      });
     } catch (e) {
       setState(() {
         logContent = "❌ Error: $e";

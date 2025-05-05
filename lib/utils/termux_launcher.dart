@@ -1,15 +1,15 @@
 import 'dart:io';
 
-Future<void> abrirTermuxConScript(String scriptPath) async {
+Future<void> abrirTermux() async {
   try {
-    await Process.run('am', [
+    final result = await Process.run('am', [
       'start',
       '-n',
       'com.termux/.app.TermuxActivity',
-      '-d',
-      'file://$scriptPath',
     ]);
+
+    print("Termux lanzado: ${result.exitCode}");
   } catch (e) {
-    print('❌ Termux no pudo abrirse: $e');
+    print("❌ No se pudo abrir Termux: $e");
   }
 }
