@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class InstallLogPage extends StatefulWidget {
-  final String scriptPath;
+  final String scriptPath; // Ruta del asset (ej: 'assets/scripts/install_node.sh')
 
   const InstallLogPage({required this.scriptPath, Key? key}) : super(key: key);
 
@@ -13,8 +13,8 @@ class InstallLogPage extends StatefulWidget {
 }
 
 class _InstallLogPageState extends State<InstallLogPage> {
-  String logContent = "📦 Preparando instalación...";
-  double progreso = 0.05;
+  String logContent = "🛠️ Instalación iniciada...";
+  double progreso = 0.1;
   late Timer _timer;
 
   @override
@@ -26,30 +26,40 @@ class _InstallLogPageState extends State<InstallLogPage> {
 
   Future<void> _iniciarInstalacion() async {
     try {
-      // ✅ Cargar contenido del script desde assets
+      // Cargar el contenido del asset .sh
       final contenido = await rootBundle.loadString(widget.scriptPath);
 
-      // ✅ Escribirlo como command.sh
-      final scriptFile = File('/storage/emulated/0/Download/command.sh');
-      final logFile = File('/storage/emulated/0/Download/logs.txt');
+      final outputScriptPath = '/storage/emulated/0/Download/command.sh';
+      final logPath = '/storage/emulated/0/Download/logs.txt';
+
+      final scriptFile = File(outputScriptPath);
+      final logFile = File(logPath);
 
       await logFile.writeAsString("🛠️ Instalación iniciada...\n");
-      await scriptFile.writeAsString('''$contenido
-echo "✅ Instalación completa" >> /sdcard/Download/logs.txt
+      await scriptFile.writeAsString('''#!/data/data/com.termux/files/usr/bin/bash
+$contenido
+echo "✅ Instalación completa" >> "$logPath"
 ''');
 
-      // ✅ Abrir Termux (requiere que esté instalado)
-      final intent = Uri.parse('intent:#Intent;package=com.termux;end');
+      await scriptFile.setExecutable(true);
+
+      // Ejecutar el script directamente desde Termux
       await Process.run('am', [
         'start',
         '-a',
-        'android.intent.action.VIEW',
-        '-d',
-        intent.toString()
+        'com.termux.RUN_COMMAND',
+        '-n',
+        'com.termux/.app.TermuxActivity',
+        '--es',
+        'com.termux.RUN_COMMAND_PATH',
+        outputScriptPath,
+        '--ez',
+        'com.termux.RUN_COMMAND_BACKGROUND',
+        'false',
       ]);
     } catch (e) {
       setState(() {
-        logContent = "❌ Error cargando script: $e";
+        logContent = "❌ Error ejecutando instalación: $e";
       });
     }
   }
