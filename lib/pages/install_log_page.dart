@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class InstallLogPage extends StatefulWidget {
-  final String scriptPath; // Ruta del asset (ej: 'assets/scripts/install_node.sh')
+  final String scriptPath; // Ej: 'assets/scripts/install_node.sh'
 
   const InstallLogPage({required this.scriptPath, Key? key}) : super(key: key);
 
@@ -26,24 +26,25 @@ class _InstallLogPageState extends State<InstallLogPage> {
 
   Future<void> _iniciarInstalacion() async {
     try {
-      // Cargar el contenido del asset .sh
+      // Cargar el script desde assets
       final contenido = await rootBundle.loadString(widget.scriptPath);
 
-      final outputScriptPath = '/storage/emulated/0/Download/command.sh';
+      final scriptPath = '/storage/emulated/0/Download/command.sh';
       final logPath = '/storage/emulated/0/Download/logs.txt';
 
-      final scriptFile = File(outputScriptPath);
+      final scriptFile = File(scriptPath);
       final logFile = File(logPath);
 
+      // Escribir el log inicial
       await logFile.writeAsString("🛠️ Instalación iniciada...\n");
+
+      // Escribir el script a ejecutar
       await scriptFile.writeAsString('''#!/data/data/com.termux/files/usr/bin/bash
 $contenido
 echo "✅ Instalación completa" >> "$logPath"
 ''');
 
-      await scriptFile.setExecutable(true);
-
-      // Ejecutar el script directamente desde Termux
+      // Ejecutar Termux con el script
       await Process.run('am', [
         'start',
         '-a',
@@ -52,14 +53,14 @@ echo "✅ Instalación completa" >> "$logPath"
         'com.termux/.app.TermuxActivity',
         '--es',
         'com.termux.RUN_COMMAND_PATH',
-        outputScriptPath,
+        scriptPath,
         '--ez',
         'com.termux.RUN_COMMAND_BACKGROUND',
         'false',
       ]);
     } catch (e) {
       setState(() {
-        logContent = "❌ Error ejecutando instalación: $e";
+        logContent = "❌ Error al ejecutar instalación: $e";
       });
     }
   }
@@ -67,10 +68,10 @@ echo "✅ Instalación completa" >> "$logPath"
   Future<void> _leerLogs() async {
     final logFile = File('/storage/emulated/0/Download/logs.txt');
     if (await logFile.exists()) {
-      final content = await logFile.readAsString();
+      final contenido = await logFile.readAsString();
       setState(() {
-        logContent = content;
-        progreso = _calcularProgreso(content);
+        logContent = contenido;
+        progreso = _calcularProgreso(contenido);
       });
     }
   }
