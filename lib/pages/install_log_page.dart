@@ -52,7 +52,7 @@ class _InstallLogPageState extends State<InstallLogPage>
       final logFile = File('$dir/rk13_logs.txt');
       await logFile.writeAsString("🛠️ Instalación iniciada...\n");
 
-      // Intentar abrir Termux para ejecutar automáticamente
+      // Abrir Termux directamente
       await abrirTermux();
 
       setState(() {
