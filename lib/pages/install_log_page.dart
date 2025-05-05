@@ -1,111 +1,69 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:clipboard/clipboard.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../utils/file_helper.dart';
-import '../models/repo_model.dart';
+import 'package:android_intent_plus/android_intent.dart';
 
-class InstallLogPage extends StatefulWidget {
-  final RepoModel repo;
+class RepoReadmePage extends StatefulWidget {
+  final String repoName;
+  final String readmeAsset;
+  final String installCommand;
 
-  const InstallLogPage({required this.repo, Key? key}) : super(key: key);
+  const RepoReadmePage({
+    required this.repoName,
+    required this.readmeAsset,
+    required this.installCommand,
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<InstallLogPage> createState() => _InstallLogPageState();
+  State<RepoReadmePage> createState() => _RepoReadmePageState();
 }
 
-class _InstallLogPageState extends State<InstallLogPage>
-    with SingleTickerProviderStateMixin {
-  String logContent = "📦 Preparando instalación...";
-  double progreso = 0.05;
-  late Timer _timer;
-  late AnimationController _animationController;
-
-  final String dir = '/storage/emulated/0/Download';
-  String scriptPath = '';
-  String scriptContent = '';
+class _RepoReadmePageState extends State<RepoReadmePage> {
+  String readmeContent = "Cargando README...";
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    )..repeat(reverse: true);
-
-    _iniciarInstalacion();
-    _timer = Timer.periodic(const Duration(seconds: 2), (_) => _leerLogs());
+    _loadReadme();
   }
 
-  Future<void> _iniciarInstalacion() async {
+  Future<void> _loadReadme() async {
     try {
-      final permiso = await Permission.manageExternalStorage.request();
-      if (!permiso.isGranted) {
-        setState(() => logContent = "❌ Permiso de almacenamiento denegado");
-        return;
-      }
-
-      scriptPath = await guardarYCopiarScript(widget.repo.name, widget.repo.assetPath);
-
-      final contenido = await rootBundle.loadString(widget.repo.assetPath);
-      scriptContent = contenido;
-
-      final logFile = File('$dir/rk13_logs.txt');
-      await logFile.writeAsString("🛠️ Instalación iniciada...\n");
-
+      final content = await rootBundle.loadString(widget.readmeAsset);
       setState(() {
-        logContent = "✅ Script copiado a Termux Boot:\n$scriptPath\n\nPuedes ejecutar desde Termux si lo prefieres.";
+        readmeContent = content;
       });
     } catch (e) {
       setState(() {
-        logContent = "❌ Error: $e";
+        readmeContent = "❌ Error al cargar README: $e";
       });
     }
   }
 
-  Future<void> _leerLogs() async {
-    final logFile = File('$dir/rk13_logs.txt');
-    if (await logFile.exists()) {
-      final content = await logFile.readAsString();
-      setState(() {
-        logContent = content;
-        progreso = _calcularProgreso(content);
-      });
-    }
-  }
-
-  double _calcularProgreso(String log) {
-    if (log.contains("✅")) return 1.0;
-    if (log.contains("pkg") || log.contains("python") || log.contains("node")) return 0.6;
-    return 0.2;
-  }
-
-  Future<void> abrirTermuxManual() async {
-    final uri = Uri.parse('intent://#Intent;package=com.termux;scheme=android-app;end');
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('❌ No se pudo abrir Termux')),
-      );
-    }
-  }
-
-  Future<void> copiarScriptAlPortapapeles(BuildContext context) async {
-    await FlutterClipboard.copy(scriptContent);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('📋 Script copiado al portapapeles')),
+  Future<void> _abrirTermux() async {
+    final intent = AndroidIntent(
+      action: 'android.intent.action.VIEW',
+      package: 'com.termux',
     );
+    try {
+      await intent.launch();
+    } catch (e) {
+      _showSnack("❌ No se pudo abrir Termux");
+    }
   }
 
-  @override
-  void dispose() {
-    _timer.cancel();
-    _animationController.dispose();
-    super.dispose();
+  Future<void> _copiarComando() async {
+    await FlutterClipboard.copy(widget.installCommand);
+    _showSnack("📋 Comando copiado al portapapeles");
+  }
+
+  void _showSnack(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   @override
@@ -113,34 +71,23 @@ class _InstallLogPageState extends State<InstallLogPage>
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text("Instalando..."),
-        centerTitle: true,
         backgroundColor: Colors.black,
+        title: Text(widget.repoName, style: const TextStyle(color: Colors.greenAccent)),
+        iconTheme: const IconThemeData(color: Colors.greenAccent),
         elevation: 0,
       ),
       body: Column(
         children: [
-          AnimatedBuilder(
-            animation: _animationController,
-            builder: (_, __) => LinearProgressIndicator(
-              value: progreso < 1.0 ? _animationController.value * progreso : progreso,
-              backgroundColor: Colors.grey[900],
-              color: Colors.redAccent,
-              minHeight: 5,
-            ),
-          ),
           Expanded(
             child: Container(
-              width: double.infinity,
-              color: Colors.black,
+              padding: const EdgeInsets.all(16),
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(12),
                 child: Text(
-                  logContent,
+                  readmeContent,
                   style: const TextStyle(
-                    fontFamily: 'monospace',
                     color: Colors.greenAccent,
                     fontSize: 14,
+                    fontFamily: 'monospace',
                   ),
                 ),
               ),
@@ -156,36 +103,24 @@ class _InstallLogPageState extends State<InstallLogPage>
                     backgroundColor: Colors.green,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                  onPressed: abrirTermuxManual,
+                  onPressed: _abrirTermux,
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: ElevatedButton.icon(
                   icon: const Icon(Icons.copy),
-                  label: const Text("Copiar Script"),
+                  label: const Text("Copiar Comando"),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.redAccent,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                  onPressed: () => copiarScriptAlPortapapeles(context),
+                  onPressed: _copiarComando,
                 ),
               ),
             ],
           ),
           const SizedBox(height: 10),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              icon: const Icon(Icons.close),
-              label: const Text("Cerrar"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ),
         ],
       ),
     );
