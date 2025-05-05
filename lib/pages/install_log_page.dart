@@ -3,69 +3,59 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../utils/termux_launcher.dart'; // importá la función que ya hicimos
+import '../utils/file_helper.dart';
+import '../utils/termux_launcher.dart';
+import '../models/repo_model.dart';
 
 class InstallLogPage extends StatefulWidget {
-  final String scriptPath; // ruta del asset: ej. assets/scripts/install_node.sh
+  final RepoModel repo;
 
-  const InstallLogPage({required this.scriptPath, Key? key}) : super(key: key);
+  const InstallLogPage({required this.repo, Key? key}) : super(key: key);
 
   @override
-  _InstallLogPageState createState() => _InstallLogPageState();
+  State<InstallLogPage> createState() => _InstallLogPageState();
 }
 
-class _InstallLogPageState extends State<InstallLogPage> {
+class _InstallLogPageState extends State<InstallLogPage>
+    with SingleTickerProviderStateMixin {
   String logContent = "📦 Preparando instalación...";
-  double progreso = 0.1;
+  double progreso = 0.05;
   late Timer _timer;
+  late AnimationController _animationController;
 
-  final String logPath = '/storage/emulated/0/Download/logs.txt';
-  final String scriptDest = '/storage/emulated/0/Download/command.sh';
+  final String dir = '/storage/emulated/0/Download';
+  String scriptPath = '';
 
   @override
   void initState() {
     super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..repeat(reverse: true);
+
     _iniciarInstalacion();
     _timer = Timer.periodic(const Duration(seconds: 2), (_) => _leerLogs());
   }
 
   Future<void> _iniciarInstalacion() async {
     try {
-      await _pedirPermisos();
-
-      // Cargar el script desde assets
-      final contenido = await rootBundle.loadString(widget.scriptPath);
-
-      final scriptFile = File(scriptDest);
-      final logFile = File(logPath);
-
-      // Guardar el script con shebang y log final
+      await Permission.manageExternalStorage.request();
+      scriptPath =
+          await guardarScriptTemporal(widget.repo.name, widget.repo.assetPath);
+      final logFile = File('$dir/rk13_logs.txt');
       await logFile.writeAsString("🛠️ Instalación iniciada...\n");
 
-      await scriptFile.writeAsString('''#!/data/data/com.termux/files/usr/bin/bash
-$contenido
-echo "✅ Instalación completa" >> "$logPath"
-''');
-
-       // Ejecutar en Termux
-      await abrirTermuxConScript(scriptDest);
+      await abrirTermuxConScript(scriptPath);
     } catch (e) {
       setState(() {
-        logContent = "❌ Error al ejecutar instalación:\n$e";
+        logContent = "❌ Error: $e";
       });
     }
   }
 
-  Future<void> _pedirPermisos() async {
-    final status = await Permission.manageExternalStorage.request();
-    if (!status.isGranted) {
-      await openAppSettings();
-      throw 'Permiso de almacenamiento denegado';
-    }
-  }
-
   Future<void> _leerLogs() async {
-    final logFile = File(logPath);
+    final logFile = File('$dir/rk13_logs.txt');
     if (await logFile.exists()) {
       final content = await logFile.readAsString();
       setState(() {
@@ -76,14 +66,16 @@ echo "✅ Instalación completa" >> "$logPath"
   }
 
   double _calcularProgreso(String log) {
-    if (log.contains("✅ Instalación completa")) return 1.0;
-    if (log.contains("pkg") || log.contains("node") || log.contains("python")) return 0.6;
+    if (log.contains("✅")) return 1.0;
+    if (log.contains("pkg") || log.contains("python") || log.contains("node"))
+      return 0.6;
     return 0.2;
   }
 
   @override
   void dispose() {
     _timer.cancel();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -93,44 +85,51 @@ echo "✅ Instalación completa" >> "$logPath"
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text("Instalando..."),
+        centerTitle: true,
         backgroundColor: Colors.black,
+        elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            LinearProgressIndicator(
-              value: progreso,
-              backgroundColor: Colors.grey[800],
+      body: Column(
+        children: [
+          AnimatedBuilder(
+            animation: _animationController,
+            builder: (_, __) => LinearProgressIndicator(
+              value: progreso < 1.0 ? _animationController.value * progreso : progreso,
+              backgroundColor: Colors.grey[900],
               color: Colors.redAccent,
-              minHeight: 6,
+              minHeight: 5,
             ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: Container(
+          ),
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              color: Colors.black,
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.all(12),
-                color: Colors.grey[900],
-                child: SingleChildScrollView(
-                  child: Text(
-                    logContent,
-                    style: const TextStyle(
-                      fontFamily: 'monospace',
-                      color: Colors.greenAccent,
-                      fontSize: 14,
-                    ),
+                child: Text(
+                  logContent,
+                  style: const TextStyle(
+                    fontFamily: 'monospace',
+                    color: Colors.greenAccent,
+                    fontSize: 14,
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.check),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              icon: const Icon(Icons.close),
               label: const Text("Cerrar"),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
               onPressed: () => Navigator.pop(context),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
