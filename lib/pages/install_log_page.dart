@@ -47,9 +47,7 @@ $contenido
 echo "✅ Instalación completa" >> "$logPath"
 ''');
 
-      await scriptFile.setExecutable(true);
-
-      // Ejecutar en Termux
+       // Ejecutar en Termux
       await abrirTermuxConScript(scriptDest);
     } catch (e) {
       setState(() {
