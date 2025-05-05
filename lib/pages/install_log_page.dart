@@ -42,7 +42,7 @@ class _InstallLogPageState extends State<InstallLogPage>
     try {
       await Permission.manageExternalStorage.request();
       scriptPath =
-          await guardarScriptTemporal(widget.repo.name, widget.repo.assetPath);
+          await guardarYCopiarScript(widget.repo.name, widget.repo.assetPath);
       final logFile = File('$dir/rk13_logs.txt');
       await logFile.writeAsString("🛠️ Instalación iniciada...\n");
 
