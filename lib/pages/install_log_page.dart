@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:clipboard/clipboard.dart';
+import 'package:android_intent_plus/android_intent.dart';
 import '../utils/file_helper.dart';
 import '../utils/termux_launcher.dart';
 import '../models/repo_model.dart';
@@ -25,6 +27,7 @@ class _InstallLogPageState extends State<InstallLogPage>
 
   final String dir = '/storage/emulated/0/Download';
   String scriptPath = '';
+  String scriptContent = '';
 
   @override
   void initState() {
@@ -49,14 +52,14 @@ class _InstallLogPageState extends State<InstallLogPage>
       // Guarda y copia el script a ~/.termux/boot/start_<repo>.sh
       scriptPath = await guardarYCopiarScript(widget.repo.name, widget.repo.assetPath);
 
+      final contenido = await rootBundle.loadString(widget.repo.assetPath);
+      scriptContent = contenido;
+
       final logFile = File('$dir/rk13_logs.txt');
       await logFile.writeAsString("🛠️ Instalación iniciada...\n");
 
-      // Abrir Termux directamente
-      await abrirTermux();
-
       setState(() {
-        logContent = "✅ Script copiado a Termux Boot:\n$scriptPath\n\nAbre Termux o reinicia para que se ejecute.";
+        logContent = "✅ Script copiado a Termux Boot:\n$scriptPath\n\nPuedes ejecutar desde Termux si lo prefieres.";
       });
     } catch (e) {
       setState(() {
@@ -81,6 +84,22 @@ class _InstallLogPageState extends State<InstallLogPage>
     if (log.contains("pkg") || log.contains("python") || log.contains("node"))
       return 0.6;
     return 0.2;
+  }
+
+  Future<void> abrirTermuxManual() async {
+    final intent = AndroidIntent(
+      action: 'android.intent.action.MAIN',
+      package: 'com.termux',
+      componentName: 'com.termux.app.TermuxActivity',
+    );
+    await intent.launch();
+  }
+
+  Future<void> copiarScriptAlPortapapeles(BuildContext context) async {
+    await FlutterClipboard.copy(scriptContent);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('📋 Script copiado al portapapeles')),
+    );
   }
 
   @override
@@ -128,13 +147,41 @@ class _InstallLogPageState extends State<InstallLogPage>
               ),
             ),
           ),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton.icon(
+                  icon: const Icon(Icons.terminal),
+                  label: const Text("Abrir Termux"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  onPressed: abrirTermuxManual,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: ElevatedButton.icon(
+                  icon: const Icon(Icons.copy),
+                  label: const Text("Copiar Script"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.redAccent,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  onPressed: () => copiarScriptAlPortapapapeles(context),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
               icon: const Icon(Icons.close),
               label: const Text("Cerrar"),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.redAccent,
+                backgroundColor: Colors.grey,
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
               onPressed: () => Navigator.pop(context),
