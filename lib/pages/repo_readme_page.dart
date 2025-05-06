@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:clipboard/clipboard.dart';
+import 'package:android_intent_plus/android_intent.dart';
 
 class RepoReadmePage extends StatefulWidget {
   final String repoName;
@@ -35,15 +36,30 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
       final content = await rootBundle.loadString(widget.readmeAsset);
       setState(() => readmeContent = content);
     } catch (e) {
-      setState(() => readmeContent = "❌ Error al cargar README: \$e");
+      setState(() => readmeContent = "❌ Error al cargar README: $e");
     }
   }
 
   Future<void> _copiarComando() async {
     await FlutterClipboard.copy(widget.installCommand);
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("📋 Comando copiado")),
+      const SnackBar(content: Text("📋 Comando copiado al portapapeles")),
     );
+  }
+
+  Future<void> _abrirTermux() async {
+    const intent = AndroidIntent(
+      action: 'android.intent.action.MAIN',
+      package: 'com.termux',
+      componentName: 'com.termux.app.TermuxActivity',
+    );
+    try {
+      await intent.launch();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("❌ No se pudo abrir Termux: $e")),
+      );
+    }
   }
 
   Future<void> _abrirGithub() async {
@@ -51,15 +67,6 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("❌ No se pudo abrir GitHub")),
-      );
-    }
-  }
-
-  Future<void> _abrirTermux() async {
-    final uri = Uri.parse('intent://#Intent;package=com.termux;end');
-    if (!await launchUrl(uri)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("❌ Termux no instalado")),
       );
     }
   }
