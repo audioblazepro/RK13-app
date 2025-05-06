@@ -26,7 +26,6 @@ class _RepoReadmePageState extends State<RepoReadmePage>
   String feedbackText = '';
   Color progressColor = Colors.red;
   double progressValue = 0.0;
-  bool copied = false;
   late AnimationController _progressController;
 
   @override
@@ -44,21 +43,23 @@ class _RepoReadmePageState extends State<RepoReadmePage>
       final content = await rootBundle.loadString(widget.readmeAsset);
       setState(() => readmeContent = content);
     } catch (e) {
-      setState(() => readmeContent = "❌ Error al cargar README: \$e");
+      setState(() => readmeContent = "❌ Error al cargar README: $e");
     }
   }
 
   Future<void> _instalar() async {
     setState(() {
-      feedbackText = "📦 Descargando comando...";
+      feedbackText = "📦 Ejecutando instalación...";
       progressColor = Colors.red;
       progressValue = 0.0;
     });
 
     _progressController.forward(from: 0.0);
+
     await Future.delayed(const Duration(seconds: 1));
+
     setState(() {
-      feedbackText = "🟢 ¡Éxito!";
+      feedbackText = "✅ Instalación simulada completada.";
       progressColor = Colors.green;
       progressValue = 1.0;
     });
@@ -68,26 +69,33 @@ class _RepoReadmePageState extends State<RepoReadmePage>
     try {
       final script = await rootBundle.loadString(widget.scriptAsset);
       await FlutterClipboard.copy(script);
-      _mostrarSnackbar("📋 Comando copiado. Abre Termux y presiona Enter.");
+      _mostrarSnackbar("📋 Comando copiado. Pégalo en Termux.");
     } catch (e) {
-      _mostrarSnackbar("❌ Error al copiar comandos: \$e");
+      _mostrarSnackbar("❌ No se pudo copiar el comando: $e");
     }
   }
 
   void _mostrarSnackbar(String mensaje) {
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(mensaje)),
+      SnackBar(
+        content: Text(mensaje),
+        duration: const Duration(seconds: 2),
+      ),
     );
   }
 
   Future<void> _abrirTermux() async {
-    const packageName = 'com.termux';
-    final intent = Uri.parse("intent://#Intent;package=\$packageName;end");
+    final intentUri = Uri.parse("intent://#Intent;package=com.termux;end");
 
-    if (await canLaunchUrl(intent)) {
-      await launchUrl(intent);
-    } else {
-      _mostrarSnackbar("❌ Termux no encontrado.");
+    try {
+      if (await canLaunchUrl(intentUri)) {
+        await launchUrl(intentUri);
+      } else {
+        _mostrarSnackbar("⚠️ Termux no está instalado.");
+      }
+    } catch (e) {
+      _mostrarSnackbar("❌ No se pudo abrir Termux: $e");
     }
   }
 
@@ -103,7 +111,10 @@ class _RepoReadmePageState extends State<RepoReadmePage>
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(widget.repoName, style: const TextStyle(color: Colors.greenAccent)),
+        title: Text(
+          widget.repoName,
+          style: const TextStyle(color: Colors.greenAccent),
+        ),
         iconTheme: const IconThemeData(color: Colors.greenAccent),
         elevation: 0,
       ),
@@ -127,7 +138,10 @@ class _RepoReadmePageState extends State<RepoReadmePage>
           if (feedbackText.isNotEmpty)
             Column(
               children: [
-                Text(feedbackText, style: TextStyle(color: progressColor)),
+                Text(
+                  feedbackText,
+                  style: TextStyle(color: progressColor),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: LinearProgressIndicator(
@@ -138,45 +152,50 @@ class _RepoReadmePageState extends State<RepoReadmePage>
                 ),
               ],
             ),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.system_update_alt),
-                  label: const Text("Install Now"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        progressValue == 1.0 ? Colors.green : Colors.red,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.system_update_alt),
+                    label: const Text("Instalar"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: progressValue == 1.0
+                          ? Colors.green
+                          : Colors.redAccent,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    onPressed: _instalar,
                   ),
-                  onPressed: _instalar,
                 ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.copy),
-                  label: const Text("Copiar Comandos"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueGrey,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.copy),
+                    label: const Text("Copiar"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueGrey,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    onPressed: _copiarComando,
                   ),
-                  onPressed: _copiarComando,
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          ElevatedButton.icon(
-            icon: const Icon(Icons.terminal),
-            label: const Text("Abrir Termux"),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.teal,
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              ],
             ),
-            onPressed: _abrirTermux,
           ),
-          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: ElevatedButton.icon(
+              icon: const Icon(Icons.terminal),
+              label: const Text("Abrir Termux"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+              ),
+              onPressed: _abrirTermux,
+            ),
+          ),
         ],
       ),
     );
