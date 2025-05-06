@@ -56,8 +56,16 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
   }
 
   Future<void> _copiarComando() async {
-    await FlutterClipboard.copy(widget.installCommand);
-    _showSnack("📋 Comando copiado al portapapeles");
+    try {
+      final scriptAsset = widget.readmeAsset
+          .replaceFirst('readme/', 'scripts/')
+          .replaceFirst('.md', '.sh');
+      final content = await rootBundle.loadString('assets/' + scriptAsset);
+      await FlutterClipboard.copy(content);
+      _showSnack("📋 Comandos del script copiados al portapapeles");
+    } catch (e) {
+      _showSnack("❌ Error al copiar comandos: $e");
+    }
   }
 
   void _showSnack(String message) {
@@ -110,7 +118,7 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
               Expanded(
                 child: ElevatedButton.icon(
                   icon: const Icon(Icons.copy),
-                  label: const Text("Copiar Comando"),
+                  label: const Text("Copiar Comandos"),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.redAccent,
                     padding: const EdgeInsets.symmetric(vertical: 16),

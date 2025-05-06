@@ -59,6 +59,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/scripts/install_node.sh
+    - assets/scripts/install_python.sh
     - assets/readme/nodejs.md
     - assets/readme/python.md
 
