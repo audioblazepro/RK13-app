@@ -1,36 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:rk13/pages/home_page.dart';
+import 'pages/home_page.dart';
 
 void main() {
-  runApp(RK13App());
+  runApp(const RK13App());
 }
 
 class RK13App extends StatelessWidget {
+  const RK13App({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'RK13',
+      title: 'RK13 Terminal Toolkit',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: Colors.black,
+        scaffoldBackgroundColor: const Color(0xFF101010),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.black,
+          elevation: 0,
+          centerTitle: true,
+          titleTextStyle: TextStyle(
+            color: Colors.redAccent,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(color: Colors.white70, fontSize: 16),
+          bodyLarge: TextStyle(color: Colors.white, fontSize: 18),
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.redAccent,
             foregroundColor: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            backgroundColor: Colors.redAccent,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
+            padding: const EdgeInsets.symmetric(vertical: 14),
           ),
         ),
-        iconTheme: IconThemeData(color: Colors.redAccent),
-        textTheme: ThemeData.dark().textTheme.apply(
-              fontFamily: 'monospace',
-              bodyColor: Colors.white,
-              displayColor: Colors.white,
-            ),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.grey[900],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide.none,
+          ),
+        ),
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
