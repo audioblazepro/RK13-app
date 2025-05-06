@@ -1,9 +1,7 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:permission_handler/permission_handler.dart';
 import 'package:clipboard/clipboard.dart';
-import 'package:android_intent_plus/android_intent.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RepoReadmePage extends StatefulWidget {
   final String repoName;
@@ -44,13 +42,10 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
   }
 
   Future<void> _abrirTermux() async {
-    final intent = AndroidIntent(
-      action: 'android.intent.action.VIEW',
-      package: 'com.termux',
-    );
-    try {
-      await intent.launch();
-    } catch (e) {
+    final uri = Uri.parse('intent://#Intent;package=com.termux;scheme=android-app;end');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
       _showSnack("❌ No se pudo abrir Termux");
     }
   }

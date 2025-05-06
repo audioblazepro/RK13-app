@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/repo_model.dart';
-import 'install_log_page.dart';
+import 'repo_readme_page.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -14,7 +14,6 @@ class HomePage extends StatelessWidget {
       name: "Python",
       assetPath: "assets/scripts/install_python.sh",
     ),
-    // Agregá más repos aquí si querés
   ];
 
   @override
@@ -43,7 +42,7 @@ class HomePage extends StatelessWidget {
               ),
               trailing: ElevatedButton.icon(
                 icon: const Icon(Icons.system_update_alt),
-                label: const Text("Instalar"),
+                label: const Text("Ver"),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.redAccent,
                 ),
@@ -51,7 +50,11 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => InstallLogPage(repo: repo),
+                      builder: (_) => RepoReadmePage(
+                        repoName: repo.name,
+                        readmeAsset: "assets/readme/${repo.name.toLowerCase()}.md",
+                        installCommand: "bash ~/rk13-${repo.name.toLowerCase()}.sh",
+                      ),
                     ),
                   );
                 },
