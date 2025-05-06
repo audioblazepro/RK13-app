@@ -7,12 +7,14 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 
 class RepoReadmePage extends StatefulWidget {
   final String repoName;
+  final String assetPath;
   final String readmeAsset;
   final String installCommand;
   final String githubUrl;
 
   const RepoReadmePage({
     required this.repoName,
+    required this.assetPath,
     required this.readmeAsset,
     required this.installCommand,
     required this.githubUrl,
@@ -50,19 +52,35 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
     });
 
     await Future.delayed(const Duration(seconds: 1));
-    await FlutterClipboard.copy(widget.installCommand);
 
-    setState(() {
-      cargando = false;
-      exito = true;
-    });
+    try {
+      final contenido = await rootBundle.loadString(widget.assetPath);
+      await FlutterClipboard.copy(contenido);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("📋 Comando copiado. Abre Termux y pégalo."),
-        backgroundColor: Colors.green,
-      ),
-    );
+      setState(() {
+        cargando = false;
+        exito = true;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("📋 Comando copiado. Abre Termux y pégalo."),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      setState(() {
+        cargando = false;
+        exito = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("❌ Error al copiar comando: \$e"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   Future<void> _abrirTermux() async {
