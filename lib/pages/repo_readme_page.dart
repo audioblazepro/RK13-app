@@ -42,19 +42,14 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
   }
 
   Future<void> _abrirTermux() async {
-    const uri = 'com.termux';
-    try {
-      final intentUri = Uri.parse('market://details?id=$uri');
-      final termuxUri = Uri(scheme: 'android-app', path: uri);
+    final termuxUri = Uri.parse('termux://');
+    final fallbackUri = Uri.parse('https://f-droid.org/packages/com.termux/');
 
-      if (await canLaunchUrl(termuxUri)) {
-        await launchUrl(termuxUri);
-      } else {
-        await launchUrl(intentUri);
-        _showSnack("⚠️ Termux no encontrado. Redirigiendo a la tienda.");
-      }
-    } catch (e) {
-      _showSnack("❌ Error al abrir Termux: $e");
+    if (await canLaunchUrl(termuxUri)) {
+      await launchUrl(termuxUri, mode: LaunchMode.externalApplication);
+    } else {
+      await launchUrl(fallbackUri, mode: LaunchMode.externalApplication);
+      _showSnack("⚠️ Termux no está instalado. Redirigiendo a F-Droid.");
     }
   }
 
