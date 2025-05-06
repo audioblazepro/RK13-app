@@ -3,6 +3,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:android_intent_plus/android_intent.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class RepoReadmePage extends StatefulWidget {
   final String repoName;
@@ -24,6 +25,8 @@ class RepoReadmePage extends StatefulWidget {
 
 class _RepoReadmePageState extends State<RepoReadmePage> {
   String readmeContent = "Cargando README...";
+  bool cargando = false;
+  bool exito = false;
 
   @override
   void initState() {
@@ -36,14 +39,29 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
       final content = await rootBundle.loadString(widget.readmeAsset);
       setState(() => readmeContent = content);
     } catch (e) {
-      setState(() => readmeContent = "❌ Error al cargar README: $e");
+      setState(() => readmeContent = "❌ Error al cargar README: \$e");
     }
   }
 
-  Future<void> _copiarComando() async {
+  Future<void> _copiarComandoConAnimacion() async {
+    setState(() {
+      cargando = true;
+      exito = false;
+    });
+
+    await Future.delayed(const Duration(seconds: 1));
     await FlutterClipboard.copy(widget.installCommand);
+
+    setState(() {
+      cargando = false;
+      exito = true;
+    });
+
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("📋 Comando copiado al portapapeles")),
+      const SnackBar(
+        content: Text("📋 Comando copiado. Abre Termux y pégalo."),
+        backgroundColor: Colors.green,
+      ),
     );
   }
 
@@ -57,7 +75,7 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
       await intent.launch();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("❌ No se pudo abrir Termux: $e")),
+        SnackBar(content: Text("❌ No se pudo abrir Termux: \$e")),
       );
     }
   }
@@ -75,23 +93,63 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(title: Text(widget.repoName)),
+      appBar: AppBar(
+        title: Text(widget.repoName),
+        backgroundColor: Colors.black,
+      ),
       body: Column(
         children: [
           Expanded(
-            child: SingleChildScrollView(
+            child: Container(
+              width: double.infinity,
+              margin: const EdgeInsets.all(12),
               padding: const EdgeInsets.all(16),
-              child: Text(readmeContent, style: const TextStyle(color: Colors.greenAccent)),
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.redAccent.withOpacity(0.3)),
+              ),
+              child: Markdown(
+                data: readmeContent,
+                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+                  p: const TextStyle(color: Colors.white, fontSize: 14.5, height: 1.6, fontFamily: 'monospace'),
+                  code: const TextStyle(color: Colors.greenAccent, fontFamily: 'monospace'),
+                  h1: const TextStyle(color: Colors.redAccent, fontSize: 20, fontWeight: FontWeight.bold),
+                  h2: const TextStyle(color: Colors.blueAccent, fontSize: 18),
+                ),
+              ),
             ),
           ),
+          if (cargando)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: LinearProgressIndicator(
+                minHeight: 5,
+                backgroundColor: Colors.red[900],
+                color: Colors.redAccent,
+              ),
+            ),
           Row(
             children: [
               Expanded(
                 child: ElevatedButton.icon(
-                  icon: const Icon(Icons.copy),
-                  label: const Text("Instalar"),
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  onPressed: _copiarComando,
+                  icon: Icon(cargando
+                      ? Icons.hourglass_top
+                      : exito
+                          ? Icons.check_circle
+                          : Icons.copy),
+                  label: Text(
+                    cargando
+                        ? "Descargando..."
+                        : exito
+                            ? "🟢 Éxito"
+                            : "Instalar",
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: exito ? Colors.green : Colors.red,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  onPressed: cargando ? null : _copiarComandoConAnimacion,
                 ),
               ),
               const SizedBox(width: 10),
@@ -99,7 +157,10 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
                 child: ElevatedButton.icon(
                   icon: const Icon(Icons.terminal),
                   label: const Text("Abrir Termux"),
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
                   onPressed: _abrirTermux,
                 ),
               ),
@@ -108,7 +169,10 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
                 child: ElevatedButton.icon(
                   icon: const Icon(Icons.code),
                   label: const Text("GitHub"),
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepPurple,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
                   onPressed: _abrirGithub,
                 ),
               ),

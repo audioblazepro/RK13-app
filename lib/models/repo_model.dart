@@ -5,7 +5,7 @@ class RepoModel {
   final String installCommand;
   final String githubUrl;
 
-  const RepoModel({
+  RepoModel({
     required this.name,
     required this.assetPath,
     required this.readmeAsset,
