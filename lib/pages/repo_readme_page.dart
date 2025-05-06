@@ -47,7 +47,6 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
       package: 'com.termux',
       componentName: 'com.termux.app.TermuxActivity',
     );
-
     try {
       await intent.launch();
     } catch (e) {
@@ -58,13 +57,14 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
   Future<void> _copiarComando() async {
     try {
       final scriptAsset = widget.readmeAsset
-          .replaceFirst('readme/', 'scripts/')
+          .replaceFirst('assets/readme/', 'assets/scripts/')
           .replaceFirst('.md', '.sh');
-      final content = await rootBundle.loadString('assets/' + scriptAsset);
-      await FlutterClipboard.copy(content);
-      _showSnack("📋 Comandos del script copiados al portapapeles");
+
+      final content = await rootBundle.loadString(scriptAsset);
+      await FlutterClipboard.copy(content.trim());
+      _showSnack("📋 Comandos copiados al portapapeles");
     } catch (e) {
-      _showSnack("❌ Error al copiar comandos: $e");
+      _showSnack("❌ Error al copiar comandos: ${e.toString()}");
     }
   }
 
@@ -80,8 +80,14 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(widget.repoName, style: const TextStyle(color: Colors.greenAccent)),
-        iconTheme: const IconThemeData(color: Colors.greenAccent),
+        title: Text(
+          widget.repoName,
+          style: const TextStyle(
+            color: Colors.white70,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        iconTheme: const IconThemeData(color: Colors.white70),
         elevation: 0,
       ),
       body: Column(
@@ -93,42 +99,52 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
                 child: Text(
                   readmeContent,
                   style: const TextStyle(
-                    color: Colors.greenAccent,
-                    fontSize: 14,
+                    color: Colors.white70,
+                    fontSize: 15,
+                    height: 1.4,
                     fontFamily: 'monospace',
                   ),
                 ),
               ),
             ),
           ),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.terminal),
-                  label: const Text("Abrir Termux"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+          const Divider(height: 1, color: Colors.grey),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.terminal),
+                    label: const Text("Abrir Termux"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey[800],
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                    ),
+                    onPressed: _abrirTermux,
                   ),
-                  onPressed: _abrirTermux,
                 ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.copy),
-                  label: const Text("Copiar Comandos"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.redAccent,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.copy),
+                    label: const Text("Copiar Comandos"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.redAccent,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                    ),
+                    onPressed: _copiarComando,
                   ),
-                  onPressed: _copiarComando,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          const SizedBox(height: 10),
         ],
       ),
     );
