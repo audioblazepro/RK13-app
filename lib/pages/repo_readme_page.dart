@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:clipboard/clipboard.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:android_intent_plus/android_intent.dart';
 
 class RepoReadmePage extends StatefulWidget {
   final String repoName;
@@ -42,14 +42,16 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
   }
 
   Future<void> _abrirTermux() async {
-    final termuxUri = Uri.parse('termux://');
-    final fallbackUri = Uri.parse('https://f-droid.org/packages/com.termux/');
+    const intent = AndroidIntent(
+      action: 'android.intent.action.MAIN',
+      package: 'com.termux',
+      componentName: 'com.termux.app.TermuxActivity',
+    );
 
-    if (await canLaunchUrl(termuxUri)) {
-      await launchUrl(termuxUri, mode: LaunchMode.externalApplication);
-    } else {
-      await launchUrl(fallbackUri, mode: LaunchMode.externalApplication);
-      _showSnack("⚠️ Termux no está instalado. Redirigiendo a F-Droid.");
+    try {
+      await intent.launch();
+    } catch (e) {
+      _showSnack("❌ Error al abrir Termux: $e");
     }
   }
 
