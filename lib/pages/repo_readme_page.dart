@@ -42,11 +42,19 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
   }
 
   Future<void> _abrirTermux() async {
-    final uri = Uri.parse('intent://#Intent;package=com.termux;scheme=android-app;end');
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      _showSnack("❌ No se pudo abrir Termux");
+    const uri = 'com.termux';
+    try {
+      final intentUri = Uri.parse('market://details?id=$uri');
+      final termuxUri = Uri(scheme: 'android-app', path: uri);
+
+      if (await canLaunchUrl(termuxUri)) {
+        await launchUrl(termuxUri);
+      } else {
+        await launchUrl(intentUri);
+        _showSnack("⚠️ Termux no encontrado. Redirigiendo a la tienda.");
+      }
+    } catch (e) {
+      _showSnack("❌ Error al abrir Termux: $e");
     }
   }
 
