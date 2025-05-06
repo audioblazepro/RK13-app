@@ -1,13 +1,10 @@
-# Python Installer
+# Python para Termux
 
-Este repositorio instala Python en Termux.
+Este script instala Python en Termux.
 
-## Comandos:
+## Pasos
 
-```bash
-pkg update -y
-pkg install python -y
-```
-
-## Autor:
-Proyecto RK13 creado por el equipo de Termux Code.
+1. Pulsa "Instalar"
+2. Copia el comando
+3. Abre Termux y pégalo
+4. Ejecuta para completar la instalación

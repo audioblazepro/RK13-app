@@ -2,49 +2,46 @@ import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
 
 void main() {
-  runApp(const RK13App());
+  runApp(const RK13HackerApp());
 }
 
-class RK13App extends StatelessWidget {
-  const RK13App({super.key});
+class RK13HackerApp extends StatelessWidget {
+  const RK13HackerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'RK13 Terminal Toolkit',
+      title: 'RK13 Hacker Terminal',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: const Color(0xFF101010),
+        scaffoldBackgroundColor: const Color(0xFF0A0A0A),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
-          elevation: 0,
           centerTitle: true,
+          elevation: 0,
           titleTextStyle: TextStyle(
             color: Colors.redAccent,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
-            fontSize: 20,
           ),
         ),
         textTheme: const TextTheme(
-          bodyMedium: TextStyle(color: Colors.white70, fontSize: 16),
-          bodyLarge: TextStyle(color: Colors.white, fontSize: 18),
+          bodyLarge: TextStyle(
+            color: Colors.greenAccent,
+            fontFamily: 'monospace',
+            fontSize: 16,
+          ),
+          bodyMedium: TextStyle(
+            color: Colors.white70,
+            fontSize: 14,
+          ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.redAccent,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
             padding: const EdgeInsets.symmetric(vertical: 14),
-          ),
-        ),
-        inputDecorationTheme: InputDecorationTheme(
-          filled: true,
-          fillColor: Colors.grey[900],
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide.none,
           ),
         ),
       ),

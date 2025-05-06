@@ -1,12 +1,10 @@
-# NodeJS Installer
+# NodeJS para Termux
 
-Este repositorio instala Node.js y npm en Termux.
+Este script instala NodeJS en tu entorno Termux.
 
-## Comandos:
-```bash
-pkg update -y
-pkg install nodejs -y
-```
+## Instrucciones
 
-## Autor:
-Proyecto RK13 creado por el equipo de Termux Code.
+1. Presiona "Instalar"
+2. Abre Termux
+3. Pega el comando copiado
+4. Presiona Enter
