@@ -1,64 +1,57 @@
 import 'package:flutter/material.dart';
-import '../models/repo_model.dart';
 import 'repo_readme_page.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+class Repo {
+  final String name;
 
-  final List<RepoModel> repos = [
-    RepoModel(
-      name: "NodeJS",
-      assetPath: "assets/scripts/install_node.sh",
-    ),
-    RepoModel(
-      name: "Python",
-      assetPath: "assets/scripts/install_python.sh",
-    ),
+  Repo({required this.name});
+}
+
+class HomePage extends StatelessWidget {
+  final List<Repo> repos = [
+    Repo(name: "RK13"),
+    Repo(name: "ToolX"),
+    Repo(name: "HackerPack"),
   ];
+
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text("RK13 Instalador"),
+        title: const Text("Linux Tools"),
         backgroundColor: Colors.black,
+        foregroundColor: Colors.greenAccent,
         elevation: 0,
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(16),
+      body: ListView.builder(
         itemCount: repos.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
           final repo = repos[index];
+
           return Card(
             color: Colors.grey[900],
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               title: Text(
                 repo.name,
-                style: const TextStyle(color: Colors.white, fontSize: 18),
+                style: const TextStyle(color: Colors.greenAccent),
               ),
-              trailing: ElevatedButton.icon(
-                icon: const Icon(Icons.system_update_alt),
-                label: const Text("Ver"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => RepoReadmePage(
-                        repoName: repo.name,
-                        readmeAsset: "assets/readme/${repo.name.toLowerCase()}.md",
-                        installCommand: "bash ~/rk13-${repo.name.toLowerCase()}.sh",
-                      ),
+              trailing: const Icon(Icons.arrow_forward_ios, color: Colors.greenAccent),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RepoReadmePage(
+                      repoName: repo.name,
+                      readmeAsset: 'assets/readmes/${repo.name.toLowerCase()}.md',
+                      scriptAsset: 'assets/scripts/${repo.name.toLowerCase()}.sh',
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           );
         },
