@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 class RepoReadmePage extends StatefulWidget {
   final String repoName;
@@ -45,6 +46,19 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
     }
   }
 
+  void _showPushMessage(String message, {Color color = Colors.green}) {
+    Flushbar(
+      message: message,
+      duration: const Duration(seconds: 3),
+      backgroundColor: color,
+      margin: const EdgeInsets.all(12),
+      borderRadius: BorderRadius.circular(8),
+      flushbarPosition: FlushbarPosition.TOP,
+      animationDuration: const Duration(milliseconds: 500),
+      icon: const Icon(Icons.info_outline, color: Colors.white),
+    ).show(context);
+  }
+
   Future<void> _copiarComandoConAnimacion() async {
     setState(() {
       cargando = true;
@@ -62,24 +76,14 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
         exito = true;
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("📋 Comando copiado. Abre Termux y pégalo."),
-          backgroundColor: Colors.green,
-        ),
-      );
+      _showPushMessage("📋 Comando copiado. Abre Termux y pégalo.");
     } catch (e) {
       setState(() {
         cargando = false;
         exito = false;
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("❌ Error al copiar comando: \$e"),
-          backgroundColor: Colors.red,
-        ),
-      );
+      _showPushMessage("❌ Error al copiar comando: \$e", color: Colors.red);
     }
   }
 
@@ -92,18 +96,14 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
     try {
       await intent.launch();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("❌ No se pudo abrir Termux: \$e")),
-      );
+      _showPushMessage("❌ No se pudo abrir Termux: \$e", color: Colors.red);
     }
   }
 
   Future<void> _abrirGithub() async {
     final uri = Uri.parse(widget.githubUrl);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("❌ No se pudo abrir GitHub")),
-      );
+      _showPushMessage("❌ No se pudo abrir GitHub", color: Colors.red);
     }
   }
 

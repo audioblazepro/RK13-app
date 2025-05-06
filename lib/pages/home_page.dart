@@ -9,14 +9,14 @@ class HomePage extends StatelessWidget {
     RepoModel(
       name: "NodeJS",
       assetPath: "assets/scripts/install_node.sh",
-      readmeAsset: "assets/readme/nodejs.md",
+      readme: "assets/readme/nodejs.md",
       installCommand: "bash ~/rk13-nodejs.sh",
       githubUrl: "https://github.com/nodejs/node",
     ),
     RepoModel(
       name: "Python",
       assetPath: "assets/scripts/install_python.sh",
-      readmeAsset: "assets/readme/python.md",
+      readme: "assets/readme/python.md",
       installCommand: "bash ~/rk13-python.sh",
       githubUrl: "https://github.com/python/cpython",
     ),
@@ -27,9 +27,9 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text("RK13 Repositorios"),
+        title: const Text("RK13 - Repos"),
         backgroundColor: Colors.black,
-        centerTitle: true,
+        elevation: 0,
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(16),
@@ -37,40 +37,29 @@ class HomePage extends StatelessWidget {
         separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
           final repo = repos[index];
-          return TweenAnimationBuilder<double>(
-            tween: Tween(begin: 0, end: 1),
-            duration: Duration(milliseconds: 400 + (index * 100)),
-            curve: Curves.easeOut,
-            builder: (context, value, child) {
-              return Opacity(
-                opacity: value,
-                child: Transform.translate(
-                  offset: Offset(0, 20 * (1 - value)),
-                  child: child,
+          return Card(
+            color: Colors.grey[900],
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              title: Text(
+                repo.name,
+                style: const TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              trailing: ElevatedButton.icon(
+                icon: const Icon(Icons.info_outline),
+                label: const Text("Ver"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
                 ),
-              );
-            },
-            child: Card(
-              color: Colors.grey[900],
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              child: ListTile(
-                contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                title: Text(
-                  repo.name,
-                  style: const TextStyle(color: Colors.white, fontSize: 18),
-                ),
-                subtitle: Text(
-                  "Tap para ver detalles",
-                  style: TextStyle(color: Colors.grey[400], fontSize: 13),
-                ),
-                trailing: const Icon(Icons.arrow_forward_ios, color: Colors.redAccent),
-                onTap: () {
+                onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (_) => RepoReadmePage(
                         repoName: repo.name,
-                        readmeAsset: repo.readmeAsset,
+                        assetPath: repo.assetPath,
+                        readmeAsset: repo.readme,
                         installCommand: repo.installCommand,
                         githubUrl: repo.githubUrl,
                       ),
