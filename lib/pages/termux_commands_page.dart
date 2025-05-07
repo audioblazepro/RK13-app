@@ -1,22 +1,39 @@
 import 'package:flutter/material.dart';
 
-class ComandosTermuxPage extends StatelessWidget {
-  const ComandosTermuxPage({super.key});
+class TermuxCommandsPage extends StatelessWidget {
+  const TermuxCommandsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Text(
-          '📘 Esta sección es para: Comandos Termux',
-          style: const TextStyle(
-            fontSize: 18,
-            color: Colors.white70,
-            fontWeight: FontWeight.w400,
+    final comandos = [
+      "pkg update && pkg upgrade",
+      "pkg install git",
+      "pkg install python",
+      "termux-setup-storage",
+      "pkg install curl",
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Comandos útiles para Termux",
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
           ),
-          textAlign: TextAlign.center,
-        ),
+          const SizedBox(height: 20),
+          ...comandos.map((cmd) => Card(
+                color: Colors.grey[900],
+                child: ListTile(
+                  title: Text(cmd, style: const TextStyle(color: Colors.greenAccent)),
+                  trailing: const Icon(Icons.copy, color: Colors.redAccent),
+                  onTap: () {
+                    // Aquí podrías copiar al portapapeles
+                  },
+                ),
+              )),
+        ],
       ),
     );
   }
