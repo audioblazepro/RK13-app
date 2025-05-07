@@ -1,69 +1,107 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'pages/home_page.dart';
+import 'pages/learn_python_page.dart';
+import 'pages/termux_commands_page.dart';
+import 'pages/bash_tools_page.dart';
 
 void main() {
-  runApp(const RK13HackerApp());
+  runApp(const RK13App());
 }
 
-class RK13HackerApp extends StatelessWidget {
-  const RK13HackerApp({super.key});
+class RK13App extends StatelessWidget {
+  const RK13App({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'RK13 Hacker Terminal',
+      title: 'RK13 Installer',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: const Color(0xFF090909),
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.redAccent,
+        scaffoldBackgroundColor: Colors.black,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
+          elevation: 0,
           centerTitle: true,
-          elevation: 4,
-          shadowColor: Colors.redAccent,
-          titleTextStyle: TextStyle(
-            color: Colors.redAccent,
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            fontFamily: 'monospace',
-          ),
-          iconTheme: IconThemeData(color: Colors.redAccent),
+          titleTextStyle: TextStyle(color: Colors.redAccent, fontSize: 20),
         ),
         textTheme: const TextTheme(
-          bodyLarge: TextStyle(
-            color: Colors.greenAccent,
-            fontFamily: 'monospace',
-            fontSize: 17,
-            fontWeight: FontWeight.w500,
-          ),
-          bodyMedium: TextStyle(
-            color: Colors.white70,
-            fontSize: 14,
-          ),
-          titleLarge: TextStyle(
-            color: Colors.redAccent,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          bodyMedium: TextStyle(color: Colors.white),
         ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            elevation: 3,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-            textStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'monospace',
-            ),
-          ),
+        iconTheme: const IconThemeData(color: Colors.redAccent),
+        drawerTheme: const DrawerThemeData(
+          backgroundColor: Colors.black,
         ),
-        dividerColor: Colors.redAccent.withOpacity(0.2),
-        cardColor: Colors.grey[900],
       ),
-      home: HomePage(),
+      home: const MainLayout(),
+    );
+  }
+}
+
+class MainLayout extends StatefulWidget {
+  const MainLayout({super.key});
+
+  @override
+  State<MainLayout> createState() => _MainLayoutState();
+}
+
+class _MainLayoutState extends State<MainLayout> {
+  int _currentIndex = 0;
+
+  final List<Widget> _pages = [
+    HomePage(),
+    LearnPythonPage(),
+    TermuxCommandsPage(),
+    BashToolsPage(),
+  ];
+
+  final List<String> _titles = [
+    "Repositorios",
+    "Aprende Python",
+    "Comandos Termux",
+    "Scripts Bash Tools"
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_titles[_currentIndex]),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(color: Colors.redAccent),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Icon(Icons.terminal, size: 48, color: Colors.white),
+                  SizedBox(height: 10),
+                  Text("RK13 Tools", style: TextStyle(fontSize: 22, color: Colors.white)),
+                ],
+              ),
+            ),
+            _buildDrawerItem(Icons.extension, "Repositorios", 0),
+            _buildDrawerItem(Icons.code, "Aprende Python", 1),
+            _buildDrawerItem(Icons.app_registration, "Comandos Termux", 2),
+            _buildDrawerItem(Icons.build, "Bash Tools", 3),
+          ],
+        ),
+      ),
+      body: _pages[_currentIndex],
+    );
+  }
+
+  ListTile _buildDrawerItem(IconData icon, String title, int index) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title, style: const TextStyle(color: Colors.white)),
+      onTap: () {
+        setState(() => _currentIndex = index);
+        Navigator.pop(context);
+      },
     );
   }
 }
