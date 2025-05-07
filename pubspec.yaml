@@ -62,10 +62,69 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/scripts/install_node.sh
-    - assets/scripts/install_python.sh
-    - assets/readme/nodejs.md
-    - assets/readme/python.md
+    # Scripts de instalación
+    - assets/scripts/repo1.sh
+    - assets/scripts/repo2.sh
+    - assets/scripts/repo3.sh
+    - assets/scripts/repo4.sh
+    - assets/scripts/repo5.sh
+    - assets/scripts/repo6.sh
+    - assets/scripts/repo7.sh
+    - assets/scripts/repo8.sh
+    - assets/scripts/repo9.sh
+    - assets/scripts/repo10.sh
+    - assets/scripts/repo11.sh
+    - assets/scripts/repo12.sh
+    - assets/scripts/repo13.sh
+    - assets/scripts/repo14.sh
+    - assets/scripts/repo15.sh
+    - assets/scripts/repo16.sh
+    - assets/scripts/repo17.sh
+    - assets/scripts/repo18.sh
+    - assets/scripts/repo19.sh
+    - assets/scripts/repo20.sh
+    - assets/scripts/repo21.sh
+    - assets/scripts/repo22.sh
+    - assets/scripts/repo23.sh
+    - assets/scripts/repo24.sh
+    - assets/scripts/repo25.sh
+    - assets/scripts/repo26.sh
+    - assets/scripts/repo27.sh
+    - assets/scripts/repo28.sh
+    - assets/scripts/repo29.sh
+    - assets/scripts/repo30.sh
+
+    # Archivos README
+    - assets/readme/repo1.md
+    - assets/readme/repo2.md
+    - assets/readme/repo3.md
+    - assets/readme/repo4.md
+    - assets/readme/repo5.md
+    - assets/readme/repo6.md
+    - assets/readme/repo7.md
+    - assets/readme/repo8.md
+    - assets/readme/repo9.md
+    - assets/readme/repo10.md
+    - assets/readme/repo11.md
+    - assets/readme/repo12.md
+    - assets/readme/repo13.md
+    - assets/readme/repo14.md
+    - assets/readme/repo15.md
+    - assets/readme/repo16.md
+    - assets/readme/repo17.md
+    - assets/readme/repo18.md
+    - assets/readme/repo19.md
+    - assets/readme/repo20.md
+    - assets/readme/repo21.md
+    - assets/readme/repo22.md
+    - assets/readme/repo23.md
+    - assets/readme/repo24.md
+    - assets/readme/repo25.md
+    - assets/readme/repo26.md
+    - assets/readme/repo27.md
+    - assets/readme/repo28.md
+    - assets/readme/repo29.md
+    - assets/readme/repo30.md
     
     
 
