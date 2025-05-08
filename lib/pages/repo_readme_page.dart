@@ -18,8 +18,8 @@ class RepoReadmePage extends StatefulWidget {
     required this.readmeAsset,
     required this.installCommand,
     required this.githubUrl,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<RepoReadmePage> createState() => _RepoReadmePageState();
@@ -92,9 +92,9 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
     try {
       await intent.launch();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("❌ No se pudo abrir Termux: \$e")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("❌ No se pudo abrir Termux: \$e")));
     }
   }
 
@@ -129,10 +129,24 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
               ),
               child: Markdown(
                 data: readmeContent,
-                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-                  p: const TextStyle(color: Colors.white, fontSize: 14.5, height: 1.6, fontFamily: 'monospace'),
-                  code: const TextStyle(color: Colors.greenAccent, fontFamily: 'monospace'),
-                  h1: const TextStyle(color: Colors.redAccent, fontSize: 20, fontWeight: FontWeight.bold),
+                styleSheet: MarkdownStyleSheet.fromTheme(
+                  Theme.of(context),
+                ).copyWith(
+                  p: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.5,
+                    height: 1.6,
+                    fontFamily: 'monospace',
+                  ),
+                  code: const TextStyle(
+                    color: Colors.greenAccent,
+                    fontFamily: 'monospace',
+                  ),
+                  h1: const TextStyle(
+                    color: Colors.redAccent,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                   h2: const TextStyle(color: Colors.blueAccent, fontSize: 18),
                 ),
               ),
@@ -151,17 +165,19 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
             children: [
               Expanded(
                 child: ElevatedButton.icon(
-                  icon: Icon(cargando
-                      ? Icons.hourglass_top
-                      : exito
-                          ? Icons.check_circle
-                          : Icons.copy),
+                  icon: Icon(
+                    cargando
+                        ? Icons.hourglass_top
+                        : exito
+                        ? Icons.check_circle
+                        : Icons.copy,
+                  ),
                   label: Text(
                     cargando
                         ? "Descargando..."
                         : exito
-                            ? "🟢 Éxito"
-                            : "Instalar",
+                        ? "🟢 Éxito"
+                        : "Instalar",
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: exito ? Colors.green : Colors.red,

@@ -36,7 +36,6 @@ dependencies:
   cupertino_icons: ^1.0.8
   permission_handler: ^11.0.0
   another_flushbar: ^1.10.29
-  device_apps: ^2.2.0
   fluttertoast: ^8.2.4
 
 dev_dependencies:

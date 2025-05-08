@@ -11,8 +11,8 @@ class RepoCard extends StatelessWidget {
     required this.iconData,
     required this.scriptPath,
     required this.onInstall,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +24,17 @@ class RepoCard extends StatelessWidget {
         leading: Icon(iconData, size: 32, color: Colors.redAccent),
         title: Text(
           title,
-          style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         trailing: ElevatedButton.icon(
           onPressed: onInstall,
           icon: Icon(Icons.download),
           label: Text("Instalar"),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.redAccent,
-          ),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
         ),
       ),
     );
