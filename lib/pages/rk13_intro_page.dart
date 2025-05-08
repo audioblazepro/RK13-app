@@ -1,136 +1,92 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Rk13IntroPage extends StatefulWidget {
+class Rk13IntroPage extends StatelessWidget {
   const Rk13IntroPage({super.key});
 
-  @override
-  State<Rk13IntroPage> createState() => _Rk13IntroPageState();
-}
-
-class _Rk13IntroPageState extends State<Rk13IntroPage> {
-  bool _termuxInstalado = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _verificarTermux();
-  }
-
-  Future<void> _verificarTermux() async {
-    final uri = Uri.parse('intent://#Intent;package=com.termux;end');
-    final disponible = await canLaunchUrl(uri);
-    setState(() {
-      _termuxInstalado = disponible;
-    });
-  }
-
-  Future<void> _abrirTermux() async {
-    final uri = Uri.parse('intent://#Intent;package=com.termux;end');
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      _mostrarToast("❌ Termux no está instalado.");
-    }
-  }
-
-  Future<void> _abrirFdroid() async {
-    final uri = Uri.parse('https://f-droid.org/en/packages/com.termux/');
+  void _launchUrl(String url) async {
+    final uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      _mostrarToast("❌ No se pudo abrir F-Droid");
+      debugPrint("No se pudo abrir la URL: \$url");
     }
   }
 
-  void _mostrarToast(String mensaje) {
-    Fluttertoast.showToast(
-      msg: mensaje,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.redAccent,
-      textColor: Colors.white,
+  Widget _buildDownloadButton(String title, String url, Color color) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: ElevatedButton.icon(
+        onPressed: () => _launchUrl(url),
+        icon: const Icon(Icons.download),
+        label: Text(title),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "👋 Bienvenido a RK13",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.redAccent,
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(title: const Text("Bienvenido a RK13")),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "¿Listo para comenzar el viaje?",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.redAccent),
             ),
-          ),
-          const SizedBox(height: 12),
-          const Text(
-            "RK13 es una plataforma para automatizar instalaciones, scripts, y herramientas útiles dentro de Termux. "
-            "Te ayuda a gestionar paquetes, aprender Python, y ejecutar scripts desde una interfaz moderna y profesional.",
-            style: TextStyle(fontSize: 16, color: Colors.white70),
-          ),
-          const SizedBox(height: 24),
-          Row(
-            children: [
-              Icon(
-                _termuxInstalado ? Icons.check_circle : Icons.warning,
-                color: _termuxInstalado ? Colors.green : Colors.orange,
+            const SizedBox(height: 12),
+            const Text(
+              "RK13 es una herramienta pensada para quienes desean adentrarse en el mundo del hacking ético, la automatización y la programación. Termux es tu puerta de entrada. Es una terminal potente que transforma tu teléfono Android en una auténtica máquina de desarrollo Linux.",
+              style: TextStyle(color: Colors.white70, fontSize: 16, height: 1.5),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              "¿Por qué aprender Python?",
+              style: TextStyle(fontSize: 18, color: Colors.lightBlueAccent, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              "Python es el lenguaje favorito de los hackers y desarrolladores. Su simplicidad, poder y versatilidad lo hacen ideal para scripts de automatización, análisis de datos, seguridad informática y más. Imagina crear tus propias herramientas, automatizar procesos o analizar redes desde tu móvil. Todo es posible si aprendes a programar.",
+              style: TextStyle(color: Colors.white60, fontSize: 15, height: 1.5),
+            ),
+            const SizedBox(height: 20),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.red[900],
+                borderRadius: BorderRadius.circular(12),
               ),
-              const SizedBox(width: 8),
-              Text(
-                _termuxInstalado
-                    ? "Termux está instalado"
-                    : "Termux no detectado",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: _termuxInstalado ? Colors.green : Colors.orangeAccent,
-                ),
+              child: const Text(
+                "No necesitas ser un experto. Solo curiosidad. Lo que aprendas hoy puede cambiar tu mundo mañana. ¿Te atreves a mirar más allá del sistema?",
+                style: TextStyle(color: Colors.white, fontSize: 16, fontStyle: FontStyle.italic),
               ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton.icon(
-            icon: const Icon(Icons.open_in_new),
-            label: const Text("Instalar Termux desde F-Droid"),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.redAccent,
-              padding: const EdgeInsets.symmetric(vertical: 14),
             ),
-            onPressed: _abrirFdroid,
-          ),
-          const SizedBox(height: 12),
-          ElevatedButton.icon(
-            icon: const Icon(Icons.terminal),
-            label: const Text("Abrir Termux"),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueAccent,
-              padding: const EdgeInsets.symmetric(vertical: 14),
+            const SizedBox(height: 24),
+            const Text(
+              "Cómo instalar Termux correctamente:",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.greenAccent),
             ),
-            onPressed:
-                _termuxInstalado
-                    ? _abrirTermux
-                    : () => _mostrarToast("Instala Termux primero."),
-          ),
-          const SizedBox(height: 24),
-          const Divider(color: Colors.white24),
-          const SizedBox(height: 12),
-          const Text(
-            "➡️ ¿Qué sigue?",
-            style: TextStyle(fontSize: 18, color: Colors.redAccent),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            "1. Instala Termux.\n"
-            "2. Abre RK13 y accede a la sección de Repositorios.\n"
-            "3. Copia y ejecuta scripts directamente.\n"
-            "4. Explora la sección Aprende Python para comenzar tu camino en la programación.",
-            style: TextStyle(fontSize: 15, color: Colors.white70),
-          ),
-        ],
+            const SizedBox(height: 12),
+            _buildDownloadButton("Descargar F-Droid", "https://f-droid.org/", Colors.deepPurple),
+            _buildDownloadButton("Descargar Termux (F-Droid)", "https://f-droid.org/en/packages/com.termux/", Colors.teal),
+            _buildDownloadButton("Termux:Boot", "https://f-droid.org/en/packages/com.termux.boot/", Colors.blue),
+            _buildDownloadButton("Termux:API", "https://f-droid.org/en/packages/com.termux.api/", Colors.orange),
+            _buildDownloadButton("Acode (Editor de Código)", "https://play.google.com/store/apps/details?id=com.foxdebug.acodefree", Colors.indigo),
+            _buildDownloadButton("App GitHub", "https://play.google.com/store/apps/details?id=com.github.android", Colors.redAccent),
+            const SizedBox(height: 20),
+            const Text(
+              "Después de instalar Termux, regresa aquí y comienza a instalar tus repositorios favoritos con RK13.",
+              style: TextStyle(color: Colors.white38, fontSize: 14, fontStyle: FontStyle.italic),
+            )
+          ],
+        ),
       ),
     );
   }
