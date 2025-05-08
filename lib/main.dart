@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'pages/rk13_intro_page.dart';
 import 'pages/home_page.dart';
 import 'pages/learn_python_page.dart';
 import 'pages/termux_commands_page.dart';
@@ -51,17 +51,19 @@ class _MainLayoutState extends State<MainLayout> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
+    const Rk13IntroPage(),       // NUEVO: Página de introducción
     HomePage(),
-    LearnPythonPage(),
-    TermuxCommandsPage(),
-    BashToolsPage(),
+    const LearnPythonPage(),
+    const TermuxCommandsPage(),
+    const BashToolsPage(),
   ];
 
   final List<String> _titles = [
+    "Bienvenido a RK13",         // Nuevo título
     "Repositorios",
     "Aprende Python",
     "Comandos Termux",
-    "Scripts Bash Tools"
+    "Scripts Bash Tools",
   ];
 
   @override
@@ -84,10 +86,11 @@ class _MainLayoutState extends State<MainLayout> {
                 ],
               ),
             ),
-            _buildDrawerItem(Icons.extension, "Repositorios", 0),
-            _buildDrawerItem(Icons.code, "Aprende Python", 1),
-            _buildDrawerItem(Icons.app_registration, "Comandos Termux", 2),
-            _buildDrawerItem(Icons.build, "Bash Tools", 3),
+            _buildDrawerItem(Icons.info, "Inicio RK13", 0),
+            _buildDrawerItem(Icons.extension, "Repositorios", 1),
+            _buildDrawerItem(Icons.code, "Aprende Python", 2),
+            _buildDrawerItem(Icons.computer, "Comandos Termux", 3),
+            _buildDrawerItem(Icons.build, "Bash Tools", 4),
           ],
         ),
       ),
