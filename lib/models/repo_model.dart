@@ -10,4 +10,4 @@ class RepoModel {
     required this.readmeAsset,
     required this.githubUrl,
   });
-} 
+}
