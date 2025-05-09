@@ -61,10 +61,66 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/scripts/
-    - assets/scripts/
- 
-    
+      - assets/scripts/nmap.sh
+      - assets/scripts/hydra.sh
+      - assets/scripts/metasploit.sh
+      - assets/scripts/sqlmap.sh
+      - assets/scripts/aircrack-ng.sh
+      - assets/scripts/wireshark.sh
+      - assets/scripts/john.sh
+      - assets/scripts/burpsuite.sh
+      - assets/scripts/ettercap.sh
+      - assets/scripts/netcat.sh
+      - assets/scripts/recon-ng.sh
+      - assets/scripts/nikto.sh
+      - assets/scripts/wpscan.sh
+      - assets/scripts/beef.sh
+      - assets/scripts/msfpc.sh
+      - assets/scripts/routersploit.sh
+      - assets/scripts/apktool.sh
+      - assets/scripts/hashcat.sh
+      - assets/scripts/slowloris.sh
+      - assets/scripts/setoolkit.sh
+      - assets/scripts/maltego.sh
+      - assets/scripts/dnsenum.sh
+      - assets/scripts/theharvester.sh
+      - assets/scripts/enum4linux.sh
+      - assets/scripts/dirb.sh
+      - assets/scripts/fierce.sh
+      - assets/scripts/sslscan.sh
+      - assets/scripts/xsser.sh
+      - assets/scripts/skipfish.sh
+      - assets/scripts/zmap.sh
+      - assets/readmes/nmap.md
+      - assets/readmes/hydra.md
+      - assets/readmes/metasploit.md
+      - assets/readmes/sqlmap.md
+      - assets/readmes/aircrack-ng.md
+      - assets/readmes/wireshark.md
+      - assets/readmes/john.md
+      - assets/readmes/burpsuite.md
+      - assets/readmes/ettercap.md
+      - assets/readmes/netcat.md
+      - assets/readmes/recon-ng.md
+      - assets/readmes/nikto.md
+      - assets/readmes/wpscan.md
+      - assets/readmes/beef.md
+      - assets/readmes/msfpc.md
+      - assets/readmes/routersploit.md
+      - assets/readmes/apktool.md
+      - assets/readmes/hashcat.md
+      - assets/readmes/slowloris.md
+      - assets/readmes/setoolkit.md
+      - assets/readmes/maltego.md
+      - assets/readmes/dnsenum.md
+      - assets/readmes/theharvester.md
+      - assets/readmes/enum4linux.md
+      - assets/readmes/dirb.md
+      - assets/readmes/fierce.md
+      - assets/readmes/sslscan.md
+      - assets/readmes/xsser.md
+      - assets/readmes/skipfish.md
+      - assets/readmes/zmap.md
 
   # To add assets to your application, add an assets section, like this:
   # assets:

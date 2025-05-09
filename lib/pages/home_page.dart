@@ -6,66 +6,108 @@ class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   final List<RepoModel> repos = [
-    RepoModel(name: "Repo1", assetPath: "assets/scripts/repo1.sh", readmeAsset: "assets/readme/repo1.md", githubUrl: "https://github.com/user/repo1"),
-    RepoModel(name: "Repo2", assetPath: "assets/scripts/repo2.sh", readmeAsset: "assets/readme/repo2.md", githubUrl: "https://github.com/user/repo2"),
-    RepoModel(name: "Repo3", assetPath: "assets/scripts/repo3.sh", readmeAsset: "assets/readme/repo3.md", githubUrl: "https://github.com/user/repo3"),
-    RepoModel(name: "Repo4", assetPath: "assets/scripts/repo4.sh", readmeAsset: "assets/readme/repo4.md", githubUrl: "https://github.com/user/repo4"),
-    RepoModel(name: "Repo5", assetPath: "assets/scripts/repo5.sh", readmeAsset: "assets/readme/repo5.md", githubUrl: "https://github.com/user/repo5"),
-    RepoModel(name: "Repo6", assetPath: "assets/scripts/repo6.sh", readmeAsset: "assets/readme/repo6.md", githubUrl: "https://github.com/user/repo6"),
-    RepoModel(name: "Repo7", assetPath: "assets/scripts/repo7.sh", readmeAsset: "assets/readme/repo7.md", githubUrl: "https://github.com/user/repo7"),
-    RepoModel(name: "Repo8", assetPath: "assets/scripts/repo8.sh", readmeAsset: "assets/readme/repo8.md", githubUrl: "https://github.com/user/repo8"),
-    RepoModel(name: "Repo9", assetPath: "assets/scripts/repo9.sh", readmeAsset: "assets/readme/repo9.md", githubUrl: "https://github.com/user/repo9"),
-    RepoModel(name: "Repo10", assetPath: "assets/scripts/repo10.sh", readmeAsset: "assets/readme/repo10.md", githubUrl: "https://github.com/user/repo10"),
-    RepoModel(name: "Repo11", assetPath: "assets/scripts/repo11.sh", readmeAsset: "assets/readme/repo11.md", githubUrl: "https://github.com/user/repo11"),
-    RepoModel(name: "Repo12", assetPath: "assets/scripts/repo12.sh", readmeAsset: "assets/readme/repo12.md", githubUrl: "https://github.com/user/repo12"),
-    RepoModel(name: "Repo13", assetPath: "assets/scripts/repo13.sh", readmeAsset: "assets/readme/repo13.md", githubUrl: "https://github.com/user/repo13"),
-    RepoModel(name: "Repo14", assetPath: "assets/scripts/repo14.sh", readmeAsset: "assets/readme/repo14.md", githubUrl: "https://github.com/user/repo14"),
-    RepoModel(name: "Repo15", assetPath: "assets/scripts/repo15.sh", readmeAsset: "assets/readme/repo15.md", githubUrl: "https://github.com/user/repo15"),
-    RepoModel(name: "Repo16", assetPath: "assets/scripts/repo16.sh", readmeAsset: "assets/readme/repo16.md", githubUrl: "https://github.com/user/repo16"),
-    RepoModel(name: "Repo17", assetPath: "assets/scripts/repo17.sh", readmeAsset: "assets/readme/repo17.md", githubUrl: "https://github.com/user/repo17"),
-    RepoModel(name: "Repo18", assetPath: "assets/scripts/repo18.sh", readmeAsset: "assets/readme/repo18.md", githubUrl: "https://github.com/user/repo18"),
-    RepoModel(name: "Repo19", assetPath: "assets/scripts/repo19.sh", readmeAsset: "assets/readme/repo19.md", githubUrl: "https://github.com/user/repo19"),
-    RepoModel(name: "Repo20", assetPath: "assets/scripts/repo20.sh", readmeAsset: "assets/readme/repo20.md", githubUrl: "https://github.com/user/repo20"),
-    RepoModel(name: "Repo21", assetPath: "assets/scripts/repo21.sh", readmeAsset: "assets/readme/repo21.md", githubUrl: "https://github.com/user/repo21"),
-    RepoModel(name: "Repo22", assetPath: "assets/scripts/repo22.sh", readmeAsset: "assets/readme/repo22.md", githubUrl: "https://github.com/user/repo22"),
-    RepoModel(name: "Repo23", assetPath: "assets/scripts/repo23.sh", readmeAsset: "assets/readme/repo23.md", githubUrl: "https://github.com/user/repo23"),
-    RepoModel(name: "Repo24", assetPath: "assets/scripts/repo24.sh", readmeAsset: "assets/readme/repo24.md", githubUrl: "https://github.com/user/repo24"),
-    RepoModel(name: "Repo25", assetPath: "assets/scripts/repo25.sh", readmeAsset: "assets/readme/repo25.md", githubUrl: "https://github.com/user/repo25"),
-    RepoModel(name: "Repo26", assetPath: "assets/scripts/repo26.sh", readmeAsset: "assets/readme/repo26.md", githubUrl: "https://github.com/user/repo26"),
-    RepoModel(name: "Repo27", assetPath: "assets/scripts/repo27.sh", readmeAsset: "assets/readme/repo27.md", githubUrl: "https://github.com/user/repo27"),
-    RepoModel(name: "Repo28", assetPath: "assets/scripts/repo28.sh", readmeAsset: "assets/readme/repo28.md", githubUrl: "https://github.com/user/repo28"),
-    RepoModel(name: "Repo29", assetPath: "assets/scripts/repo29.sh", readmeAsset: "assets/readme/repo29.md", githubUrl: "https://github.com/user/repo29"),
-    RepoModel(name: "Repo30", assetPath: "assets/scripts/repo30.sh", readmeAsset: "assets/readme/repo30.md", githubUrl: "https://github.com/user/repo30")
+    RepoModel(
+      name: "Nmap",
+      scriptFile: "nmap.sh",
+      readmeAsset: "assets/readmes/nmap.md",
+      githubUrl: "https://github.com/nmap/nmap",
+    ),
+    RepoModel(
+      name: "Hydra",
+      scriptFile: "hydra.sh",
+      readmeAsset: "assets/readmes/hydra.md",
+      githubUrl: "https://github.com/vanhauser-thc/thc-hydra",
+    ),
+    RepoModel(
+      name: "Metasploit",
+      scriptFile: "metasploit.sh",
+      readmeAsset: "assets/readmes/metasploit.md",
+      githubUrl: "https://github.com/rapid7/metasploit-framework",
+    ),
+    RepoModel(
+      name: "Sqlmap",
+      scriptFile: "sqlmap.sh",
+      readmeAsset: "assets/readmes/sqlmap.md",
+      githubUrl: "https://github.com/sqlmapproject/sqlmap"),
+    RepoModel(
+      name: "Recon-ng",
+      scriptFile: "reconng.sh",
+      readmeAsset: "assets/readmes/reconng.md", 
+      githubUrl: "https://github.com/lanmaster53/recon-ng"),
+    RepoModel(
+      name: "Nikto",
+      scriptFile: "nikto.sh", 
+      readmeAsset: "assets/readmes/nikto.md", githubUrl: "https://github.com/sullo/nikto"),
+    RepoModel(name: "Setoolkit", scriptFile: "setoolkit.sh", readmeAsset: "assets/readmes/setoolkit.md", githubUrl: "https://github.com/trustedsec/social-engineer-toolkit"),
+    RepoModel(name: "Wifite", scriptFile: "wifite.sh", readmeAsset: "assets/readmes/wifite.md", githubUrl: "https://github.com/derv82/wifite"),
+    RepoModel(name: "Aircrack-ng", scriptFile: "aircrack.sh", readmeAsset: "assets/readmes/aircrack.md", githubUrl: "https://github.com/aircrack-ng/aircrack-ng"),
+    RepoModel(name: "JohnTheRipper", scriptFile: "john.sh", readmeAsset: "assets/readmes/john.md", githubUrl: "https://github.com/openwall/john"),
+    RepoModel(name: "Hashcat", scriptFile: "hashcat.sh", readmeAsset: "assets/readmes/hashcat.md", githubUrl: "https://github.com/hashcat/hashcat"),
+    RepoModel(name: "Dirb", scriptFile: "dirb.sh", readmeAsset: "assets/readmes/dirb.md", githubUrl: "https://github.com/v0re/dirb"),
+    RepoModel(name: "TheHarvester", scriptFile: "harvester.sh", readmeAsset: "assets/readmes/harvester.md", githubUrl: "https://github.com/laramies/theHarvester"),
+    RepoModel(name: "Dnsenum", scriptFile: "dnsenum.sh", readmeAsset: "assets/readmes/dnsenum.md", githubUrl: "https://github.com/fwaeytens/dnsenum"),
+    RepoModel(name: "Dnsmap", scriptFile: "dnsmap.sh", readmeAsset: "assets/readmes/dnsmap.md", githubUrl: "https://github.com/makefu/dnsmap"),
+    RepoModel(name: "Amass", scriptFile: "amass.sh", readmeAsset: "assets/readmes/amass.md", githubUrl: "https://github.com/owasp-amass/amass"),
+    RepoModel(name: "Sublist3r", scriptFile: "sublist3r.sh", readmeAsset: "assets/readmes/sublist3r.md", githubUrl: "https://github.com/aboul3la/Sublist3r"),
+    RepoModel(name: "XSStrike", scriptFile: "xsstrike.sh", readmeAsset: "assets/readmes/xsstrike.md", githubUrl: "https://github.com/s0md3v/XSStrike"),
+    RepoModel(name: "Wpscan", scriptFile: "wpscan.sh", readmeAsset: "assets/readmes/wpscan.md", githubUrl: "https://github.com/wpscanteam/wpscan"),
+    RepoModel(name: "Ffuf", scriptFile: "ffuf.sh", readmeAsset: "assets/readmes/ffuf.md", githubUrl: "https://github.com/ffuf/ffuf"),
+    RepoModel(name: "Gobuster", scriptFile: "gobuster.sh", readmeAsset: "assets/readmes/gobuster.md", githubUrl: "https://github.com/OJ/gobuster"),
+    RepoModel(name: "Zmap", scriptFile: "zmap.sh", readmeAsset: "assets/readmes/zmap.md", githubUrl: "https://github.com/zmap/zmap"),
+    RepoModel(name: "Masscan", scriptFile: "masscan.sh", readmeAsset: "assets/readmes/masscan.md", githubUrl: "https://github.com/robertdavidgraham/masscan"),
+    RepoModel(name: "Netcat", scriptFile: "netcat.sh", readmeAsset: "assets/readmes/netcat.md", githubUrl: "https://github.com/diegocr/netcat"),
+    RepoModel(name: "Socat", scriptFile: "socat.sh", readmeAsset: "assets/readmes/socat.md", githubUrl: "https://github.com/yoe/socat"),
+    RepoModel(name: "Bettercap", scriptFile: "bettercap.sh", readmeAsset: "assets/readmes/bettercap.md", githubUrl: "https://github.com/bettercap/bettercap"),
+    RepoModel(name: "Evilginx2", scriptFile: "evilginx.sh", readmeAsset: "assets/readmes/evilginx.md", githubUrl: "https://github.com/kgretzky/evilginx2"),
+    RepoModel(name: "BeEF", scriptFile: "beef.sh", readmeAsset: "assets/readmes/beef.md", githubUrl: "https://github.com/beefproject/beef"),
+    RepoModel(name: "PhoneInfoga", scriptFile: "phoneinfoga.sh", readmeAsset: "assets/readmes/phoneinfoga.md", githubUrl: "https://github.com/sundowndev/phoneinfoga"),
+    RepoModel(name: "Sherlock", scriptFile: "sherlock.sh", readmeAsset: "assets/readmes/sherlock.md", githubUrl: "https://github.com/sherlock-project/sherlock"),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(12),
-      itemCount: repos.length,
-      itemBuilder: (context, index) {
-        final repo = repos[index];
-        return Card(
-          color: Colors.grey[900],
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          child: ListTile(
-            title: Text(repo.name, style: const TextStyle(color: Colors.white)),
-            trailing: const Icon(Icons.arrow_forward_ios, color: Colors.redAccent),
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => RepoReadmePage(
-                  repoName: repo.name,
-                  assetPath: repo.assetPath,
-                  readmeAsset: repo.readmeAsset,
-                  installCommand: "bash ~/rk13-${repo.name.toLowerCase()}.sh",
-                  githubUrl: repo.githubUrl,
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: const Text("Repositorios RK13"),
+      ),
+      body: ListView.separated(
+        padding: const EdgeInsets.all(12),
+        itemCount: repos.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 12),
+        itemBuilder: (context, index) {
+          final repo = repos[index];
+          return Card(
+            color: Colors.grey[900],
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              title: Text(
+                repo.name,
+                style: const TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              trailing: ElevatedButton.icon(
+                icon: const Icon(Icons.arrow_forward),
+                label: const Text("Ver"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                ),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => RepoReadmePage(
+                      repoName: repo.name,
+                      scriptFile: repo.scriptFile,
+                      readmeAsset: repo.readmeAsset,
+                      githubUrl: repo.githubUrl,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

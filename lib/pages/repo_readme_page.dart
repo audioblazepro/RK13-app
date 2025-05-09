@@ -7,16 +7,14 @@ import 'package:android_intent_plus/android_intent.dart';
 
 class RepoReadmePage extends StatefulWidget {
   final String repoName;
-  final String assetPath;
-  final String readmeAsset;
-  final String installCommand;
+  final String scriptFile;        // Ej: "nmap.sh"
+  final String readmeAsset;       // Ej: "assets/readmes/nmap.md"
   final String githubUrl;
 
   const RepoReadmePage({
     required this.repoName,
-    required this.assetPath,
+    required this.scriptFile,
     required this.readmeAsset,
-    required this.installCommand,
     required this.githubUrl,
     super.key,
   });
@@ -48,70 +46,60 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
   void _mostrarPush(String mensaje, Color color) {
     final overlay = Overlay.of(context);
     final entry = OverlayEntry(
-      builder:
-          (_) => Positioned(
-            bottom: 90,
-            left: 30,
-            right: 30,
-            child: Material(
-              color: Colors.transparent,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 14,
+      builder: (_) => Positioned(
+        bottom: 90,
+        left: 30,
+        right: 30,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.95),
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(color: color.withOpacity(0.6), blurRadius: 12),
+              ],
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.info, color: Colors.white),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(mensaje, style: const TextStyle(color: Colors.white)),
                 ),
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.95),
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(color: color.withOpacity(0.6), blurRadius: 12),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.info, color: Colors.white),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        mensaje,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              ],
             ),
           ),
+        ),
+      ),
     );
     overlay.insert(entry);
     Future.delayed(const Duration(seconds: 3), () => entry.remove());
   }
 
-  Future<void> _copiarComandoConAnimacion() async {
+  Future<void> _copiarRutaComando() async {
     setState(() {
       cargando = true;
       exito = false;
     });
 
     await Future.delayed(const Duration(seconds: 1));
+    final comando = 'bash ~/scripts/${widget.scriptFile}';
 
     try {
-      final contenido = await rootBundle.loadString(widget.assetPath);
-      await FlutterClipboard.copy(contenido);
-
+      await FlutterClipboard.copy(comando);
       setState(() {
         cargando = false;
         exito = true;
       });
-
       _mostrarPush("📋 Comando copiado. Abre Termux y pégalo.", Colors.green);
     } catch (e) {
       setState(() {
         cargando = false;
         exito = false;
       });
-
-      _mostrarPush("❌ Error al copiar comando", Colors.red);
+      _mostrarPush("❌ Error al copiar comando", Colors.redAccent);
     }
   }
 
@@ -124,14 +112,14 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
     try {
       await intent.launch();
     } catch (e) {
-      _mostrarPush("❌ No se pudo abrir Termux", Colors.redAccent);
+      _mostrarPush("❌ No se pudo abrir Termux", Colors.orange);
     }
   }
 
   Future<void> _abrirGithub() async {
     final uri = Uri.parse(widget.githubUrl);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      _mostrarPush("❌ No se pudo abrir GitHub", Colors.orange);
+      _mostrarPush("❌ No se pudo abrir GitHub", Colors.deepOrange);
     }
   }
 
@@ -147,45 +135,35 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
         children: [
           Expanded(
             child: Container(
-              width: double.infinity,
               margin: const EdgeInsets.all(12),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: Colors.grey[900],
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.redAccent.withOpacity(0.3)),
+                border: Border.all(color: Colors.redAccent.withOpacity(0.4)),
               ),
               child: Markdown(
                 data: readmeContent,
-                styleSheet: MarkdownStyleSheet.fromTheme(
-                  Theme.of(context),
-                ).copyWith(
+                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
                   p: const TextStyle(
                     color: Colors.white,
-                    fontSize: 14.5,
+                    fontSize: 15,
                     height: 1.6,
                     fontFamily: 'monospace',
                   ),
-                  code: const TextStyle(
-                    color: Colors.greenAccent,
-                    fontFamily: 'monospace',
-                  ),
-                  h1: const TextStyle(
-                    color: Colors.redAccent,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  code: const TextStyle(color: Colors.greenAccent),
+                  h1: const TextStyle(color: Colors.redAccent, fontSize: 22),
                   h2: const TextStyle(color: Colors.blueAccent, fontSize: 18),
                 ),
               ),
             ),
           ),
           if (cargando)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: LinearProgressIndicator(
                 minHeight: 5,
-                backgroundColor: Colors.red[900],
+                backgroundColor: Colors.black,
                 color: Colors.redAccent,
               ),
             ),
@@ -197,24 +175,22 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
                     cargando
                         ? Icons.hourglass_top
                         : exito
-                        ? Icons.check_circle
-                        : Icons.copy,
+                          ? Icons.check_circle
+                          : Icons.copy,
                   ),
                   label: Text(
                     cargando
-                        ? "Descargando..."
+                        ? "Preparando..."
                         : exito
-                        ? "🟢 Éxito"
-                        : "Instalar",
+                          ? "✓ Copiado"
+                          : "Instalar",
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: exito ? Colors.green : Colors.red,
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
-                  onPressed: cargando ? null : _copiarComandoConAnimacion,
+                  onPressed: cargando ? null : _copiarRutaComando,
                 ),
               ),
               const SizedBox(width: 10),
@@ -225,9 +201,7 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
                   onPressed: _abrirTermux,
                 ),
@@ -240,16 +214,14 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
                   onPressed: _abrirGithub,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
         ],
       ),
     );
