@@ -7,13 +7,13 @@ import 'package:android_intent_plus/android_intent.dart';
 
 class RepoReadmePage extends StatefulWidget {
   final String repoName;
-  final String assetPath;        // Ej: "assets/scripts/nmap.sh"
-  final String readmeAsset;      // Ej: "assets/readmes/nmap.md"
+  final String scriptFile;
+  final String readmeAsset;
   final String githubUrl;
 
   const RepoReadmePage({
     required this.repoName,
-    required this.assetPath,
+    required this.scriptFile,
     required this.readmeAsset,
     required this.githubUrl,
     super.key,
@@ -85,8 +85,7 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
     });
 
     await Future.delayed(const Duration(seconds: 1));
-
-    final comando = 'bash ~/${widget.assetPath.split('/').last}';
+    final comando = 'bash ~/rk13/${widget.scriptFile}';
 
     try {
       await FlutterClipboard.copy(comando);
@@ -94,13 +93,13 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
         cargando = false;
         exito = true;
       });
-      _mostrarPush("📋 Copiado: Abre Termux y ejecuta el script", Colors.green);
+      _mostrarPush("Comando copiado. Abre Termux y pégalo.", Colors.green);
     } catch (e) {
       setState(() {
         cargando = false;
         exito = false;
       });
-      _mostrarPush("❌ Error al copiar", Colors.redAccent);
+      _mostrarPush("Error al copiar comando", Colors.redAccent);
     }
   }
 
@@ -113,14 +112,14 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
     try {
       await intent.launch();
     } catch (e) {
-      _mostrarPush("❌ No se pudo abrir Termux", Colors.orange);
+      _mostrarPush("No se pudo abrir Termux", Colors.orange);
     }
   }
 
   Future<void> _abrirGithub() async {
     final uri = Uri.parse(widget.githubUrl);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      _mostrarPush("❌ No se pudo abrir GitHub", Colors.deepOrange);
+      _mostrarPush("No se pudo abrir GitHub", Colors.deepOrange);
     }
   }
 
