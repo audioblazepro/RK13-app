@@ -4,18 +4,22 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:android_intent_plus/android_intent.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class RepoReadmePage extends StatefulWidget {
   final String repoName;
-  final String scriptFile;
-  final String readmeAsset;
+  final String scriptFile;        // Ej: "nmap.sh"
+  final String readmeAsset;       // Ej: "assets/readmes/nmap.md"
   final String githubUrl;
+  final String assetPath;         // Ej: "assets/scripts/nmap.sh"
 
   const RepoReadmePage({
     required this.repoName,
     required this.scriptFile,
     required this.readmeAsset,
     required this.githubUrl,
+    required this.assetPath,
     super.key,
   });
 
@@ -41,6 +45,15 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
     } catch (e) {
       setState(() => readmeContent = "❌ Error al cargar README: $e");
     }
+  }
+
+  Future<String> copiarScriptPrivado(String assetPath, String scriptName) async {
+    final dir = await getApplicationSupportDirectory();
+    final destino = File('${dir.path}/$scriptName');
+    final contenido = await rootBundle.loadString(assetPath);
+    await destino.writeAsString(contenido, mode: FileMode.write, flush: true);
+    await destino.setExecutable(true);
+    return destino.path;
   }
 
   void _mostrarPush(String mensaje, Color color) {
@@ -84,22 +97,21 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
       exito = false;
     });
 
-    await Future.delayed(const Duration(seconds: 1));
-    final comando = 'bash ~/rk13/${widget.scriptFile}';
-
     try {
+      final ruta = await copiarScriptPrivado(widget.assetPath, widget.scriptFile);
+      final comando = 'bash $ruta';
       await FlutterClipboard.copy(comando);
       setState(() {
         cargando = false;
         exito = true;
       });
-      _mostrarPush("Comando copiado. Abre Termux y pégalo.", Colors.green);
+      _mostrarPush("📋 Comando copiado:\n$comando", Colors.green);
     } catch (e) {
       setState(() {
         cargando = false;
         exito = false;
       });
-      _mostrarPush("Error al copiar comando", Colors.redAccent);
+      _mostrarPush("❌ Error copiando script", Colors.red);
     }
   }
 
@@ -112,14 +124,14 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
     try {
       await intent.launch();
     } catch (e) {
-      _mostrarPush("No se pudo abrir Termux", Colors.orange);
+      _mostrarPush("❌ No se pudo abrir Termux", Colors.orange);
     }
   }
 
   Future<void> _abrirGithub() async {
     final uri = Uri.parse(widget.githubUrl);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      _mostrarPush("No se pudo abrir GitHub", Colors.deepOrange);
+      _mostrarPush("❌ No se pudo abrir GitHub", Colors.deepOrange);
     }
   }
 
@@ -175,15 +187,15 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
                     cargando
                         ? Icons.hourglass_top
                         : exito
-                            ? Icons.check_circle
-                            : Icons.copy,
+                          ? Icons.check_circle
+                          : Icons.copy,
                   ),
                   label: Text(
                     cargando
                         ? "Preparando..."
                         : exito
-                            ? "✓ Copiado"
-                            : "Instalar",
+                          ? "✓ Copiado"
+                          : "Instalar",
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: exito ? Colors.green : Colors.red,
