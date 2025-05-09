@@ -86,7 +86,7 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
         exito = true;
         installedPath = path;
       });
-      _mostrarPush("✓ Ruta copiada: $comando", Colors.green);
+      _mostrarPush("\u2713 Ruta copiada: $comando", Colors.green);
     } catch (e) {
       setState(() {
         cargando = false;
@@ -196,7 +196,7 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
                     cargando
                         ? "Descargando..."
                         : exito
-                            ? "✓ Copiado"
+                            ? "\u2713 Copiado"
                             : "Instalar",
                   ),
                   style: ElevatedButton.styleFrom(
