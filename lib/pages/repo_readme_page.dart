@@ -7,13 +7,13 @@ import 'package:android_intent_plus/android_intent.dart';
 
 class RepoReadmePage extends StatefulWidget {
   final String repoName;
-  final String scriptFile;        // Ej: "nmap.sh"
-  final String readmeAsset;       // Ej: "assets/readmes/nmap.md"
+  final String assetPath;        // Ej: "assets/scripts/nmap.sh"
+  final String readmeAsset;      // Ej: "assets/readmes/nmap.md"
   final String githubUrl;
 
   const RepoReadmePage({
     required this.repoName,
-    required this.scriptFile,
+    required this.assetPath,
     required this.readmeAsset,
     required this.githubUrl,
     super.key,
@@ -85,7 +85,8 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
     });
 
     await Future.delayed(const Duration(seconds: 1));
-    final comando = 'bash ~/scripts/${widget.scriptFile}';
+
+    final comando = 'bash ~/${widget.assetPath.split('/').last}';
 
     try {
       await FlutterClipboard.copy(comando);
@@ -93,13 +94,13 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
         cargando = false;
         exito = true;
       });
-      _mostrarPush("📋 Comando copiado. Abre Termux y pégalo.", Colors.green);
+      _mostrarPush("📋 Copiado: Abre Termux y ejecuta el script", Colors.green);
     } catch (e) {
       setState(() {
         cargando = false;
         exito = false;
       });
-      _mostrarPush("❌ Error al copiar comando", Colors.redAccent);
+      _mostrarPush("❌ Error al copiar", Colors.redAccent);
     }
   }
 
@@ -175,15 +176,15 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
                     cargando
                         ? Icons.hourglass_top
                         : exito
-                          ? Icons.check_circle
-                          : Icons.copy,
+                            ? Icons.check_circle
+                            : Icons.copy,
                   ),
                   label: Text(
                     cargando
                         ? "Preparando..."
                         : exito
-                          ? "✓ Copiado"
-                          : "Instalar",
+                            ? "✓ Copiado"
+                            : "Instalar",
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: exito ? Colors.green : Colors.red,
