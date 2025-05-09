@@ -17,7 +17,8 @@ dependencies:
   another_flushbar: ^1.10.29
   fluttertoast: ^8.2.4
   flutter_markdown: ^0.6.17
-
+  path_provider: ^2.1.2
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
