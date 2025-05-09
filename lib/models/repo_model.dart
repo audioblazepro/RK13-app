@@ -1,12 +1,12 @@
 class RepoModel {
   final String name;
-  final String scriptFile;
+  final String assetPath;
   final String readmeAsset;
   final String githubUrl;
 
   RepoModel({
     required this.name,
-    required this.scriptFile,
+    required this.assetPath,
     required this.readmeAsset,
     required this.githubUrl,
   });
