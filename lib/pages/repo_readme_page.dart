@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:android_intent_plus/android_intent.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 
 class RepoReadmePage extends StatefulWidget {
   final String repoName;
-  final String scriptFile;        // Ej: "nmap.sh"
-  final String readmeAsset;       // Ej: "assets/readmes/nmap.md"
+  final String scriptAssetPath;
+  final String readmeAsset;
   final String githubUrl;
-  final String assetPath;         // Ej: "assets/scripts/nmap.sh"
 
   const RepoReadmePage({
     required this.repoName,
-    required this.scriptFile,
+    required this.scriptAssetPath,
     required this.readmeAsset,
     required this.githubUrl,
-    required this.assetPath,
     super.key,
   });
 
@@ -31,6 +29,7 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
   String readmeContent = "Cargando README...";
   bool cargando = false;
   bool exito = false;
+  String? installedPath;
 
   @override
   void initState() {
@@ -43,17 +42,58 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
       final content = await rootBundle.loadString(widget.readmeAsset);
       setState(() => readmeContent = content);
     } catch (e) {
-      setState(() => readmeContent = "❌ Error al cargar README: $e");
+      setState(() => readmeContent = "❌ Error al cargar README:\n$e");
     }
   }
 
-  Future<String> copiarScriptPrivado(String assetPath, String scriptName) async {
-    final dir = await getApplicationSupportDirectory();
-    final destino = File('${dir.path}/$scriptName');
-    final contenido = await rootBundle.loadString(assetPath);
-    await destino.writeAsString(contenido, mode: FileMode.write, flush: true);
-    await destino.setExecutable(true);
-    return destino.path;
+  Future<String> _installScript() async {
+    final dir = await getApplicationDocumentsDirectory();
+    final targetDir = Directory('${dir.path}/scripts');
+    if (!await targetDir.exists()) {
+      await targetDir.create(recursive: true);
+    }
+
+    final scriptName = widget.scriptAssetPath.split("/").last;
+    final targetPath = "${targetDir.path}/$scriptName";
+    final scriptFile = File(targetPath);
+
+    if (!await scriptFile.exists()) {
+      final bytes = await rootBundle.load(widget.scriptAssetPath);
+      await scriptFile.writeAsBytes(bytes.buffer.asUint8List());
+
+      try {
+        await Process.run('chmod', ['+x', scriptFile.path]);
+      } catch (_) {
+        // chmod podría fallar si no está soportado, ignorar silenciosamente
+      }
+    }
+
+    return scriptFile.path;
+  }
+
+  Future<void> _copiarRutaComando() async {
+    setState(() {
+      cargando = true;
+      exito = false;
+    });
+
+    try {
+      final path = await _installScript();
+      final comando = 'bash "$path"';
+      await FlutterClipboard.copy(comando);
+      setState(() {
+        cargando = false;
+        exito = true;
+        installedPath = path;
+      });
+      _mostrarPush("✓ Ruta copiada: $comando", Colors.green);
+    } catch (e) {
+      setState(() {
+        cargando = false;
+        exito = false;
+      });
+      _mostrarPush("❌ Error: $e", Colors.red);
+    }
   }
 
   void _mostrarPush(String mensaje, Color color) {
@@ -66,53 +106,20 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
         child: Material(
           color: Colors.transparent,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: color.withOpacity(0.95),
               borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(color: color.withOpacity(0.6), blurRadius: 12),
-              ],
             ),
-            child: Row(
-              children: [
-                const Icon(Icons.info, color: Colors.white),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(mensaje, style: const TextStyle(color: Colors.white)),
-                ),
-              ],
-            ),
+            child: Text(mensaje,
+                style: const TextStyle(color: Colors.white, fontSize: 15)),
           ),
         ),
       ),
     );
+
     overlay.insert(entry);
     Future.delayed(const Duration(seconds: 3), () => entry.remove());
-  }
-
-  Future<void> _copiarRutaComando() async {
-    setState(() {
-      cargando = true;
-      exito = false;
-    });
-
-    try {
-      final ruta = await copiarScriptPrivado(widget.assetPath, widget.scriptFile);
-      final comando = 'bash $ruta';
-      await FlutterClipboard.copy(comando);
-      setState(() {
-        cargando = false;
-        exito = true;
-      });
-      _mostrarPush("📋 Comando copiado:\n$comando", Colors.green);
-    } catch (e) {
-      setState(() {
-        cargando = false;
-        exito = false;
-      });
-      _mostrarPush("❌ Error copiando script", Colors.red);
-    }
   }
 
   Future<void> _abrirTermux() async {
@@ -121,6 +128,7 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
       package: 'com.termux',
       componentName: 'com.termux.app.TermuxActivity',
     );
+
     try {
       await intent.launch();
     } catch (e) {
@@ -130,19 +138,18 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
 
   Future<void> _abrirGithub() async {
     final uri = Uri.parse(widget.githubUrl);
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      _mostrarPush("❌ No se pudo abrir GitHub", Colors.deepOrange);
+    if (!await canLaunchUrl(uri)) {
+      _mostrarPush("❌ GitHub URL inválida", Colors.red);
+      return;
     }
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: Text(widget.repoName),
-        backgroundColor: Colors.black,
-      ),
+      appBar: AppBar(title: Text(widget.repoName), backgroundColor: Colors.black),
       body: Column(
         children: [
           Expanded(
@@ -157,12 +164,7 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
               child: Markdown(
                 data: readmeContent,
                 styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-                  p: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    height: 1.6,
-                    fontFamily: 'monospace',
-                  ),
+                  p: const TextStyle(color: Colors.white, fontSize: 15, height: 1.6, fontFamily: 'monospace'),
                   code: const TextStyle(color: Colors.greenAccent),
                   h1: const TextStyle(color: Colors.redAccent, fontSize: 22),
                   h2: const TextStyle(color: Colors.blueAccent, fontSize: 18),
@@ -187,15 +189,15 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
                     cargando
                         ? Icons.hourglass_top
                         : exito
-                          ? Icons.check_circle
-                          : Icons.copy,
+                            ? Icons.check_circle
+                            : Icons.download,
                   ),
                   label: Text(
                     cargando
-                        ? "Preparando..."
+                        ? "Descargando..."
                         : exito
-                          ? "✓ Copiado"
-                          : "Instalar",
+                            ? "✓ Copiado"
+                            : "Instalar",
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: exito ? Colors.green : Colors.red,
