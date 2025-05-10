@@ -1,15 +1,15 @@
-// models/repo_model.dart
-
 class RepoModel {
-  final String name;
+  final String title;
   final String description;
-  final String scriptFile;
+  final String scriptPath;
+  final String readmeAsset;
   final String githubUrl;
 
   RepoModel({
-    required this.name,
+    required this.title,
     required this.description,
-    required this.scriptFile,
+    required this.scriptPath,
+    required this.readmeAsset,
     required this.githubUrl,
   });
 }

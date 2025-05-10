@@ -147,8 +147,11 @@ class _MainLayoutState extends State<MainLayout> {
       applicationVersion: '1.0.0',
       applicationIcon: const Icon(Icons.security, size: 40, color: Colors.redAccent),
       children: [
-        const Text('Una app de herramientas automatizadas para usuarios de Termux.
-Incluye scripts y accesos rápidos a más de 30 repositorios de seguridad.'),
+        const Text(
+  'Una app de herramientas automatizadas para usuarios de Termux. '
+  'Incluye scripts y accesos rápidos a más de 30 repositorios de seguridad.',
+),
+
       ],
     );
   }
