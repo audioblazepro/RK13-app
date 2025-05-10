@@ -2,51 +2,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.rk13">
 
-    <!-- Permisos para almacenamiento y acceso a paquetes -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- ========== PERMISOS ========= -->
+    <!-- Acceso completo al almacenamiento (requerido para Android 11+) -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
+    <!-- Permisos básicos de almacenamiento para versiones antiguas -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- Permiso para consultar todos los paquetes instalados (para detectar Termux) -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
-    <!-- Permitir detectar Termux -->
+    <!-- ========== CONSULTAS ========= -->
+    <!-- Esto permite que la app detecte si Termux está instalado -->
     <queries>
         <package android:name="com.termux" />
     </queries>
 
+    <!-- ========== APLICACIÓN ========= -->
     <application
-        android:label="rk13"
         android:name="${applicationName}"
+        android:label="RK13 Installer"
         android:icon="@mipmap/ic_launcher"
-        android:requestLegacyExternalStorage="true">
+        android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
+        android:allowBackup="true"
+        android:theme="@style/LaunchTheme">
 
-        <!-- MainActivity -->
+        <!-- Actividad principal de Flutter -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:taskAffinity=""
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
-
-            <meta-data
-                android:name="io.flutter.embedding.android.NormalTheme"
-                android:resource="@style/NormalTheme" />
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- Tema normal de Flutter -->
+            <meta-data
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme" />
         </activity>
 
-        <!-- Flutter requirement -->
+        <!-- Embedding versión 2 de Flutter -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <!-- FileProvider para compartir archivos internos -->
+        <!-- Soporte para compartir archivos (opcional pero útil) -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -58,5 +64,4 @@
         </provider>
 
     </application>
-
 </manifest>
