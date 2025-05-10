@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HackerIntroPage extends StatelessWidget {
-  const HackerIntroPage({super.key});
+class Rk13IntroPage extends StatelessWidget {
+  const Rk13IntroPage({super.key});
 
   void _launchUrl(String url) async {
     final uri = Uri.parse(url);
