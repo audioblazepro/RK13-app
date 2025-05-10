@@ -1,11 +1,12 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:android_intent_plus/android_intent.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
+import 'package:permission_handler/permission_handler.dart';
+import '../utils/script_installer.dart';
 
 class RepoReadmePage extends StatefulWidget {
   final String repoName;
@@ -29,7 +30,6 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
   String readmeContent = "Cargando README...";
   bool isSaving = false;
   bool isSaved = false;
-  bool isCopied = false;
 
   @override
   void initState() {
@@ -47,50 +47,41 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
   }
 
   Future<void> _guardarScript() async {
+    final granted = await _pedirPermiso();
+    if (!granted) return;
+
     setState(() {
       isSaving = true;
       isSaved = false;
-      isCopied = false;
     });
 
-    await Future.delayed(const Duration(seconds: 1));
-
     try {
-      final directory = await getApplicationDocumentsDirectory();
-      final scriptDir = Directory("${directory.path}/scripts");
-      if (!await scriptDir.exists()) {
-        await scriptDir.create(recursive: true);
-      }
-
-      final scriptData = await rootBundle.load("assets/scripts/${widget.scriptFile}");
-      final scriptFile = File("${scriptDir.path}/${widget.scriptFile}");
-      await scriptFile.writeAsBytes(scriptData.buffer.asUint8List());
-
+      await ScriptInstaller.guardarScript(widget.scriptFile);
       setState(() {
         isSaving = false;
         isSaved = true;
       });
+      _mostrarToast("✅ Script guardado correctamente", Colors.green);
     } catch (e) {
-      setState(() {
-        isSaving = false;
-        isSaved = false;
-      });
-      _mostrarPush("❌ Error al guardar script", Colors.redAccent);
+      setState(() => isSaving = false);
+      _mostrarToast("❌ Error al guardar script", Colors.red);
     }
+  }
+
+  Future<bool> _pedirPermiso() async {
+    final status = await Permission.manageExternalStorage.request();
+    if (status.isGranted) return true;
+    _mostrarToast("Permiso de almacenamiento denegado", Colors.orange);
+    return false;
   }
 
   Future<void> _copiarComando() async {
-    final comando = 'bash ~/Android/data/com.rk13.rk13app/files/scripts/${widget.scriptFile}';
-    try {
-      await FlutterClipboard.copy(comando);
-      setState(() => isCopied = true);
-      _mostrarPush("📋 Copiado. Abre Termux y pégalo.", Colors.green);
-    } catch (e) {
-      _mostrarPush("❌ Error al copiar", Colors.red);
-    }
+    final ruta = "/storage/emulated/0/termuxcode/${widget.scriptFile}";
+    await FlutterClipboard.copy("bash $ruta");
+    _mostrarToast("📋 Comando copiado: bash $ruta", Colors.blue);
   }
 
-  void _mostrarPush(String mensaje, Color color) {
+  void _mostrarToast(String mensaje, Color color) {
     final overlay = Overlay.of(context);
     final entry = OverlayEntry(
       builder: (_) => Positioned(
@@ -128,15 +119,15 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
     );
     try {
       await intent.launch();
-    } catch (e) {
-      _mostrarPush("❌ No se pudo abrir Termux", Colors.orange);
+    } catch (_) {
+      _mostrarToast("❌ No se pudo abrir Termux", Colors.orange);
     }
   }
 
   Future<void> _abrirGithub() async {
     final uri = Uri.parse(widget.githubUrl);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      _mostrarPush("❌ No se pudo abrir GitHub", Colors.deepOrange);
+      _mostrarToast("❌ No se pudo abrir GitHub", Colors.red);
     }
   }
 
@@ -144,10 +135,7 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: Text(widget.repoName),
-        backgroundColor: Colors.black,
-      ),
+      appBar: AppBar(title: Text(widget.repoName)),
       body: Column(
         children: [
           Expanded(
@@ -171,62 +159,38 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.all(12),
             child: Row(
               children: [
                 Expanded(
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 500),
-                    child: isSaving
-                        ? ElevatedButton.icon(
-                            key: const ValueKey("saving"),
-                            onPressed: null,
-                            style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-                            icon: const Icon(Icons.download),
-                            label: const Text("Descargando..."),
-                          )
-                        : isSaved
-                            ? ElevatedButton.icon(
-                                key: const ValueKey("copiar"),
-                                onPressed: _copiarComando,
-                                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                                icon: const Icon(Icons.copy),
-                                label: const Text("Copiar"),
-                              )
-                            : ElevatedButton.icon(
-                                key: const ValueKey("instalar"),
-                                onPressed: _guardarScript,
-                                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                                icon: const Icon(Icons.download),
-                                label: const Text("Instalar"),
-                              ),
-                  ),
+                  child: isSaving
+                      ? ElevatedButton.icon(
+                          onPressed: null,
+                          icon: const Icon(Icons.hourglass_top),
+                          label: const Text("Guardando..."),
+                        )
+                      : isSaved
+                          ? ElevatedButton.icon(
+                              onPressed: _copiarComando,
+                              icon: const Icon(Icons.copy),
+                              label: const Text("Copiar bash"),
+                            )
+                          : ElevatedButton.icon(
+                              onPressed: _guardarScript,
+                              icon: const Icon(Icons.download),
+                              label: const Text("Instalar"),
+                            ),
                 ),
                 const SizedBox(width: 10),
-                Expanded(
-                  child: ElevatedButton.icon(
-                    icon: const Icon(Icons.terminal),
-                    label: const Text("Abrir Termux"),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    ),
-                    onPressed: _abrirTermux,
-                  ),
+                IconButton(
+                  icon: const Icon(Icons.terminal),
+                  tooltip: "Abrir Termux",
+                  onPressed: _abrirTermux,
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: ElevatedButton.icon(
-                    icon: const Icon(Icons.code),
-                    label: const Text("GitHub"),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurple,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    ),
-                    onPressed: _abrirGithub,
-                  ),
+                IconButton(
+                  icon: const Icon(Icons.link),
+                  tooltip: "Ver GitHub",
+                  onPressed: _abrirGithub,
                 ),
               ],
             ),

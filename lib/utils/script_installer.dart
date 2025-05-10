@@ -1,56 +1,33 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ScriptInstaller {
-  static const List<String> scriptNames = [
-    "aircrack-ng.sh",
-    "beef.sh",
-    "burpsuite.sh",
-    "dirb.sh",
-    "dnsenum.sh",
-    "ettercap.sh",
-    "fierce.sh",
-    "ghostphisher.sh",
-    "hashcat.sh",
-    "hydra.sh",
-    "johntheripper.sh",
-    "maltego.sh",
-    "metasploit.sh",
-    "netcat.sh",
-    "nikto.sh",
-    "nmap.sh",
-    "recon-ng.sh",
-    "redhawk.sh",
-    "routersploit.sh",
-    "setoolkit.sh",
-    "slowloris.sh",
-    "socialfish.sh",
-    "sqlmap.sh",
-    "tcpdump.sh",
-    "theharvester.sh",
-    "trity.sh",
-    "wireshark.sh",
-    "wpscan.sh",
-    "xerosploit.sh",
-    "yersinia.sh",
-    "zphisher.sh",
-  ];
+  static Future<bool> saveScript(String scriptName) async {
+    try {
+      final hasPermission = await _requestStoragePermission();
+      if (!hasPermission) return false;
 
-  static Future<void> initScripts() async {
-    final dir = Directory('/storage/emulated/0/termuxcode');
-    if (!await dir.exists()) {
-      await dir.create(recursive: true);
-    }
-
-    for (final script in scriptNames) {
-      final filePath = '${dir.path}/$script';
-      final file = File(filePath);
-
-      if (!await file.exists()) {
-        final byteData = await rootBundle.load('assets/scripts/$script');
-        await file.writeAsBytes(byteData.buffer.asUint8List());
-        await Process.run('chmod', ['+x', file.path]);
+      final directory = Directory('/storage/emulated/0/termuxcode');
+      if (!await directory.exists()) {
+        await directory.create(recursive: true);
       }
+
+      final scriptFile = File('${directory.path}/$scriptName');
+      if (!await scriptFile.exists()) {
+        final byteData = await rootBundle.load('assets/scripts/$scriptName');
+        await scriptFile.writeAsBytes(byteData.buffer.asUint8List());
+        // Android ejecutará los scripts directamente en Termux, no requiere setExecutable en este contexto
+      }
+      return true;
+    } catch (e) {
+      return false;
     }
+  }
+
+  static Future<bool> _requestStoragePermission() async {
+    final status = await Permission.manageExternalStorage.request();
+    return status.isGranted;
   }
 }
