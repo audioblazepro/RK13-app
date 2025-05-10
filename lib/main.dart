@@ -1,15 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'utils/script_installer.dart';
 import 'pages/rk13_intro_page.dart';
 import 'pages/home_page.dart';
 import 'pages/learn_python_page.dart';
 import 'pages/termux_commands_page.dart';
 import 'pages/bash_tools_page.dart';
-import 'utils/script_installer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await ScriptInstaller.initScripts(); // Copia los scripts a /storage/emulated/0/termuxcode
+  await _handlePermissions();
   runApp(const RK13App());
+}
+
+Future<void> _handlePermissions() async {
+  var status = await Permission.manageExternalStorage.status;
+  if (!status.isGranted) {
+    status = await Permission.manageExternalStorage.request();
+    if (!status.isGranted) {
+      await openAppSettings();
+      return;
+    }
+  }
+
+  if (status.isGranted) {
+    await ScriptInstaller.initScripts();
+  }
 }
 
 class RK13App extends StatelessWidget {
@@ -22,11 +38,13 @@ class RK13App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
-        primaryColor: Colors.redAccent,
         scaffoldBackgroundColor: Colors.black,
+        primaryColor: Colors.redAccent,
+        canvasColor: Colors.black,
+        cardColor: Colors.grey[900],
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
-          elevation: 2,
+          elevation: 4,
           centerTitle: true,
           iconTheme: IconThemeData(color: Colors.redAccent),
           titleTextStyle: TextStyle(
@@ -37,6 +55,7 @@ class RK13App extends StatelessWidget {
         ),
         textTheme: const TextTheme(
           bodyMedium: TextStyle(color: Colors.white, fontSize: 16),
+          bodyLarge: TextStyle(color: Colors.white70, fontSize: 18),
         ),
         iconTheme: const IconThemeData(color: Colors.redAccent),
         drawerTheme: const DrawerThemeData(backgroundColor: Colors.black),
@@ -51,6 +70,7 @@ class RK13App extends StatelessWidget {
             textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
+        listTileTheme: const ListTileThemeData(iconColor: Colors.redAccent),
       ),
       home: const MainLayout(),
     );
@@ -107,28 +127,38 @@ class _MainLayoutState extends State<MainLayout> {
                 children: const [
                   Icon(Icons.terminal, size: 48, color: Colors.white),
                   SizedBox(height: 10),
-                  Text(
-                    "RK13 Tools",
-                    style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
+                  Text("RK13 Tools",
+                      style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold)),
                   SizedBox(height: 5),
-                  Text(
-                    "Instala y explora herramientas de hacking ético.",
-                    style: TextStyle(fontSize: 12, color: Colors.white70),
-                  ),
+                  Text("Instala y explora herramientas de hacking ético.",
+                      style: TextStyle(fontSize: 12, color: Colors.white70)),
                 ],
               ),
             ),
-            _buildDrawerItem(Icons.info, "Inicio RK13", 0),
-            _buildDrawerItem(Icons.extension, "Repositorios", 1),
-            _buildDrawerItem(Icons.code, "Aprende Python", 2),
-            _buildDrawerItem(Icons.computer, "Comandos Termux", 3),
-            _buildDrawerItem(Icons.build, "Bash Tools", 4),
+            for (var i = 0; i < _titles.length; i++)
+              _buildDrawerItem(_getIcon(i), _titles[i], i),
           ],
         ),
       ),
       body: _pages[_currentIndex],
     );
+  }
+
+  IconData _getIcon(int index) {
+    switch (index) {
+      case 0:
+        return Icons.info;
+      case 1:
+        return Icons.extension;
+      case 2:
+        return Icons.code;
+      case 3:
+        return Icons.computer;
+      case 4:
+        return Icons.build;
+      default:
+        return Icons.device_unknown;
+    }
   }
 
   ListTile _buildDrawerItem(IconData icon, String title, int index) {
