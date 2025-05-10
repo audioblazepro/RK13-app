@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 
 class ScriptInstaller {
   static const List<String> scriptNames = [
@@ -50,8 +49,7 @@ class ScriptInstaller {
       if (!await file.exists()) {
         final byteData = await rootBundle.load('assets/scripts/$script');
         await file.writeAsBytes(byteData.buffer.asUint8List());
-        await file.setPermissions(mode: FileMode.write);
-        await file.setExecutable(true);
+        await Process.run('chmod', ['+x', file.path]);
       }
     }
   }

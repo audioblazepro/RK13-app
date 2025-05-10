@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'utils/script_installer.dart';
 import 'pages/rk13_intro_page.dart';
 import 'pages/home_page.dart';
 import 'pages/learn_python_page.dart';
 import 'pages/termux_commands_page.dart';
 import 'pages/bash_tools_page.dart';
+import 'utils/script_installer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  try {
-    await ScriptInstaller.initScripts();
-  } catch (e) {
-    debugPrint("Error instalando scripts: $e");
-  }
+  await ScriptInstaller.initScripts(); // Copia los scripts a /storage/emulated/0/termuxcode
   runApp(const RK13App());
 }
 
@@ -154,8 +149,8 @@ class _MainLayoutState extends State<MainLayout> {
       applicationName: 'RK13 Installer',
       applicationVersion: '1.0.0',
       applicationIcon: const Icon(Icons.security, size: 40, color: Colors.redAccent),
-      children: const [
-        Text(
+      children: [
+        const Text(
           'Una app de herramientas automatizadas para usuarios de Termux. '
           'Incluye scripts y accesos rápidos a más de 30 repositorios de seguridad.',
         ),
