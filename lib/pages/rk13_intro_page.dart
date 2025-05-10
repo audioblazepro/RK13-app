@@ -17,15 +17,15 @@ class HackerIntroPage extends StatelessWidget {
       child: ElevatedButton.icon(
         onPressed: () => _launchUrl(url),
         icon: Icon(icon),
-        label: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        label: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+          elevation: 5,
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(16),
           ),
-          elevation: 6,
         ),
       ),
     );
@@ -34,19 +34,48 @@ class HackerIntroPage extends StatelessWidget {
   Widget _codeSnippet(String code) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.symmetric(vertical: 12),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.symmetric(vertical: 14),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.grey[900],
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.redAccent),
       ),
-      child: Text(
-        code,
-        style: const TextStyle(
-          fontFamily: 'Courier',
-          fontSize: 14,
-          color: Colors.greenAccent,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Text(
+          code,
+          style: const TextStyle(
+            fontFamily: 'Courier',
+            fontSize: 14,
+            color: Colors.greenAccent,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _sectionTitle(String text, Color color) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 14),
+      child: Center(
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color),
+        ),
+      ),
+    );
+  }
+
+  Widget _sectionText(String text) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.white70, fontSize: 16, height: 1.5),
         ),
       ),
     );
@@ -57,81 +86,62 @@ class HackerIntroPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text("INICIO | MUNDO HACKER"),
-        backgroundColor: Colors.red[800],
+        title: const Text("RK13 | HACKING MODE"),
+        backgroundColor: Colors.redAccent.shade700,
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(18),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
-              "Despierta tu mente hacker",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.redAccent),
+            _sectionTitle("Bienvenido al mundo hacker", Colors.redAccent),
+            _sectionText(
+              "Termux no es solo una app. Es una terminal que convierte tu Android en una máquina de guerra digital. Y para dominar este universo… necesitas hablar su idioma.",
             ),
-            const SizedBox(height: 10),
-            const Text(
-              "Termux es más que una app, es la puerta de entrada a un universo donde tu celular se convierte en una terminal de poder. Como hacker moderno, tu primera herramienta es el conocimiento… y Python es el lenguaje de esa revolución.",
-              style: TextStyle(color: Colors.white70, fontSize: 16, height: 1.5),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              "¿Por qué Python?",
-              style: TextStyle(fontSize: 18, color: Colors.lightBlueAccent, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 6),
-            const Text(
-              "Aprender a hablar con las máquinas es más fácil de lo que parece. Python es el idioma que entiende la inteligencia artificial, los scripts automatizados y la seguridad informática. Hablar es programar. Programar es crear.",
-              style: TextStyle(color: Colors.white60, fontSize: 15),
+            _sectionTitle("¿Por qué Python?", Colors.lightBlueAccent),
+            _sectionText(
+              "Python es simple, poderoso y versátil. Ideal para automatización, bots, análisis de redes, IA y más. Hablar con máquinas empieza aquí.",
             ),
             _codeSnippet('''
-# Script básico en Python para automatizar una tarea
+# Script para listar archivos en Termux
 import os
 
-def listar_directorios():
+def listar():
     os.system("ls")
 
-listar_directorios()
+listar()
 '''),
-            const SizedBox(height: 20),
             Container(
-              padding: const EdgeInsets.all(14),
+              margin: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.red[900],
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: const Text(
-                "No necesitas experiencia. Solo curiosidad. Cada línea de código es una llave a un nuevo mundo. ¿Te atreves a construir el tuyo?",
-                style: TextStyle(color: Colors.white, fontSize: 16, fontStyle: FontStyle.italic),
+                "No necesitas experiencia, solo coraje. Cada línea de código es una llave. Ábrela.",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, color: Colors.white),
               ),
             ),
-            const SizedBox(height: 24),
-            const Text(
-              "INSTALACIÓN HACKER: Paso a paso",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.greenAccent),
-            ),
-            const SizedBox(height: 12),
+            _sectionTitle("Descargas esenciales", Colors.greenAccent),
             _buildDownloadButton("F-Droid (Repositorios libres)", "https://f-droid.org/", Colors.deepPurple, Icons.security),
             _buildDownloadButton("Termux (desde F-Droid)", "https://f-droid.org/en/packages/com.termux/", Colors.teal, Icons.terminal),
             _buildDownloadButton("Termux:Boot", "https://f-droid.org/en/packages/com.termux.boot/", Colors.blue, Icons.restart_alt),
             _buildDownloadButton("Termux:API", "https://f-droid.org/en/packages/com.termux.api/", Colors.orange, Icons.settings_remote),
-            _buildDownloadButton("Editor de código Acode", "https://play.google.com/store/apps/details?id=com.foxdebug.acodefree", Colors.indigo, Icons.code),
+            _buildDownloadButton("Editor Acode", "https://play.google.com/store/apps/details?id=com.foxdebug.acodefree", Colors.indigo, Icons.code),
             _buildDownloadButton("GitHub App", "https://play.google.com/store/apps/details?id=com.github.android", Colors.redAccent, Icons.cloud),
-            const SizedBox(height: 20),
-            const Text(
-              "Una vez instalado Termux, abre tu primera terminal y ejecuta tu primer script. Desde ahí, el universo digital es tuyo.",
-              style: TextStyle(color: Colors.white38, fontSize: 14, fontStyle: FontStyle.italic),
-            ),
-            const SizedBox(height: 20),
+            _sectionText("Instala, abre Termux, ejecuta tu primer script y despierta tu mente hacker."),
             _codeSnippet('''
-# Crear un bot en Python desde Termux
+# Bot básico en Termux con Python
 import time
 
 while True:
-    print("Hola desde Termux")
+    print("Hola desde el núcleo")
     time.sleep(3)
 '''),
+            const SizedBox(height: 24),
           ],
         ),
       ),
