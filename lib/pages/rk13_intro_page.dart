@@ -1,27 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Rk13IntroPage extends StatelessWidget {
-  const Rk13IntroPage({super.key});
+class HackerIntroPage extends StatelessWidget {
+  const HackerIntroPage({super.key});
 
   void _launchUrl(String url) async {
     final uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      debugPrint("No se pudo abrir la URL: \$url");
+      debugPrint("No se pudo abrir la URL: $url");
     }
   }
 
-  Widget _buildDownloadButton(String title, String url, Color color) {
+  Widget _buildDownloadButton(String title, String url, Color color, IconData icon) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: ElevatedButton.icon(
         onPressed: () => _launchUrl(url),
-        icon: const Icon(Icons.download),
-        label: Text(title),
+        icon: Icon(icon),
+        label: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          elevation: 6,
+        ),
+      ),
+    );
+  }
+
+  Widget _codeSnippet(String code) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.redAccent),
+      ),
+      child: Text(
+        code,
+        style: const TextStyle(
+          fontFamily: 'Courier',
+          fontSize: 14,
+          color: Colors.greenAccent,
         ),
       ),
     );
@@ -31,60 +56,82 @@ class Rk13IntroPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(title: const Text("Bienvenido a RK13")),
+      appBar: AppBar(
+        title: const Text("INICIO | MUNDO HACKER"),
+        backgroundColor: Colors.red[800],
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "¿Listo para comenzar el viaje?",
+              "Despierta tu mente hacker",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.redAccent),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
             const Text(
-              "RK13 es una herramienta pensada para quienes desean adentrarse en el mundo del hacking ético, la automatización y la programación. Termux es tu puerta de entrada. Es una terminal potente que transforma tu teléfono Android en una auténtica máquina de desarrollo Linux.",
+              "Termux es más que una app, es la puerta de entrada a un universo donde tu celular se convierte en una terminal de poder. Como hacker moderno, tu primera herramienta es el conocimiento… y Python es el lenguaje de esa revolución.",
               style: TextStyle(color: Colors.white70, fontSize: 16, height: 1.5),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             const Text(
-              "¿Por qué aprender Python?",
+              "¿Por qué Python?",
               style: TextStyle(fontSize: 18, color: Colors.lightBlueAccent, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
             const Text(
-              "Python es el lenguaje favorito de los hackers y desarrolladores. Su simplicidad, poder y versatilidad lo hacen ideal para scripts de automatización, análisis de datos, seguridad informática y más. Imagina crear tus propias herramientas, automatizar procesos o analizar redes desde tu móvil. Todo es posible si aprendes a programar.",
-              style: TextStyle(color: Colors.white60, fontSize: 15, height: 1.5),
+              "Aprender a hablar con las máquinas es más fácil de lo que parece. Python es el idioma que entiende la inteligencia artificial, los scripts automatizados y la seguridad informática. Hablar es programar. Programar es crear.",
+              style: TextStyle(color: Colors.white60, fontSize: 15),
             ),
+            _codeSnippet('''
+# Script básico en Python para automatizar una tarea
+import os
+
+def listar_directorios():
+    os.system("ls")
+
+listar_directorios()
+'''),
             const SizedBox(height: 20),
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
                 color: Colors.red[900],
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(14),
               ),
               child: const Text(
-                "No necesitas ser un experto. Solo curiosidad. Lo que aprendas hoy puede cambiar tu mundo mañana. ¿Te atreves a mirar más allá del sistema?",
+                "No necesitas experiencia. Solo curiosidad. Cada línea de código es una llave a un nuevo mundo. ¿Te atreves a construir el tuyo?",
                 style: TextStyle(color: Colors.white, fontSize: 16, fontStyle: FontStyle.italic),
               ),
             ),
             const SizedBox(height: 24),
             const Text(
-              "Cómo instalar Termux correctamente:",
+              "INSTALACIÓN HACKER: Paso a paso",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.greenAccent),
             ),
             const SizedBox(height: 12),
-            _buildDownloadButton("Descargar F-Droid", "https://f-droid.org/", Colors.deepPurple),
-            _buildDownloadButton("Descargar Termux (F-Droid)", "https://f-droid.org/en/packages/com.termux/", Colors.teal),
-            _buildDownloadButton("Termux:Boot", "https://f-droid.org/en/packages/com.termux.boot/", Colors.blue),
-            _buildDownloadButton("Termux:API", "https://f-droid.org/en/packages/com.termux.api/", Colors.orange),
-            _buildDownloadButton("Acode (Editor de Código)", "https://play.google.com/store/apps/details?id=com.foxdebug.acodefree", Colors.indigo),
-            _buildDownloadButton("App GitHub", "https://play.google.com/store/apps/details?id=com.github.android", Colors.redAccent),
+            _buildDownloadButton("F-Droid (Repositorios libres)", "https://f-droid.org/", Colors.deepPurple, Icons.security),
+            _buildDownloadButton("Termux (desde F-Droid)", "https://f-droid.org/en/packages/com.termux/", Colors.teal, Icons.terminal),
+            _buildDownloadButton("Termux:Boot", "https://f-droid.org/en/packages/com.termux.boot/", Colors.blue, Icons.restart_alt),
+            _buildDownloadButton("Termux:API", "https://f-droid.org/en/packages/com.termux.api/", Colors.orange, Icons.settings_remote),
+            _buildDownloadButton("Editor de código Acode", "https://play.google.com/store/apps/details?id=com.foxdebug.acodefree", Colors.indigo, Icons.code),
+            _buildDownloadButton("GitHub App", "https://play.google.com/store/apps/details?id=com.github.android", Colors.redAccent, Icons.cloud),
             const SizedBox(height: 20),
             const Text(
-              "Después de instalar Termux, regresa aquí y comienza a instalar tus repositorios favoritos con RK13.",
+              "Una vez instalado Termux, abre tu primera terminal y ejecuta tu primer script. Desde ahí, el universo digital es tuyo.",
               style: TextStyle(color: Colors.white38, fontSize: 14, fontStyle: FontStyle.italic),
-            )
+            ),
+            const SizedBox(height: 20),
+            _codeSnippet('''
+# Crear un bot en Python desde Termux
+import time
+
+while True:
+    print("Hola desde Termux")
+    time.sleep(3)
+'''),
           ],
         ),
       ),
