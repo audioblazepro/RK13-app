@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'utils/script_installer.dart';
 import 'pages/rk13_intro_page.dart';
 import 'pages/home_page.dart';
 import 'pages/learn_python_page.dart';
@@ -8,6 +6,7 @@ import 'pages/termux_commands_page.dart';
 import 'pages/bash_tools_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const RK13App());
 }
 
@@ -55,58 +54,8 @@ class RK13App extends StatelessWidget {
         ),
         listTileTheme: const ListTileThemeData(iconColor: Colors.redAccent),
       ),
-      home: const SplashScreen(),
+      home: const MainLayout(),
     );
-  }
-}
-
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  bool _initialized = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _initApp();
-  }
-
-  Future<void> _initApp() async {
-    WidgetsFlutterBinding.ensureInitialized();
-
-    var status = await Permission.manageExternalStorage.status;
-    if (!status.isGranted) {
-      status = await Permission.manageExternalStorage.request();
-      if (!status.isGranted) {
-        await openAppSettings();
-        return;
-      }
-    }
-
-    await ScriptInstaller.initScripts();
-
-    setState(() {
-      _initialized = true;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (!_initialized) {
-      return const Scaffold(
-        backgroundColor: Colors.black,
-        body: Center(
-          child: CircularProgressIndicator(color: Colors.redAccent),
-        ),
-      );
-    }
-
-    return const MainLayout();
   }
 }
 
@@ -160,11 +109,15 @@ class _MainLayoutState extends State<MainLayout> {
                 children: const [
                   Icon(Icons.terminal, size: 48, color: Colors.white),
                   SizedBox(height: 10),
-                  Text("RK13 Tools",
-                      style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold)),
+                  Text(
+                    "RK13 Tools",
+                    style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
                   SizedBox(height: 5),
-                  Text("Instala y explora herramientas de hacking ético.",
-                      style: TextStyle(fontSize: 12, color: Colors.white70)),
+                  Text(
+                    "Instala y explora herramientas de hacking ético.",
+                    style: TextStyle(fontSize: 12, color: Colors.white70),
+                  ),
                 ],
               ),
             ),
