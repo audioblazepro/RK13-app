@@ -7,8 +7,19 @@ import 'pages/learn_python_page.dart';
 import 'pages/termux_commands_page.dart';
 import 'pages/bash_tools_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await _handlePermissions();
   runApp(const RK13App());
+}
+
+Future<void> _handlePermissions() async {
+  final status = await Permission.manageExternalStorage.request();
+  if (status.isGranted) {
+    await ScriptInstaller.initScripts();
+  } else {
+    await openAppSettings();
+  }
 }
 
 class RK13App extends StatelessWidget {
@@ -55,74 +66,123 @@ class RK13App extends StatelessWidget {
         ),
         listTileTheme: const ListTileThemeData(iconColor: Colors.redAccent),
       ),
-      home: const PermissionAndInitScreen(),
+      home: MainLayout(),
     );
   }
 }
 
-class PermissionAndInitScreen extends StatefulWidget {
-  const PermissionAndInitScreen({super.key});
+class MainLayout extends StatefulWidget {
+  MainLayout({super.key});
 
   @override
-  State<PermissionAndInitScreen> createState() => _PermissionAndInitScreenState();
+  State<MainLayout> createState() => _MainLayoutState();
 }
 
-class _PermissionAndInitScreenState extends State<PermissionAndInitScreen> {
-  bool _loading = true;
-  bool _permissionDenied = false;
+class _MainLayoutState extends State<MainLayout> {
+  int _currentIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    _initApp();
-  }
+  final List<Widget> _pages = [
+    const Rk13IntroPage(),
+    HomePage(),
+    const LearnPythonPage(),
+    const TermuxCommandsPage(),
+    const BashToolsPage(),
+  ];
 
-  Future<void> _initApp() async {
-    final status = await Permission.manageExternalStorage.request();
-    if (status.isGranted) {
-      await ScriptInstaller.initScripts();
-      setState(() => _loading = false);
-    } else {
-      setState(() {
-        _loading = false;
-        _permissionDenied = true;
-      });
-    }
-  }
+  final List<String> _titles = [
+    "Bienvenido a RK13",
+    "Repositorios",
+    "Aprende Python",
+    "Comandos Termux",
+    "Scripts Bash Tools",
+  ];
 
   @override
   Widget build(BuildContext context) {
-    if (_loading) {
-      return const Scaffold(
-        backgroundColor: Colors.black,
-        body: Center(
-          child: CircularProgressIndicator(color: Colors.redAccent),
-        ),
-      );
-    }
-
-    if (_permissionDenied) {
-      return Scaffold(
-        backgroundColor: Colors.black,
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'Permiso denegado',
-                style: TextStyle(color: Colors.white, fontSize: 18),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_titles[_currentIndex]),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            tooltip: 'Sobre esta app',
+            onPressed: () => _mostrarInfo(context),
+          )
+        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(color: Colors.redAccent),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Icon(Icons.terminal, size: 48, color: Colors.white),
+                  SizedBox(height: 10),
+                  Text(
+                    "RK13 Tools",
+                    style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    "Instala y explora herramientas de hacking ético.",
+                    style: TextStyle(fontSize: 12, color: Colors.white70),
+                  ),
+                ],
               ),
-              const SizedBox(height: 12),
-              ElevatedButton(
-                onPressed: () => openAppSettings(),
-                child: const Text('Abrir configuración'),
-              ),
-            ],
-          ),
+            ),
+            for (var i = 0; i < _titles.length; i++)
+              _buildDrawerItem(_getIcon(i), _titles[i], i),
+          ],
         ),
-      );
-    }
+      ),
+      body: _pages[_currentIndex],
+    );
+  }
 
-    return const MainLayout();
+  IconData _getIcon(int index) {
+    switch (index) {
+      case 0:
+        return Icons.info;
+      case 1:
+        return Icons.extension;
+      case 2:
+        return Icons.code;
+      case 3:
+        return Icons.computer;
+      case 4:
+        return Icons.build;
+      default:
+        return Icons.device_unknown;
+    }
+  }
+
+  ListTile _buildDrawerItem(IconData icon, String title, int index) {
+    return ListTile(
+      leading: Icon(icon, color: _currentIndex == index ? Colors.redAccent : Colors.white),
+      title: Text(title, style: TextStyle(color: _currentIndex == index ? Colors.redAccent : Colors.white)),
+      selected: _currentIndex == index,
+      onTap: () {
+        setState(() => _currentIndex = index);
+        Navigator.pop(context);
+      },
+    );
+  }
+
+  void _mostrarInfo(BuildContext context) {
+    showAboutDialog(
+      context: context,
+      applicationName: 'RK13 Installer',
+      applicationVersion: '1.0.0',
+      applicationIcon: const Icon(Icons.security, size: 40, color: Colors.redAccent),
+      children: const [
+        Text(
+          'Una app de herramientas automatizadas para usuarios de Termux. '
+          'Incluye scripts y accesos rápidos a más de 30 repositorios de seguridad.',
+        ),
+      ],
+    );
   }
 }
