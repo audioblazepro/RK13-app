@@ -139,76 +139,67 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(widget.repoName),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black,
         elevation: 0,
       ),
-      body: Stack(
+      body: Column(
         children: [
-          BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
-            child: Container(color: Colors.black.withOpacity(0.4)),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.redAccent.withOpacity(0.5)),
+              ),
+              child: Markdown(
+                data: readmeContent,
+                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+                  p: const TextStyle(color: Colors.white, fontSize: 15, height: 1.6, fontFamily: 'monospace'),
+                  code: const TextStyle(color: Colors.greenAccent, fontFamily: 'Courier'),
+                  h1: const TextStyle(color: Colors.redAccent, fontSize: 22),
+                  h2: const TextStyle(color: Colors.blueAccent, fontSize: 18),
+                ),
+              ),
+            ),
           ),
-          Column(
-            children: [
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.all(12),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.black, // Fondo negro sólido
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.redAccent.withOpacity(0.5)),
-                  ),
-                  child: Markdown(
-                    data: readmeContent,
-                    styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-                      p: const TextStyle(color: Colors.white, fontSize: 15, height: 1.6, fontFamily: 'monospace'),
-                      code: const TextStyle(color: Colors.greenAccent, fontFamily: 'Courier'),
-                      h1: const TextStyle(color: Colors.redAccent, fontSize: 22),
-                      h2: const TextStyle(color: Colors.blueAccent, fontSize: 18),
-                    ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: isSaving ? null : (isSaved ? _copiarComando : _guardarScript),
+                    icon: Icon(isSaving
+                        ? Icons.hourglass_empty
+                        : isSaved
+                            ? Icons.copy
+                            : Icons.download),
+                    label: Text(isSaving
+                        ? "Guardando..."
+                        : isSaved
+                            ? "Copiar bash"
+                            : "Instalar"),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: isSaving ? null : (isSaved ? _copiarComando : _guardarScript),
-                        icon: Icon(isSaving
-                            ? Icons.hourglass_empty
-                            : isSaved
-                                ? Icons.copy
-                                : Icons.download),
-                        label: Text(isSaving
-                            ? "Guardando..."
-                            : isSaved
-                                ? "Copiar bash"
-                                : "Instalar"),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    IconButton(
-                      icon: const Icon(Icons.terminal, color: Colors.greenAccent),
-                      tooltip: "Abrir Termux",
-                      onPressed: _abrirTermux,
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.link, color: Colors.blueAccent),
-                      tooltip: "Ver GitHub",
-                      onPressed: _abrirGithub,
-                    ),
-                  ],
+                const SizedBox(width: 10),
+                IconButton(
+                  icon: const Icon(Icons.terminal, color: Colors.greenAccent),
+                  tooltip: "Abrir Termux",
+                  onPressed: _abrirTermux,
                 ),
-              ),
-            ],
-          )
+                IconButton(
+                  icon: const Icon(Icons.link, color: Colors.blueAccent),
+                  tooltip: "Ver GitHub",
+                  onPressed: _abrirGithub,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
