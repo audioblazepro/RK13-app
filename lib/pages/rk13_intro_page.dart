@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:animate_do/animate_do.dart';
 
 class Rk13IntroPage extends StatelessWidget {
   const Rk13IntroPage({super.key});
@@ -11,15 +12,57 @@ class Rk13IntroPage extends StatelessWidget {
     }
   }
 
-  Widget _socialButton(String label, String url, IconData icon, Color color) {
-    return ElevatedButton.icon(
-      onPressed: () => _launchUrl(url),
-      icon: Icon(icon, color: Colors.white),
-      label: Text(label),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: color,
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+  Widget _buildButton(String title, String url, Color color, IconData icon) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: ElevatedButton.icon(
+          onPressed: () => _launchUrl(url),
+          icon: Icon(icon),
+          label: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _codeBlock(List<String> lines) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 14),
+      padding: const EdgeInsets.all(16),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.greenAccent.withOpacity(0.4)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: lines
+            .asMap()
+            .entries
+            .map(
+              (entry) => RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '${entry.key + 1}'.padLeft(2, '0') + '  ',
+                      style: const TextStyle(color: Colors.grey, fontFamily: 'monospace'),
+                    ),
+                    TextSpan(
+                      text: entry.value,
+                      style: const TextStyle(color: Colors.greenAccent, fontFamily: 'monospace'),
+                    ),
+                  ],
+                ),
+              ),
+            )
+            .toList(),
       ),
     );
   }
@@ -28,80 +71,84 @@ class Rk13IntroPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        centerTitle: true,
-        title: const Text("RK13 | INIT MODE"),
-      ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(18),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset('assets/images/banner_hack.png', height: 180),
-            const SizedBox(height: 20),
-            const Text(
-              "Bienvenido a RK13",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.redAccent),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              "Inspirado por leyendas como Kevin Mitnick, Adrian Lamo, Anonymous y Tsutomu Shimomura. RK13 no es solo una app: es un portal para explorar el hacking ético desde Android.",
-              style: TextStyle(color: Colors.white70, fontSize: 16, height: 1.4),
-              textAlign: TextAlign.center,
+            FadeInDown(
+              child: Image.asset('assets/images/banner_hack.png', height: 160),
             ),
             const SizedBox(height: 20),
-            const Text("¿Qué es Termux?",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.lightGreen)),
-            const SizedBox(height: 10),
-            const Text(
-              "Termux es un emulador de terminal para Android que proporciona un entorno Linux completo. Permite ejecutar scripts, usar Git, compilar código y más.",
-              style: TextStyle(color: Colors.white70),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            const Text("¿Qué es Proot?",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.orangeAccent)),
-            const SizedBox(height: 10),
-            const Text(
-              "Proot permite ejecutar distribuciones Linux completas dentro de Termux sin necesidad de root. Puedes correr Ubuntu, Kali Linux y Arch para tareas avanzadas de hacking, desarrollo o pruebas.",
-              style: TextStyle(color: Colors.white70),
-              textAlign: TextAlign.center,
+            FadeIn(
+              child: Text(
+                'Bienvenido a RK13 - Una experiencia de hacking única',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, color: Colors.redAccent.shade200, fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.grey[900],
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.redAccent),
-              ),
-              child: const Text(
-                "Ejemplo: Instalar Kali Linux en Termux\n\n"
-                "pkg update && pkg install proot-distro\n"
-                "proot-distro install kali\n"
-                "proot-distro login kali",
-                style: TextStyle(fontFamily: 'monospace', color: Colors.greenAccent),
+            FadeIn(
+              duration: const Duration(milliseconds: 1200),
+              child: Text(
+                '''¿Qué tienen en común Kevin Mitnick, Adrian Lamo y Gary McKinnon?
+
+Todos comenzaron con una chispa de curiosidad. Una chispa que los llevó a romper barreras, desafiar sistemas y entender el lenguaje de las máquinas.
+
+Termux es tu punto de entrada. Conviertes tu Android en una consola Linux.
+¿Quieres más poder? Proot lo desbloquea todo: Kali Linux, Ubuntu, Arch.
+
+Python es tu mejor arma. No solo por su poder, sino por su elegancia. Automatiza, analiza, ataca... crea.
+
+''',
+                style: const TextStyle(fontSize: 16, color: Colors.white70, height: 1.5),
+                textAlign: TextAlign.justify,
               ),
             ),
-            const SizedBox(height: 30),
-            const Text("Síguenos para más herramientas:",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.blueAccent)),
+            _codeBlock([
+              "pkg update -y && pkg upgrade -y",
+              "pkg install proot-distro -y",
+              "proot-distro install kali",
+              "proot-distro login kali",
+              "apt update && apt install python3 git -y",
+            ]),
             const SizedBox(height: 10),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              alignment: WrapAlignment.center,
-              children: [
-                _socialButton("GitHub", "https://github.com/Rk13termux", Icons.code, Colors.deepPurple),
-                _socialButton("Telegram", "https://t.me/rk13tools", Icons.send, Colors.blue),
-                _socialButton("YouTube", "https://youtube.com/@rk13", Icons.ondemand_video, Colors.red),
-              ],
+            FadeInUp(
+              child: Text(
+                '¿Te has preguntado alguna vez...?',
+                style: TextStyle(color: Colors.redAccent.shade100, fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 8),
+            const Text(
+              '''
+¿Qué pasaría si pudieras crear tu propio sistema operativo?
+¿Y si escribieras una inteligencia artificial desde cero?
+¿Podrías rastrear servidores ocultos en la dark web?
+''',
+              style: TextStyle(color: Colors.white70, fontSize: 15, fontStyle: FontStyle.italic),
+              textAlign: TextAlign.justify,
+            ),
+            const SizedBox(height: 18),
+            FadeInUp(
+              duration: const Duration(milliseconds: 800),
+              child: _codeBlock([
+                "import os",
+                "",
+                "def escanear():",
+                "    os.system('nmap 192.168.0.1/24')",
+                "",
+                "escanear()",
+              ]),
+            ),
+            const SizedBox(height: 12),
+            _buildButton("GitHub", "https://github.com/Rk13termux", Colors.deepPurple, Icons.code),
+            _buildButton("Telegram", "https://t.me/Rk13termux", Colors.cyan, Icons.telegram),
+            _buildButton("YouTube", "https://youtube.com/@rk13termux", Colors.redAccent, Icons.ondemand_video),
+            const SizedBox(height: 40),
           ],
         ),
       ),
     );
   }
-} 
+}

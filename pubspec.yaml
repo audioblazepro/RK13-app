@@ -1,4 +1,4 @@
-name: rk13
+name: RK13-REPOS
 description: "A new Flutter project."
 publish_to: 'none'
 version: 1.0.0+1
@@ -89,6 +89,7 @@ flutter:
     - assets/readmes/xerosploit.md
     - assets/readmes/yersinia.md
     - assets/readmes/zphisher.md
+    - assets/images/banner_hack.png
 
 flutter_launcher_icons:
   android: true
