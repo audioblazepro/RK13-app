@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'pages/rk13_intro_page.dart';
 import 'pages/home_page.dart';
 import 'pages/learn_python_page.dart';
@@ -20,39 +21,44 @@ class RK13App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: Colors.black,
-        primaryColor: Colors.redAccent,
-        canvasColor: Colors.black,
-        cardColor: Colors.grey[900],
+        scaffoldBackgroundColor: const Color(0xFF000000),
+        canvasColor: Colors.transparent,
+        primaryColor: const Color(0xFFFF1744),
+        cardColor: Colors.black.withOpacity(0.5),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
-          elevation: 4,
+          elevation: 0,
           centerTitle: true,
-          iconTheme: IconThemeData(color: Colors.redAccent),
+          iconTheme: IconThemeData(color: Color(0xFFFF1744)),
           titleTextStyle: TextStyle(
-            color: Colors.redAccent,
+            color: Color(0xFFFF1744),
             fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
         ),
         textTheme: const TextTheme(
-          bodyMedium: TextStyle(color: Colors.white, fontSize: 16),
+          bodyMedium: TextStyle(color: Colors.white, fontSize: 16, height: 1.5),
           bodyLarge: TextStyle(color: Colors.white70, fontSize: 18),
         ),
-        iconTheme: const IconThemeData(color: Colors.redAccent),
+        iconTheme: const IconThemeData(color: Color(0xFFFF1744)),
         drawerTheme: const DrawerThemeData(backgroundColor: Colors.black),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.redAccent,
+            backgroundColor: const Color(0xFFFF1744),
             foregroundColor: Colors.white,
+            elevation: 6,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(12),
             ),
-            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
-            textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+            textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
           ),
         ),
-        listTileTheme: const ListTileThemeData(iconColor: Colors.redAccent),
+        listTileTheme: const ListTileThemeData(
+          iconColor: Color(0xFFFF1744),
+          textColor: Colors.white,
+          selectedColor: Color(0xFFFF1744),
+        ),
       ),
       home: const MainLayout(),
     );
@@ -99,30 +105,34 @@ class _MainLayoutState extends State<MainLayout> {
         ],
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Stack(
           children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(color: Colors.redAccent),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Icon(Icons.terminal, size: 48, color: Colors.white),
-                  SizedBox(height: 10),
-                  Text(
-                    "RK13 Tools",
-                    style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    "Instala y explora herramientas de hacking ético.",
-                    style: TextStyle(fontSize: 12, color: Colors.white70),
-                  ),
-                ],
-              ),
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+              child: Container(color: Colors.black.withOpacity(0.7)),
             ),
-            for (var i = 0; i < _titles.length; i++)
-              _buildDrawerItem(_getIcon(i), _titles[i], i),
+            ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                DrawerHeader(
+                  decoration: const BoxDecoration(color: Colors.transparent),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Icon(Icons.terminal, size: 48, color: Colors.white),
+                      SizedBox(height: 10),
+                      Text("RK13 Tools",
+                          style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold)),
+                      SizedBox(height: 5),
+                      Text("Instala y explora herramientas de hacking ético.",
+                          style: TextStyle(fontSize: 12, color: Colors.white70)),
+                    ],
+                  ),
+                ),
+                for (var i = 0; i < _titles.length; i++)
+                  _buildDrawerItem(_getIcon(i), _titles[i], i),
+              ],
+            ),
           ],
         ),
       ),
@@ -149,8 +159,8 @@ class _MainLayoutState extends State<MainLayout> {
 
   ListTile _buildDrawerItem(IconData icon, String title, int index) {
     return ListTile(
-      leading: Icon(icon, color: _currentIndex == index ? Colors.redAccent : Colors.white),
-      title: Text(title, style: TextStyle(color: _currentIndex == index ? Colors.redAccent : Colors.white)),
+      leading: Icon(icon, color: _currentIndex == index ? const Color(0xFFFF1744) : Colors.white),
+      title: Text(title, style: TextStyle(color: _currentIndex == index ? const Color(0xFFFF1744) : Colors.white)),
       selected: _currentIndex == index,
       onTap: () {
         setState(() => _currentIndex = index);
@@ -164,7 +174,7 @@ class _MainLayoutState extends State<MainLayout> {
       context: context,
       applicationName: 'RK13 Installer',
       applicationVersion: '1.0.0',
-      applicationIcon: const Icon(Icons.security, size: 40, color: Colors.redAccent),
+      applicationIcon: const Icon(Icons.security, size: 40, color: Color(0xFFFF1744)),
       children: [
         const Text(
           'Una app de herramientas automatizadas para usuarios de Termux. '

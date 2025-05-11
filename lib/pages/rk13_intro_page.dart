@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:animate_do/animate_do.dart';
@@ -37,7 +38,7 @@ class Rk13IntroPage extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: Colors.black.withOpacity(0.5),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.greenAccent.withOpacity(0.4)),
       ),
@@ -71,27 +72,45 @@ class Rk13IntroPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            FadeInDown(
-              child: Image.asset('assets/images/banner_hack.png', height: 160),
-            ),
-            const SizedBox(height: 20),
-            FadeIn(
-              child: Text(
-                'Bienvenido a RK13 - Una experiencia de hacking única',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, color: Colors.redAccent.shade200, fontWeight: FontWeight.bold),
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/banner_hack.png"),
+                fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(height: 12),
-            FadeIn(
-              duration: const Duration(milliseconds: 1200),
-              child: Text(
-                '''¿Qué tienen en común Kevin Mitnick, Adrian Lamo y Gary McKinnon?
+          ),
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Container(
+              color: Colors.black.withOpacity(0.65),
+            ),
+          ),
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                FadeInDown(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30, bottom: 20),
+                    child: Image.asset('assets/images/banner_hack.png', height: 160),
+                  ),
+                ),
+                FadeIn(
+                  child: Text(
+                    'Bienvenido a RK13 - Una experiencia de hacking única',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20, color: Colors.redAccent.shade200, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                FadeIn(
+                  duration: const Duration(milliseconds: 1200),
+                  child: Text(
+                    '''¿Qué tienen en común Kevin Mitnick, Adrian Lamo y Gary McKinnon?
 
 Todos comenzaron con una chispa de curiosidad. Una chispa que los llevó a romper barreras, desafiar sistemas y entender el lenguaje de las máquinas.
 
@@ -99,55 +118,54 @@ Termux es tu punto de entrada. Conviertes tu Android en una consola Linux.
 ¿Quieres más poder? Proot lo desbloquea todo: Kali Linux, Ubuntu, Arch.
 
 Python es tu mejor arma. No solo por su poder, sino por su elegancia. Automatiza, analiza, ataca... crea.
-
 ''',
-                style: const TextStyle(fontSize: 16, color: Colors.white70, height: 1.5),
-                textAlign: TextAlign.justify,
-              ),
-            ),
-            _codeBlock([
-              "pkg update -y && pkg upgrade -y",
-              "pkg install proot-distro -y",
-              "proot-distro install kali",
-              "proot-distro login kali",
-              "apt update && apt install python3 git -y",
-            ]),
-            const SizedBox(height: 10),
-            FadeInUp(
-              child: Text(
-                '¿Te has preguntado alguna vez...?',
-                style: TextStyle(color: Colors.redAccent.shade100, fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              '''
-¿Qué pasaría si pudieras crear tu propio sistema operativo?
+                    style: const TextStyle(fontSize: 16, color: Colors.white70, height: 1.5),
+                    textAlign: TextAlign.justify,
+                  ),
+                ),
+                _codeBlock([
+                  "pkg update -y && pkg upgrade -y",
+                  "pkg install proot-distro -y",
+                  "proot-distro install kali",
+                  "proot-distro login kali",
+                  "apt update && apt install python3 git -y",
+                ]),
+                const SizedBox(height: 10),
+                FadeInUp(
+                  child: Text(
+                    '¿Te has preguntado alguna vez...?',
+                    style: TextStyle(color: Colors.redAccent.shade100, fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  '''¿Qué pasaría si pudieras crear tu propio sistema operativo?
 ¿Y si escribieras una inteligencia artificial desde cero?
-¿Podrías rastrear servidores ocultos en la dark web?
-''',
-              style: TextStyle(color: Colors.white70, fontSize: 15, fontStyle: FontStyle.italic),
-              textAlign: TextAlign.justify,
+¿Podrías rastrear servidores ocultos en la dark web?''',
+                  style: TextStyle(color: Colors.white70, fontSize: 15, fontStyle: FontStyle.italic),
+                  textAlign: TextAlign.justify,
+                ),
+                const SizedBox(height: 18),
+                FadeInUp(
+                  duration: const Duration(milliseconds: 800),
+                  child: _codeBlock([
+                    "import os",
+                    "",
+                    "def escanear():",
+                    "    os.system('nmap 192.168.0.1/24')",
+                    "",
+                    "escanear()",
+                  ]),
+                ),
+                const SizedBox(height: 12),
+                _buildButton("GitHub", "https://github.com/Rk13termux", Colors.deepPurple, Icons.code),
+                _buildButton("Telegram", "https://t.me/Rk13termux", Colors.cyan, Icons.telegram),
+                _buildButton("YouTube", "https://youtube.com/@rk13termux", Colors.redAccent, Icons.ondemand_video),
+                const SizedBox(height: 40),
+              ],
             ),
-            const SizedBox(height: 18),
-            FadeInUp(
-              duration: const Duration(milliseconds: 800),
-              child: _codeBlock([
-                "import os",
-                "",
-                "def escanear():",
-                "    os.system('nmap 192.168.0.1/24')",
-                "",
-                "escanear()",
-              ]),
-            ),
-            const SizedBox(height: 12),
-            _buildButton("GitHub", "https://github.com/Rk13termux", Colors.deepPurple, Icons.code),
-            _buildButton("Telegram", "https://t.me/Rk13termux", Colors.cyan, Icons.telegram),
-            _buildButton("YouTube", "https://youtube.com/@rk13termux", Colors.redAccent, Icons.ondemand_video),
-            const SizedBox(height: 40),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
