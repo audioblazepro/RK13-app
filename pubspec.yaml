@@ -29,7 +29,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/scripts/aircrack-ng.sh
+    - assets/scripts/hack-tools.sh
     - assets/scripts/beef.sh
     - assets/scripts/burpsuite.sh
     - assets/scripts/dirb.sh
@@ -59,7 +59,7 @@ flutter:
     - assets/scripts/xerosploit.sh
     - assets/scripts/yersinia.sh
     - assets/scripts/zphisher.sh
-    - assets/readmes/aircrack-ng.md
+    - assets/readmes/hack-tools.md
     - assets/readmes/beef.md
     - assets/readmes/burpsuite.md
     - assets/readmes/dirb.md
