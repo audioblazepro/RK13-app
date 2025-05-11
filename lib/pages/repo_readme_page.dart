@@ -159,9 +159,9 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
                   margin: const EdgeInsets.all(12),
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.redAccent.withOpacity(0.3)),
+                    color: Colors.black, // Fondo negro sólido
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.redAccent.withOpacity(0.5)),
                   ),
                   child: Markdown(
                     data: readmeContent,
