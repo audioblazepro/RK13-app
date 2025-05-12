@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 class DonarPage extends StatelessWidget {
   const DonarPage({super.key});
 
-  final List<Map<String, String>> _wallets = const [
+  static final List<Map<String, String>> _wallets = [
     {"name": "Bitcoin (BTC)", "address": "bc1qexamplebtc1234567890"},
     {"name": "Ethereum (ETH)", "address": "0xexampleeth1234567890abcdef"},
     {"name": "Tether (USDT)", "address": "0xexampleusdt1234567890"},
@@ -54,20 +54,22 @@ class DonarPage extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 20),
-            for (var wallet in _wallets)
-              Card(
+            ..._wallets.map(
+              (wallet) => Card(
                 color: Colors.grey[900],
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: ListTile(
                   title: Text(wallet['name']!, style: const TextStyle(color: Colors.greenAccent)),
-                  subtitle: Text(wallet['address']!, style: const TextStyle(color: Colors.white70, fontSize: 13)),
+                  subtitle: Text(wallet['address']!,
+                      style: const TextStyle(color: Colors.white70, fontSize: 13)),
                   trailing: IconButton(
                     icon: const Icon(Icons.copy, color: Colors.white),
                     onPressed: () => _copiar(context, wallet['address']!),
                   ),
                 ),
               ),
+            ),
             const SizedBox(height: 24),
             Center(
               child: ElevatedButton.icon(
@@ -79,7 +81,11 @@ class DonarPage extends StatelessWidget {
                 ),
                 icon: const Icon(Icons.favorite, color: Colors.greenAccent),
                 label: const Text("DONAR", style: TextStyle(fontWeight: FontWeight.bold)),
-                onPressed: () {},
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Gracias por tu apoyo ético!")),
+                  );
+                },
               ),
             ),
           ],
