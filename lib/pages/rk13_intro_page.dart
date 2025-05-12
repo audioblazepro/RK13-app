@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Rk13IntroPage extends StatelessWidget {
   const Rk13IntroPage({super.key});
@@ -13,20 +14,21 @@ class Rk13IntroPage extends StatelessWidget {
     }
   }
 
-  Widget _buildButton(String title, String url, Color color, IconData icon) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6),
-        child: ElevatedButton.icon(
-          onPressed: () => _launchUrl(url),
-          icon: Icon(icon),
-          label: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: color,
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          ),
+  Widget _buildButton(String title, String url, Color color, IconData icon, {bool white = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      child: ElevatedButton.icon(
+        onPressed: () => _launchUrl(url),
+        icon: Icon(icon, color: white ? Colors.black : Colors.white),
+        label: Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: white ? Colors.black : Colors.white),
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: white ? Colors.white : color,
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          elevation: 6,
         ),
       ),
     );
@@ -38,7 +40,7 @@ class Rk13IntroPage extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.5),
+        color: Colors.black.withOpacity(0.7),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.greenAccent.withOpacity(0.4)),
       ),
@@ -74,19 +76,9 @@ class Rk13IntroPage extends StatelessWidget {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/banner_hack.png"),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
           BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              color: Colors.black.withOpacity(0.65),
-            ),
+            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+            child: Container(color: Colors.black.withOpacity(0.85)),
           ),
           SingleChildScrollView(
             padding: const EdgeInsets.all(18),
@@ -96,71 +88,77 @@ class Rk13IntroPage extends StatelessWidget {
                 FadeInDown(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 30, bottom: 20),
-                    child: Image.asset('assets/images/banner_hack.png', height: 160),
+                    child: Image.asset('assets/images/banner_hack.png', height: 140),
                   ),
                 ),
                 FadeIn(
                   child: Text(
-                    'Bienvenido a RK13 - Una experiencia de hacking única',
+                    'Bienvenido a RK13 - Potencia Hacking Total',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20, color: Colors.redAccent.shade200, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 22, color: Colors.redAccent.shade200, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(height: 12),
                 FadeIn(
-                  duration: const Duration(milliseconds: 1200),
-                  child: Text(
-                    '''¿Qué tienen en común Kevin Mitnick, Adrian Lamo y Gary McKinnon?
+                  duration: const Duration(milliseconds: 1100),
+                  child: const Text(
+                    '''Explora las herramientas que han definido generaciones de hackers. Desde análisis de red con Python hasta el control total de entornos Linux en Android.
 
-Todos comenzaron con una chispa de curiosidad. Una chispa que los llevó a romper barreras, desafiar sistemas y entender el lenguaje de las máquinas.
+Con RK13 y Termux, tu teléfono es más que un dispositivo. Es tu nuevo laboratorio.
 
-Termux es tu punto de entrada. Conviertes tu Android en una consola Linux.
-¿Quieres más poder? Proot lo desbloquea todo: Kali Linux, Ubuntu, Arch.
-
-Python es tu mejor arma. No solo por su poder, sino por su elegancia. Automatiza, analiza, ataca... crea.
+Instala distribuciones completas, escanea redes, automatiza tareas, entrena IA... y todo desde tu bolsillo.
 ''',
-                    style: const TextStyle(fontSize: 16, color: Colors.white70, height: 1.5),
+                    style: TextStyle(fontSize: 16, color: Colors.white70, height: 1.6),
                     textAlign: TextAlign.justify,
                   ),
                 ),
                 _codeBlock([
-                  "pkg update -y && pkg upgrade -y",
+                  "pkg update && pkg upgrade -y",
                   "pkg install proot-distro -y",
                   "proot-distro install kali",
                   "proot-distro login kali",
-                  "apt update && apt install python3 git -y",
+                  "apt install python3 git nmap -y",
                 ]),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
                 FadeInUp(
-                  child: Text(
-                    '¿Te has preguntado alguna vez...?',
-                    style: TextStyle(color: Colors.redAccent.shade100, fontSize: 18, fontWeight: FontWeight.bold),
+                  child: const Text(
+                    'Preguntas que despiertan tu mente:',
+                    style: TextStyle(color: Colors.redAccent, fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 10),
                 const Text(
-                  '''¿Qué pasaría si pudieras crear tu propio sistema operativo?
-¿Y si escribieras una inteligencia artificial desde cero?
-¿Podrías rastrear servidores ocultos en la dark web?''',
+                  '''¿Eres capaz de programar un bot que rastree patrones sospechosos en tiempo real?
+¿Y si diseñas tu propia herramienta de explotación?
+¿Qué tal simular un ataque DDoS en un entorno virtual?''',
                   style: TextStyle(color: Colors.white70, fontSize: 15, fontStyle: FontStyle.italic),
                   textAlign: TextAlign.justify,
                 ),
-                const SizedBox(height: 18),
-                FadeInUp(
-                  duration: const Duration(milliseconds: 800),
-                  child: _codeBlock([
-                    "import os",
-                    "",
-                    "def escanear():",
-                    "    os.system('nmap 192.168.0.1/24')",
-                    "",
-                    "escanear()",
-                  ]),
+                const SizedBox(height: 20),
+                FadeIn(
+                  duration: const Duration(milliseconds: 900),
+                  child: const Text(
+                    'Aprender Python es la llave maestra.',
+                    style: TextStyle(fontSize: 18, color: Colors.amber, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                const SizedBox(height: 12),
-                _buildButton("GitHub", "https://github.com/Rk13termux", Colors.deepPurple, Icons.code),
-                _buildButton("Telegram", "https://t.me/Rk13termux", Colors.cyan, Icons.telegram),
-                _buildButton("YouTube", "https://youtube.com/@rk13termux", Colors.redAccent, Icons.ondemand_video),
+                _codeBlock([
+                  "import requests",
+                  "response = requests.get('https://api.ipify.org')",
+                  "print(\"Tu IP publica es:\", response.text)",
+                ]),
+                const SizedBox(height: 20),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  children: [
+                    _buildButton("GitHub", "https://github.com/Rk13termux", Colors.white, FontAwesomeIcons.github, white: true),
+                    _buildButton("Facebook", "https://facebook.com/Rk13termux", Color(0xFF1877F2), FontAwesomeIcons.facebook),
+                    _buildButton("Instagram", "https://instagram.com/Rk13termux", Color(0xFFE4405F), FontAwesomeIcons.instagram),
+                    _buildButton("Telegram", "https://t.me/Rk13termux", Colors.cyan, FontAwesomeIcons.telegram),
+                    _buildButton("YouTube", "https://youtube.com/@rk13termux", Colors.redAccent, FontAwesomeIcons.youtube),
+                  ],
+                ),
                 const SizedBox(height: 40),
               ],
             ),
