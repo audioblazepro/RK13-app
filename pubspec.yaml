@@ -93,7 +93,19 @@ flutter:
     - assets/readmes/drozer.md
     - assets/readmes/feroxbuster.md
 
-    - assets/images/banner_hack.png
+    # images intro pages
+    - assets/images/intro_background.png
+    - assets/images/rk13_logo.png
+    - assets/images/termux1.png
+    - assets/images/termux2.png
+    - assets/images/termux3.png
+    - assets/images/termux4.png
+    - assets/images/termux5.png
+    - assets/images/termux6.png
+    - assets/images/termux7.png
+    - assets/images/termux8.png
+    - assets/images/termux9.png
+    - assets/images/termux10.png
 
 flutter_launcher_icons:
   android: true
