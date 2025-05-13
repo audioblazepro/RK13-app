@@ -40,10 +40,10 @@ class Rk13IntroPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Banner Principal
+            // Banner Principal animado
             Stack(
               children: [
-                Image.asset('assets/images/intro_background.png', fit: BoxFit.cover, width: double.infinity, height: 240),
+                Image.asset('assets/images/intro_background.gif', fit: BoxFit.cover, width: double.infinity, height: 240),
                 Container(
                   width: double.infinity,
                   height: 240,
@@ -62,14 +62,10 @@ class Rk13IntroPage extends StatelessWidget {
             // Cualidades de Termux
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: const [
-                  Text(
-                    "Termux convierte tu móvil en una poderosa terminal Linux. Ligero, rápido y abierto: instala cientos de repos y herramientas de hacking al instante.",
-                    style: TextStyle(color: Colors.white, fontSize: 16, height: 1.4),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+              child: Text(
+                "Termux convierte tu móvil en una poderosa terminal Linux. Ligero, rápido y abierto: instala cientos de repos y herramientas de hacking al instante.",
+                style: TextStyle(color: Colors.white, fontSize: 16, height: 1.4),
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 24),
@@ -94,7 +90,7 @@ class Rk13IntroPage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 children: [
-                  for (int i = 1; i <= 5; i++)
+                  for (int i = 1; i <= 10; i++)
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 8),
                       width: 120,
@@ -113,14 +109,10 @@ class Rk13IntroPage extends StatelessWidget {
             // Explicación extensa Python
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: const [
-                  Text(
-                    "Imagínate creando scripts que lean redes sociales, analicen datos en tiempo real o incluso controlen robots con tu móvil. Python en Termux te permite diseñar desde chatbots inteligentes hasta sistemas de automatización avanzados, todo en un entorno ligero y portátil. Dominar Python abre puertas a carreras en ciberseguridad, análisis de datos y desarrollo de software, generando ingresos recurrentes y libertad profesional.",
-                    style: TextStyle(color: Colors.white, fontSize: 16, height: 1.5),
-                    textAlign: TextAlign.justify,
-                  ),
-                ],
+              child: Text(
+                "Imagínate creando scripts que lean redes sociales, analicen datos en tiempo real o incluso controlen robots con tu móvil. Python en Termux te permite diseñar desde chatbots inteligentes hasta sistemas de automatización avanzados, todo en un entorno ligero y portátil. Dominar Python abre puertas a carreras en ciberseguridad, análisis de datos y desarrollo de software, generando ingresos recurrentes y libertad profesional.",
+                style: TextStyle(color: Colors.white, fontSize: 16, height: 1.5),
+                textAlign: TextAlign.justify,
               ),
             ),
             const SizedBox(height: 24),
@@ -163,7 +155,7 @@ class Rk13IntroPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
-                  const Text(
+                  Text(
                     "Apoya nuestro crecimiento: invierte en conocimiento y transforma el futuro, un commit a la vez.",
                     style: TextStyle(color: Colors.white, fontSize: 16),
                     textAlign: TextAlign.center,
