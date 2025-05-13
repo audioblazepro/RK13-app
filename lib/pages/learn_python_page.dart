@@ -97,7 +97,7 @@ class LearnPythonPage extends StatelessWidget {
                       text: const TextSpan(
                         children: [
                           TextSpan(
-                            text: '\\$500',
+                            text: r'$500',
                             style: TextStyle(
                               color: Colors.white54,
                               fontSize: 16,
@@ -106,7 +106,7 @@ class LearnPythonPage extends StatelessWidget {
                           ),
                           TextSpan(text: '  '),
                           TextSpan(
-                            text: '\\$400',
+                            text: r'$400',
                             style: TextStyle(
                               color: Colors.greenAccent,
                               fontSize: 28,
