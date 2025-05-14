@@ -251,10 +251,25 @@ class LearnPythonPage extends StatelessWidget {
                 infinite: true,
                 child: RichText(
                   text: const TextSpan(
+                    style: TextStyle(color: Colors.white70, fontSize: 16),
                     children: [
                       TextSpan(
                         text: '¡Explota tu creatividad! ',
                         style: TextStyle(color: Colors.orangeAccent, fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: '''
+Un programador Python puede ganar hasta US\$7,000 al mes plasmando ideas innovadoras en scripts y aplicaciones.
+
+Este curso te da las llaves: domina automatización, hacking ético y desarrollo profesional.''',
+                        style: TextStyle(color: Colors.white70, fontSize: 16),
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
                       ),
                       TextSpan(
                         text: 'Un programador Python puede ganar hasta US\$7,000 al mes plasmando ideas.
