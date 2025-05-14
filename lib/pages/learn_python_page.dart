@@ -33,7 +33,7 @@ class LearnPythonPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Sección Hero
+            // Hero Section
             Center(
               child: Column(
                 children: [
@@ -72,7 +72,7 @@ class LearnPythonPage extends StatelessWidget {
             ),
             const SizedBox(height: 30),
 
-            // Descripción detallada
+            // Detailed Persuasive Copy
             FadeInUp(
               child: const Text(
                 'Imagina automatizar tareas en tu móvil, desarrollar aplicaciones de escritorio y crear GUIs profesionales usando solo Python. Este curso de 19 módulos te lleva de la instalación de Termux a la creación de herramientas de hacking ético, bots y análisis de datos.',
@@ -82,224 +82,206 @@ class LearnPythonPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // Garantía
-            FadeIn(
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.grey[850],
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.greenAccent),
-                ),
-                child: const Text(
-                  'Garantía de 7 días: Prueba el curso sin riesgo. Si no estás satisfecho, te devolvemos el 100% de tu inversión. ¡Aprende y decide con total tranquilidad!',
-                  style: TextStyle(color: Colors.greenAccent, fontSize: 16, fontStyle: FontStyle.italic),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-
-            // Sección de módulos
+            // Modules Section
             const Text(
               'Módulos del Curso',
               style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
 
-            // Expansion tiles para cada módulo
+            // ExpansionTiles for each module...
             _ModuleTile(
               title: '1. Introducción',
               icon: FontAwesomeIcons.play,
-              description:
-                  'Presentación, descarga de Python en Termux y acceso al canal exclusivo de Telegram.',
-              items: const [
-                'Presentación y bienvenida',
-                'Descargando Python',
-                'Únete al canal de Telegram',
-              ],
+              description: 'Presentación, descarga de Python y canal de Telegram.',
+              items: const ['Presentación y bienvenida', 'Descargando Python', 'Únete al canal de Telegram'],
             ),
             _ModuleTile(
               title: '2. Primeros Pasos',
               icon: FontAwesomeIcons.robot,
-              description:
-                  'Configura tu entorno, explora tipos de datos y maneja entradas de usuario.',
-              items: const [
-                'Introducción a Python',
-                'Números I & II',
-                'Textos, índices y slicing',
-                'Listas y entrada de datos',
-                'Instalando Visual Studio Code',
-                'Uso básico de VS Code',
-                'Ejercicios prácticos',
-              ],
+              description: 'Configura tu entorno, explora números, texto y listas.',
+              items: const ['Introducción a Python', 'Números I & II', 'Textos, slicing', 'Listas y entrada', 'Instala VS Code', 'Ejercicios'],
             ),
             _ModuleTile(
               title: '3. Operadores y Expresiones',
               icon: FontAwesomeIcons.calculator,
-              description:
-                  'Domina la lógica booleana y aritmética para crear scripts de automatización profesionales.',
-              items: const [
-                'Tipo lógico y relacional',
-                'Operadores lógicos y de asignación',
-                'Ejercicios prácticos',
-              ],
+              description: 'Lógica booleana y aritmética para scripts avanzados.',
+              items: const ['Operadores lógicos', 'Relacionales', 'Asignación', 'Ejercicios'],
             ),
             _ModuleTile(
               title: '4. Control de Flujo',
               icon: FontAwesomeIcons.exchangeAlt,
-              description:
-                  'Aprende condicionales y bucles para tomar decisiones y repetir acciones en tus programas.',
-              items: const [
-                'Sentencia if',
-                'Bucles while y for',
-                'Ejercicios prácticos',
-              ],
+              description: 'Condicionales y bucles para decisiones y automatizaciones.',
+              items: const ['Sentencia if', 'Bucles while/for', 'Ejercicios'],
             ),
             _ModuleTile(
               title: '5. Colecciones',
               icon: FontAwesomeIcons.thList,
-              description:
-                  'Trabaja con tuplas, listas, diccionarios y aprende estructuras como colas y pilas.',
-              items: const [
-                'Tuplas, conjuntos y diccionarios',
-                'Colas y pilas',
-                'Ejercicios prácticos',
-              ],
+              description: 'Listas, tuplas, diccionarios y estructuras de datos.',
+              items: const ['Tuplas', 'Conjuntos', 'Diccionarios', 'Colas y pilas'],
             ),
             _ModuleTile(
               title: '6. Scripts',
               icon: FontAwesomeIcons.fileCode,
-              description:
-                  'Crea y ejecuta scripts, gestiona archivos de entrada/salida y automatiza procesos.',
-              items: const [
-                'Entrada y salida de datos',
-                'Creación de scripts ejecutables',
-              ],
+              description: 'Gestión de archivos y automatización de procesos.',
+              items: const ['Entrada/Salida', 'Scripts ejecutables'],
             ),
             _ModuleTile(
               title: '7. Funciones',
               icon: FontAwesomeIcons.code,
-              description:
-                  'Escribe funciones reutilizables, gestiona parámetros y devuelve valores eficientemente.',
-              items: const [
-                'Declarar y retornar funciones',
-                'Argumentos y parámetros',
-                'Funciones avanzadas y ejercicios',
-              ],
+              description: 'Modularidad y reutilización con funciones.',
+              items: const ['Declarar/retornar', 'Argumentos', 'Funciones avanzadas'],
             ),
             _ModuleTile(
               title: '8. Errores y Excepciones',
               icon: FontAwesomeIcons.exclamationTriangle,
-              description:
-                  'Maneja excepciones y errores para crear scripts robustos en entornos reales.',
-              items: const [
-                'Bloques try/except',
-                'Errores múltiples',
-              ],
+              description: 'Manejo de excepciones para robustez.',
+              items: const ['try/catch', 'Errores múltiples'],
             ),
             _ModuleTile(
-              title: '9. Programación Orientada a Objetos',
+              title: '9. POO',
               icon: FontAwesomeIcons.objectGroup,
-              description:
-                  'Aprende a crear clases, objetos y aplicar herencia y polimorfismo.',
-              items: const [
-                'Clases y objetos',
-                'Métodos especiales',
-                'Encapsulamiento',
-              ],
+              description: 'Clases, objetos, herencia y polimorfismo.',
+              items: const ['Clases y objetos', 'Herencia', 'Polimorfismo'],
             ),
             _ModuleTile(
               title: '10. Módulos y Paquetes',
               icon: FontAwesomeIcons.box,
-              description:
-                  'Organiza tu código en módulos y distribúyelo con paquetes instalables.',
-              items: const [
-                'Creación de módulos',
-                'Paquetes y distribuciones',
-              ],
+              description: 'Organiza y distribuye tu código.',
+              items: const ['Módulos', 'Paquetes'],
             ),
             _ModuleTile(
               title: '11. Ficheros',
               icon: FontAwesomeIcons.folderOpen,
-              description:
-                  'Maneja ficheros de texto y binarios, además de serializar con Pickle.',
-              items: const [
-                'Lectura/escritura de ficheros',
-                'Serialización con Pickle',
-              ],
+              description: 'Lectura, escritura y serialización Pickle.',
+              items: const ['Textos', 'Binarios', 'Pickle'],
             ),
             _ModuleTile(
               title: '12. Interfaces Gráficas',
               icon: FontAwesomeIcons.desktop,
-              description:
-                  'Crea ventanas, botones y formularios con Tkinter para herramientas visuales.',
-              items: const [
-                'Tk root, frames y widgets',
-                'Eventos y Popups',
-                'Ejercicio: Calculadora',
-              ],
+              description: 'Crea GUIs con Tkinter.',
+              items: const ['Ventanas', 'Widgets', 'Ejercicio calculadora'],
             ),
             _ModuleTile(
               title: '13. App con GUI y POO',
               icon: FontAwesomeIcons.mobileAlt,
-              description:
-                  'Desarrolla aplicaciones móviles con POO y widgets avanzados de Tcl/Tk.',
-              items: const [
-                'TtkButton y ProgressBar',
-                'ttk.Notebook para pestañas',
-              ],
+              description: 'Apps profesionales con POO y ttk.',
+              items: const ['TtkButton', 'ProgressBar', 'Notebook'],
             ),
             _ModuleTile(
-              title: '14. Bases de Datos SQLite',
+              title: '14. SQLite',
               icon: FontAwesomeIcons.database,
-              description:
-                  'Aprende CRUD básico y manejo de claves primarias en bases de datos locales.',
-              items: const [
-                'Conexión y consultas SQL',
-                'Primary Key y autoincrement',
-              ],
+              description: 'Bases de datos locales con Python.',
+              items: const ['CRUD', 'Autoincrement'],
             ),
             _ModuleTile(
               title: '15. Funciones Avanzadas',
-              icon: FontAwesomeIcons.code,
-              description:
-                  'Aplica lambdas, filter, map y generadores para manipulación de datos avanzada.',
-              items: const [
-                'Filter, map y lambda',
-                'Generadores I & II',
-              ],
+              icon: FontAwesomeIcons.brain,
+              description: 'Lambdas, filter, map y generadores.',
+              items: const ['Lambda', 'Filter & Map', 'Generadores'],
             ),
             _ModuleTile(
               title: '16. Documentación y Pruebas',
               icon: FontAwesomeIcons.book,
-              description:
-                  'Documenta tu proyecto con Pydoc y crea pruebas automáticas con Doctest.',
-              items: const [
-                'Pydoc y comentarios',
-                'Doctest',
-              ],
+              description: 'Pydoc y Doctest para calidad de código.',
+              items: const ['Pydoc', 'Doctest'],
             ),
             _ModuleTile(
-              title: '17. Aplicación de Escritorio',
+              title: '17. Escritorio',
               icon: FontAwesomeIcons.desktop,
-              description:
-                  'Empaqueta tu aplicación en un ejecutable multiplataforma con PyInstaller.',
-              items: const [
-                'Generar ejecutable con PyInstaller',
-              ],
+              description: 'Empaqueta con PyInstaller.',
+              items: const ['Generar ejecutable'],
             ),
             const SizedBox(height: 30),
+
+            // Gallery Section
+            const Text(
+              'Galería de Código',
+              style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 140,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  final img = 'assets/images/code${index + 1}.png';
+                  return GestureDetector(
+                    onTap: () => showDialog(
+                      context: context,
+                      builder: (_) => Dialog(
+                        backgroundColor: Colors.transparent,
+                        insetPadding: EdgeInsets.all(10),
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(img, fit: BoxFit.contain),
+                            ),
+                            Positioned(
+                              top: 8,
+                              right: 8,
+                              child: InkWell(
+                                onTap: () => Navigator.of(context).pop(),
+                                child: const FaIcon(FontAwesomeIcons.timesCircle, color: Colors.white, size: 28),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    child: Container(
+                      width: 100,
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        image: DecorationImage(image: AssetImage(img), fit: BoxFit.cover),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 30),
+
+            // Persuasive CTA
             Center(
-              child: ElevatedButton.icon(
-                icon: const Icon(Icons.shopping_cart),
-                label: const Text('Comprar por \$100 hoy', style: TextStyle(fontSize: 18)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.greenAccent[700],
-                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              child: Pulse(
+                infinite: true,
+                child: RichText(
+                  text: const TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '¡Explota tu creatividad! ',
+                        style: TextStyle(color: Colors.orangeAccent, fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: 'Un programador Python puede ganar hasta US\$7,000 al mes plasmando ideas.
+Completa este curso y toma el control de tu futuro.',
+                        style: TextStyle(color: Colors.white70, fontSize: 16),
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                onPressed: _openAffiliate,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Center(
+              child: Bounce(
+                infinite: true,
+                child: ElevatedButton.icon(
+                  onPressed: _openAffiliate,
+                  icon: const Icon(Icons.shopping_cart, color: Colors.white),
+                  label: const Text('Comprar por \$100', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.greenAccent[700],
+                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    elevation: 8,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 40),
