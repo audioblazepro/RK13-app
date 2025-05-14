@@ -2,15 +2,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:animate_do/animate_do.dart';
-import 'learn_python_page.dart';
-import 'donar_page.dart';
-import 'learn_python_page.dart';
-import 'donar_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'pages/learn_python_page.dart';
-import 'pages/donar_page.dart';
+import 'learn_python_page.dart';
+import 'donar_page.dart';
 
-// Rk13IntroPage final v4 — static black background, embedded galleries in Python sections, persuasive AIDA copy, linked pages
+// Rk13IntroPage final v5 — static black background, embedded galleries, persuasive AIDA copy, linked pages
 
 class Rk13IntroPage extends StatefulWidget {
   const Rk13IntroPage({Key? key}) : super(key: key);
@@ -25,7 +21,7 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
   void _launchUrl(String url) async {
     final uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      debugPrint('No se pudo abrir: \$url');
+      debugPrint('No se pudo abrir: $url');
     }
   }
 
@@ -87,9 +83,26 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
   Widget _buildBanner() {
     return Stack(
       children: [
-        Image.asset('assets/images/intro_background.gif', fit: BoxFit.cover, width: double.infinity, height: 200),
-        Container(width: double.infinity, height: 200, color: Colors.black.withOpacity(0.5)),
-        Positioned(left: 16, top: 16, child: Image.asset('assets/images/rk13_logo.png', width: 80, height: 80)),
+        Image.asset(
+          'assets/images/intro_background.gif',
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: 200,
+        ),
+        Container(
+          width: double.infinity,
+          height: 200,
+          color: Colors.black.withOpacity(0.5),
+        ),
+        Positioned(
+          left: 16,
+          top: 16,
+          child: Image.asset(
+            'assets/images/rk13_logo.png',
+            width: 80,
+            height: 80,
+          ),
+        ),
       ],
     );
   }
@@ -98,12 +111,22 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Termux + Python en Android',
-            style: TextStyle(color: Colors.redAccent, fontSize: 20, fontWeight: FontWeight.bold)),
+        Text(
+          'Termux + Python en Android',
+          style: TextStyle(
+            color: Colors.redAccent,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         const SizedBox(height: 8),
         Text(
           'Convierte tu teléfono en tu herramienta más poderosa. Instala, automatiza y crea scripts en cuestión de segundos.',
-          style: const TextStyle(color: Colors.white, fontSize: 14, height: 1.4),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+            height: 1.4,
+          ),
         ),
       ],
     );
@@ -119,18 +142,28 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
       ),
       child: RichText(
         text: TextSpan(
-          style: const TextStyle(color: Colors.white, fontSize: 14, height: 1.6),
-          children: [
-            TextSpan(text: '🚨 Atención: ¿Te imaginas programar sin límites directamente desde tu móvil? Nuestro curso transforma tu dispositivo en un espacio de creación sin complicaciones.'),
-            TextSpan(text: '
-
-🛠️ Interés: Accede a guías prácticas paso a paso para conectar APIs, extraer datos de páginas web y controlar sistemas remotos con Python. Domina librerías como Requests, BeautifulSoup y Paramiko.'),
-            TextSpan(text: '
-
-🔥 Deseo: Imagina la satisfacción de desarrollar scripts que resuelvan problemas reales y la posibilidad de ofrecer servicios de automatización profesional justo desde tu teléfono.'),
-            TextSpan(text: '
-
-⚡ Acción: Haz clic en "Aprende Python Ahora" y recibe acceso inmediato a todos los módulos. Empieza hoy tu viaje hacia el dominio de la programación móvil.'),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+            height: 1.6,
+          ),
+          children: <TextSpan>[
+            const TextSpan(
+              text:
+                '🚨 Atención: ¿Te imaginas programar sin límites directamente desde tu móvil? Nuestro curso convierte tu dispositivo en un laboratorio creativo sin configuraciones complicadas.',
+            ),
+            const TextSpan(
+              text:
+                '\n\n🛠️ Interés: Accede a guías prácticas paso a paso para conectar APIs, extraer datos de sitios web y controlar sistemas remotos con Python. Domina librerías esenciales como Requests, BeautifulSoup y Paramiko.',
+            ),
+            const TextSpan(
+              text:
+                '\n\n🔥 Deseo: Siente la emoción de crear soluciones que automatizan tareas diarias y la libertad de ofrecer servicios de automatización profesional desde tu teléfono.',
+            ),
+            const TextSpan(
+              text:
+                '\n\n⚡ Acción: Pulsa "Aprende Python Ahora" y desbloquea acceso inmediato a todos los módulos. Comienza hoy tu viaje hacia el dominio de la programación móvil.',
+            ),
           ],
         ),
       ),
@@ -145,10 +178,18 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
         itemCount: 8,
         separatorBuilder: (_, __) => const SizedBox(width: 12),
         itemBuilder: (context, i) {
-          final path = 'assets/images/termux\${i+1}.png';
+          final path = 'assets/images/termux${i + 1}.png';
           return GestureDetector(
             onTap: () => _openZoom(path),
-            child: ClipRRect(borderRadius: BorderRadius.circular(8), child: Image.asset(path, fit: BoxFit.cover, width: 120, height: 140)),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.asset(
+                path,
+                fit: BoxFit.cover,
+                width: 120,
+                height: 140,
+              ),
+            ),
           );
         },
       ),
@@ -159,7 +200,14 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('Python en Termux - Parte 1', style: TextStyle(color: Colors.redAccent, fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(
+          'Python en Termux - Parte 1',
+          style: TextStyle(
+            color: Colors.redAccent,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         const SizedBox(height: 8),
         _buildGallerySection(),
         const SizedBox(height: 8),
@@ -167,7 +215,10 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
           5,
           (i) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text('- Punto \${i+1}: Introducción a Requests y consumo de APIs.', style: const TextStyle(color: Colors.white, fontSize: 14)),
+            child: Text(
+              '- Punto ${i + 1}: Introducción a Requests y consumo de APIs.',
+              style: const TextStyle(color: Colors.white, fontSize: 14),
+            ),
           ),
         ),
       ],
@@ -178,7 +229,14 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('Python en Termux - Parte 2', style: TextStyle(color: Colors.redAccent, fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(
+          'Python en Termux - Parte 2',
+          style: TextStyle(
+            color: Colors.redAccent,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         const SizedBox(height: 8),
         _buildGallerySection(),
         const SizedBox(height: 8),
@@ -186,7 +244,10 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
           5,
           (i) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text('- Punto \${i+6}: Scraping con BeautifulSoup y manejo de HTML.', style: const TextStyle(color: Colors.white, fontSize: 14)),
+            child: Text(
+              '- Punto ${i + 6}: Scraping con BeautifulSoup y manejo de HTML.',
+              style: const TextStyle(color: Colors.white, fontSize: 14),
+            ),
           ),
         ),
       ],
@@ -197,7 +258,14 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('Python en Termux - Parte 3', style: TextStyle(color: Colors.redAccent, fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(
+          'Python en Termux - Parte 3',
+          style: TextStyle(
+            color: Colors.redAccent,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         const SizedBox(height: 8),
         _buildGallerySection(),
         const SizedBox(height: 8),
@@ -205,7 +273,10 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
           5,
           (i) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text('- Punto \${i+11}: Automatización SSH con Paramiko.', style: const TextStyle(color: Colors.white, fontSize: 14)),
+            child: Text(
+              '- Punto ${i + 11}: Automatización SSH con Paramiko.',
+              style: const TextStyle(color: Colors.white, fontSize: 14),
+            ),
           ),
         ),
       ],
@@ -214,8 +285,13 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
 
   Widget _buildLearnButton() {
     return ElevatedButton(
-      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LearnPythonPage())),
-      style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent, padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+      onPressed: () =>
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const LearnPythonPage())),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.redAccent,
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
       child: const Text('Aprende Python Ahora', style: TextStyle(color: Colors.white, fontSize: 16)),
     );
   }
@@ -223,17 +299,28 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
   Widget _buildQuotesSection() {
     return Column(
       children: const [
-        Text('"El conocimiento es la mejor arma" - Chema Alonso', style: TextStyle(color: Colors.white54, fontStyle: FontStyle.italic)),
+        Text(
+          '"El conocimiento es la mejor arma" - Chema Alonso',
+          style: TextStyle(color: Colors.white54, fontStyle: FontStyle.italic),
+        ),
         SizedBox(height: 6),
-        Text('"La mejor forma de predecir el futuro es crearlo" - Alan Kay', style: TextStyle(color: Colors.white54, fontStyle: FontStyle.italic)),
+        Text(
+          '"La mejor forma de predecir el futuro es crearlo" - Alan Kay',
+          style: TextStyle(color: Colors.white54, fontStyle: FontStyle.italic),
+        ),
       ],
     );
   }
 
   Widget _buildDonateSection() {
     return ElevatedButton(
-      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const DonarPage())),
-      style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent, padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+      onPressed: () =>
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const DonarPage())),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.redAccent,
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
       child: const Text('Donar y Apoyar', style: TextStyle(color: Colors.white)),
     );
   }
@@ -250,14 +337,30 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
       children: list.map((item) {
         return GestureDetector(
           onTap: () => _launchUrl(item['url'] as String),
-          child: Container(width: 50, height: 50, decoration: BoxDecoration(border: Border.all(color: Colors.redAccent, width: 2), borderRadius: BorderRadius.circular(8)), child: Center(child: FaIcon(item['icon'] as IconData, color: Colors.redAccent, size: 24))),
+          child: Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.redAccent, width: 2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Center(
+              child: FaIcon(item['icon'] as IconData,
+                  color: Colors.redAccent, size: 24),
+            ),
+          ),
         );
       }).toList(),
     );
   }
 
   Widget _buildFooter() {
-    return Center(child: Text('© 2025 Rk13Termux', style: TextStyle(color: Colors.white24, fontSize: 12)));
+    return Center(
+      child: Text(
+        '© 2025 Rk13Termux',
+        style: TextStyle(color: Colors.white24, fontSize: 12),
+      ),
+    );
   }
 
   Widget _buildZoomOverlay() {
@@ -266,8 +369,25 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
         color: Colors.black.withOpacity(0.8),
         child: Stack(
           children: [
-            Center(child: Image.asset(_zoomImagePath!, fit: BoxFit.contain)),
-            Positioned(top: 40, right: 20, child: GestureDetector(onTap: _closeZoom, child: Container(width: 40, height: 40, decoration: BoxDecoration(color: Colors.redAccent, shape: BoxShape.circle), child: const Icon(Icons.close, color: Colors.white)))),
+            Center(
+              child: Image.asset(_zoomImagePath!, fit: BoxFit.contain),
+            ),
+            Positioned(
+              top: 40,
+              right: 20,
+              child: GestureDetector(
+                onTap: _closeZoom,
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.close, color: Colors.white),
+                ),
+              ),
+            ),
           ],
         ),
       ),
