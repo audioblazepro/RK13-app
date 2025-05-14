@@ -4,6 +4,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:animate_do/animate_do.dart';
 import 'learn_python_page.dart';
 import 'donar_page.dart';
+import 'learn_python_page.dart';
+import 'donar_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'pages/learn_python_page.dart';
 import 'pages/donar_page.dart';
@@ -119,20 +121,16 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
         text: TextSpan(
           style: const TextStyle(color: Colors.white, fontSize: 14, height: 1.6),
           children: [
-            const TextSpan(text: '🚨 Atención: '),
-            TextSpan(text: "¿Te imaginas programar sin límites directamente desde tu móvil? Nuestro curso de Python en Termux transforma tu dispositivo en un centro de automatización: olvídate de configuraciones complejas y comienza a codificar al instante."),
-            const TextSpan(text: "
+            TextSpan(text: '🚨 Atención: ¿Te imaginas programar sin límites directamente desde tu móvil? Nuestro curso transforma tu dispositivo en un espacio de creación sin complicaciones.'),
+            TextSpan(text: '
 
-🛠️ Interés: "),
-            TextSpan(text: "Accede a guías prácticas que te muestran paso a paso cómo conectar APIs, extraer datos y controlar sistemas remotos. Domina librerías clave como Requests, BeautifulSoup y Paramiko para proyectos reales."),
-            const TextSpan(text: "
+🛠️ Interés: Accede a guías prácticas paso a paso para conectar APIs, extraer datos de páginas web y controlar sistemas remotos con Python. Domina librerías como Requests, BeautifulSoup y Paramiko.'),
+            TextSpan(text: '
 
-🔥 Deseo: "),
-            TextSpan(text: "Imagina la satisfacción de crear herramientas que solucionen problemas cotidianos o la posibilidad de ofrecer servicios de automatización profesional. Este curso te da la confianza y habilidades para materializar tus ideas."),
-            const TextSpan(text: "
+🔥 Deseo: Imagina la satisfacción de desarrollar scripts que resuelvan problemas reales y la posibilidad de ofrecer servicios de automatización profesional justo desde tu teléfono.'),
+            TextSpan(text: '
 
-⚡ Acción: "),
-            TextSpan(text: "Haz clic en “Aprende Python Ahora” y desbloquea acceso inmediato a todos los módulos. Da el primer paso hacia tu independencia tecnológica. ¡Tu aventura en programación móvil comienza hoy mismo!"),
+⚡ Acción: Haz clic en "Aprende Python Ahora" y recibe acceso inmediato a todos los módulos. Empieza hoy tu viaje hacia el dominio de la programación móvil.'),
           ],
         ),
       ),
