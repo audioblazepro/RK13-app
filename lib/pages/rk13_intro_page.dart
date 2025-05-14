@@ -251,7 +251,7 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> with SingleTickerProvider
               textAlign: TextAlign.justify,
             ),
             SizedBox(height: 12),
-            Text(NUITKA
+            Text(
               "Domina librerías como requests, BeautifulSoup, paramiko y crea desde scripts de automatización hasta herramientas de hacking ético.",
               style: const TextStyle(
                 color: Colors.white,
