@@ -17,148 +17,214 @@ class LearnPythonPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text('Curso Pro de Python'),
-        backgroundColor: Colors.redAccent,
-      ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Banner animado
-            FadeInDown(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  'assets/images/python_banner.gif',
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: 180,
-                ),
+            // Hero Section
+            Center(
+              child: Column(
+                children: [
+                  FadeInDown(
+                    child: FaIcon(FontAwesomeIcons.python, color: Colors.blueAccent, size: 80),
+                  ),
+                  const SizedBox(height: 12),
+                  FadeIn(
+                    delay: const Duration(milliseconds: 200),
+                    child: const Text(
+                      'Curso Profesional Python de Cero a Experto',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.group, color: Colors.white),
+                    label: const Text('Estudiantes Activos: ¡Únete Ahora!', style: TextStyle(fontSize: 16)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.redAccent,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                    ),
+                    onPressed: _openAffiliate,
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 20),
-            // Título y descripción corta
-            FadeInUp(
-              delay: const Duration(milliseconds: 300),
-              child: const Text(
-                'Conviértete en un experto en Python',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            FadeInUp(
-              delay: const Duration(milliseconds: 500),
-              child: const Text(
-                'Domina desde lo básico hasta la automatización avanzada en Termux y más.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 16,
-                  height: 1.4,
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-            // Características del curso
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              alignment: WrapAlignment.center,
+            const SizedBox(height: 30),
+
+            // ¿Qué vas a lograr?
+            Row(
               children: const [
-                _Feature(icon: FontAwesomeIcons.terminal, text: 'Termux Integration'),
-                _Feature(icon: FontAwesomeIcons.robot, text: 'Bots & Automation'),
-                _Feature(icon: FontAwesomeIcons.database, text: 'Data Analysis'),
-                _Feature(icon: FontAwesomeIcons.cloud, text: 'Web Scraping'),
-                _Feature(icon: FontAwesomeIcons.laptopCode, text: 'Dev Tools'),
+                FaIcon(FontAwesomeIcons.bullseye, color: Colors.greenAccent),
+                SizedBox(width: 10),
+                Text(
+                  '¿Qué vas a lograr?',
+                  style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+                ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 8),
+            const Text(
+              'Aprenderás Python, el tercer lenguaje más usado en el mundo. Empresas de todos los sectores buscan desarrolladores expertos.',
+              style: TextStyle(color: Colors.white70, fontSize: 16, height: 1.4),
+            ),
+            const SizedBox(height: 20),
+
+            // Instructor
+            Row(
+              children: const [
+                FaIcon(FontAwesomeIcons.userTie, color: Colors.white),
+                SizedBox(width: 10),
+                Text(
+                  'Dictado por Brian De Vita',
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            const Text(
+              'Programador con 3+ años de experiencia. Ya formó a más de 38,000 alumnos.',
+              style: TextStyle(color: Colors.white70, fontSize: 14),
+            ),
+            const SizedBox(height: 30),
+
+            // ¿Cómo lo vas a lograr?
+            Row(
+              children: const [
+                FaIcon(FontAwesomeIcons.cogs, color: Colors.orangeAccent),
+                SizedBox(width: 10),
+                Text(
+                  '¿Cómo lo vas a lograr?',
+                  style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Estructura paso a paso en 19 módulos. Contenido práctico y ameno con ejemplos reales y scripts listos para usar.',
+              style: TextStyle(color: Colors.white70, fontSize: 16, height: 1.4),
+            ),
+            const SizedBox(height: 30),
+
+            // Lo que aprenderás
+            Row(
+              children: const [
+                FaIcon(FontAwesomeIcons.checkCircle, color: Colors.green),
+                SizedBox(width: 10),
+                Text(
+                  'Lo que aprenderás',
+                  style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            const _Bullet(text: 'Conocerás la metodología de Python'),
+            const _Bullet(text: 'Desarrollarás aplicaciones y scripts'),
+            const _Bullet(text: 'Programación Orientada a Objetos (OOP)'),
+            const _Bullet(text: 'Automatización avanzada y bots'),
+            const _Bullet(text: 'Análisis de datos y web scraping'),
+            const SizedBox(height: 30),
+
+            // Módulos
+            Row(
+              children: const [
+                FaIcon(FontAwesomeIcons.listUl, color: Colors.blueAccent),
+                SizedBox(width: 10),
+                Text(
+                  'Módulos del Curso',
+                  style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            for (var i = 1; i <= 19; i++)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                child: Text(
+                  '• Módulo $i',
+                  style: const TextStyle(color: Colors.white70, fontSize: 14),
+                ),
+              ),
+            const SizedBox(height: 30),
+
             // Precio y CTA
-            Card(
-              color: Colors.grey[900],
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
-                child: Column(
-                  children: [
-                    const Text(
-                      'Oferta Especial',
-                      style: TextStyle(color: Colors.redAccent, fontSize: 18),
-                    ),
-                    const SizedBox(height: 8),
-                    RichText(
-                      text: const TextSpan(
-                        children: [
-                          TextSpan(
-                            text: r'$500',
-                            style: TextStyle(
-                              color: Colors.white54,
-                              fontSize: 16,
-                              decoration: TextDecoration.lineThrough,
-                            ),
-                          ),
-                          TextSpan(text: '  '),
-                          TextSpan(
-                            text: r'$400',
-                            style: TextStyle(
-                              color: Colors.greenAccent,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+            Center(
+              child: Card(
+                color: Colors.grey[900],
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Aprovecha 55% de descuento hoy',
+                        style: TextStyle(color: Colors.redAccent, fontSize: 18),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: _openAffiliate,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.greenAccent[700],
-                        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 32),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      const SizedBox(height: 8),
+                      RichText(
+                        text: const TextSpan(
+                          children: [
+                            TextSpan(text: r'$220', style: TextStyle(color: Colors.white54, fontSize: 16, decoration: TextDecoration.lineThrough)),
+                            TextSpan(text: '  '),
+                            TextSpan(text: r'$100', style: TextStyle(color: Colors.greenAccent, fontSize: 28, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
                       ),
-                      child: const Text(
-                        'Comprar Curso por \$400',
-                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Código de cupón: 032016',
+                        style: TextStyle(color: Colors.white70, fontSize: 14),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 16),
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.shopping_cart),
+                        label: const Text('Comprar por \$100', style: TextStyle(fontSize: 16)),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.greenAccent[700],
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                        ),
+                        onPressed: _openAffiliate,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 24),
-            // Testimonial breve
-            FadeIn(
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.grey[850],
-                  borderRadius: BorderRadius.circular(10),
+            const SizedBox(height: 30),
+
+            // Testimonios
+            Row(
+              children: const [
+                FaIcon(FontAwesomeIcons.quoteLeft, color: Colors.white70),
+                SizedBox(width: 10),
+                Text(
+                  'Testimonios',
+                  style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-                child: const Text(
-                  '"Este curso me llevó de novato a freelance en 4 semanas." - Juan P.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white70, fontStyle: FontStyle.italic),
-                ),
-              ),
+              ],
             ),
-            const SizedBox(height: 32),
-            // Botón volver
-            OutlinedButton.icon(
-              icon: const Icon(Icons.arrow_back, color: Colors.white70),
-              label: const Text('Volver', style: TextStyle(color: Colors.white70)),
-              style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Colors.white70),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              ),
-              onPressed: () => Navigator.of(context).pop(),
+            const SizedBox(height: 12),
+            const _Testimonial(
+              name: 'Roberto Espinosa',
+              quote:
+                  'Tengo 42 años y nunca pensé que podría programar. Ahora desarrollo mi propio sistema contable.',
+            ),
+            const _Testimonial(
+              name: 'Daniel Lázaro',
+              quote:
+                  'Excelente capacitación con Brian; aprendí desde cero todo el lenguaje de programación.',
+            ),
+            const _Testimonial(
+              name: 'Eduardo Balvueno',
+              quote:
+                  'Muy buenas explicaciones claras y fácil de entender; recomendado al 100%.',
             ),
             const SizedBox(height: 40),
           ],
@@ -168,24 +234,45 @@ class LearnPythonPage extends StatelessWidget {
   }
 }
 
-class _Feature extends StatelessWidget {
-  final IconData icon;
+class _Bullet extends StatelessWidget {
   final String text;
-  const _Feature({required this.icon, required this.text});
+  const _Bullet({required this.text});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 140,
-      child: Column(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
         children: [
-          FaIcon(icon, color: Colors.redAccent, size: 28),
-          const SizedBox(height: 8),
-          Text(
-            text,
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white, fontSize: 14),
+          const Icon(Icons.check_circle, color: Colors.greenAccent, size: 18),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(text, style: const TextStyle(color: Colors.white70, fontSize: 14)),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Testimonial extends StatelessWidget {
+  final String name;
+  final String quote;
+  const _Testimonial({required this.name, required this.quote});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '"$quote"',
+            style: const TextStyle(color: Colors.white70, fontStyle: FontStyle.italic, fontSize: 14),
+          ),
+          const SizedBox(height: 4),
+          Text(name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         ],
       ),
     );
