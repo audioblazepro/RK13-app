@@ -107,6 +107,19 @@ flutter:
     - assets/images/termux8.png
     - assets/images/termux9.png
     - assets/images/termux10.png
+    
+    #galeria curso python
+    
+    - assets/images/code1.png
+    - assets/images/code2.png
+    - assets/images/code3.png
+    - assets/images/code4.png
+    - assets/images/code5.png
+    - assets/images/code6.png
+    - assets/images/code7.png
+    - assets/images/code8.png
+    - assets/images/code9.png
+    - assets/images/code10.png
 
 flutter_launcher_icons:
   android: true
