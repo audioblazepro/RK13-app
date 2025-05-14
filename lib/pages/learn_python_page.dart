@@ -7,7 +7,14 @@ class LearnPythonPage extends StatelessWidget {
   const LearnPythonPage({super.key});
 
   Future<void> _openAffiliate() async {
-    final uri = Uri.parse('https://www.hotmart.com/affiliate/course/python-pro?aff=TU_ID');
+    final uri = Uri.parse('https://go.hotmart.com/F99702791W?ap=7ba0');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
+  Future<void> _openTelegram() async {
+    final uri = Uri.parse('https://t.me/Rk13termux');
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     }
@@ -26,16 +33,86 @@ class LearnPythonPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Sección Hero
+            Center(
+              child: Column(
+                children: [
+                  FadeInDown(
+                    delay: const Duration(milliseconds: 200),
+                    child: FaIcon(FontAwesomeIcons.python, color: Colors.blueAccent, size: 80),
+                  ),
+                  const SizedBox(height: 12),
+                  FadeIn(
+                    child: const Text(
+                      'Curso Profesional Python de Cero a Experto',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  FadeInUp(
+                    delay: const Duration(milliseconds: 400),
+                    child: ElevatedButton.icon(
+                      onPressed: _openTelegram,
+                      icon: const FaIcon(FontAwesomeIcons.telegram, color: Colors.white),
+                      label: const Text('Únete al Canal Privado', style: TextStyle(fontSize: 16)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF0088cc),
+                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 30),
+
+            // Descripción detallada
+            FadeInUp(
+              child: const Text(
+                'Imagina automatizar tareas en tu móvil, desarrollar aplicaciones de escritorio y crear GUIs profesionales usando solo Python. Este curso de 19 módulos te lleva de la instalación de Termux a la creación de herramientas de hacking ético, bots y análisis de datos.',
+                style: TextStyle(color: Colors.white70, fontSize: 16, height: 1.5),
+                textAlign: TextAlign.justify,
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Garantía
+            FadeIn(
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.grey[850],
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.greenAccent),
+                ),
+                child: const Text(
+                  'Garantía de 7 días: Prueba el curso sin riesgo. Si no estás satisfecho, te devolvemos el 100% de tu inversión. ¡Aprende y decide con total tranquilidad!',
+                  style: TextStyle(color: Colors.greenAccent, fontSize: 16, fontStyle: FontStyle.italic),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+
+            // Sección de módulos
             const Text(
               'Módulos del Curso',
               style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
+
+            // Expansion tiles para cada módulo
             _ModuleTile(
               title: '1. Introducción',
               icon: FontAwesomeIcons.play,
               description:
-                  'Presentación, descarga de Python y únete al canal oficial de Telegram para obtener recursos exclusivos.',
+                  'Presentación, descarga de Python en Termux y acceso al canal exclusivo de Telegram.',
               items: const [
                 'Presentación y bienvenida',
                 'Descargando Python',
@@ -46,13 +123,14 @@ class LearnPythonPage extends StatelessWidget {
               title: '2. Primeros Pasos',
               icon: FontAwesomeIcons.robot,
               description:
-                  'Configura tu entorno y aprende las bases de Python: números, texto y estructuras de datos.',
+                  'Configura tu entorno, explora tipos de datos y maneja entradas de usuario.',
               items: const [
                 'Introducción a Python',
                 'Números I & II',
                 'Textos, índices y slicing',
                 'Listas y entrada de datos',
-                'Instalando y usando VS Code',
+                'Instalando Visual Studio Code',
+                'Uso básico de VS Code',
                 'Ejercicios prácticos',
               ],
             ),
@@ -60,7 +138,7 @@ class LearnPythonPage extends StatelessWidget {
               title: '3. Operadores y Expresiones',
               icon: FontAwesomeIcons.calculator,
               description:
-                  'Comprende lógica booleana y aritmética avanzada para scripts de automatización y hacking.',
+                  'Domina la lógica booleana y aritmética para crear scripts de automatización profesionales.',
               items: const [
                 'Tipo lógico y relacional',
                 'Operadores lógicos y de asignación',
@@ -71,10 +149,10 @@ class LearnPythonPage extends StatelessWidget {
               title: '4. Control de Flujo',
               icon: FontAwesomeIcons.exchangeAlt,
               description:
-                  'Crea scripts inteligentes con condicionales y bucles para automatizar tareas en Termux.',
+                  'Aprende condicionales y bucles para tomar decisiones y repetir acciones en tus programas.',
               items: const [
                 'Sentencia if',
-                'Bucle while & for',
+                'Bucles while y for',
                 'Ejercicios prácticos',
               ],
             ),
@@ -82,7 +160,7 @@ class LearnPythonPage extends StatelessWidget {
               title: '5. Colecciones',
               icon: FontAwesomeIcons.thList,
               description:
-                  'Maneja datos masivos con tuplas, conjuntos y diccionarios, fundamentales en ciberseguridad.',
+                  'Trabaja con tuplas, listas, diccionarios y aprende estructuras como colas y pilas.',
               items: const [
                 'Tuplas, conjuntos y diccionarios',
                 'Colas y pilas',
@@ -93,19 +171,19 @@ class LearnPythonPage extends StatelessWidget {
               title: '6. Scripts',
               icon: FontAwesomeIcons.fileCode,
               description:
-                  'Aprende a leer y escribir archivos, crear scripts ejecutables y automatizar flujos.',
+                  'Crea y ejecuta scripts, gestiona archivos de entrada/salida y automatiza procesos.',
               items: const [
-                'Entrada y salida',
-                'Creación de scripts',
+                'Entrada y salida de datos',
+                'Creación de scripts ejecutables',
               ],
             ),
             _ModuleTile(
               title: '7. Funciones',
               icon: FontAwesomeIcons.code,
               description:
-                  'Modulariza tu código con funciones; clave en desarrollo profesional y pruebas de pentesting.',
+                  'Escribe funciones reutilizables, gestiona parámetros y devuelve valores eficientemente.',
               items: const [
-                'Declarar y retornar',
+                'Declarar y retornar funciones',
                 'Argumentos y parámetros',
                 'Funciones avanzadas y ejercicios',
               ],
@@ -114,9 +192,9 @@ class LearnPythonPage extends StatelessWidget {
               title: '8. Errores y Excepciones',
               icon: FontAwesomeIcons.exclamationTriangle,
               description:
-                  'Gestiona excepciones para scripts robustos, imprescindible en entornos de producción.',
+                  'Maneja excepciones y errores para crear scripts robustos en entornos reales.',
               items: const [
-                'Manejo de excepciones',
+                'Bloques try/except',
                 'Errores múltiples',
               ],
             ),
@@ -124,7 +202,7 @@ class LearnPythonPage extends StatelessWidget {
               title: '9. Programación Orientada a Objetos',
               icon: FontAwesomeIcons.objectGroup,
               description:
-                  'Diseña aplicaciones escalables usando clases, herencia y polimorfismo.',
+                  'Aprende a crear clases, objetos y aplicar herencia y polimorfismo.',
               items: const [
                 'Clases y objetos',
                 'Métodos especiales',
@@ -135,9 +213,9 @@ class LearnPythonPage extends StatelessWidget {
               title: '10. Módulos y Paquetes',
               icon: FontAwesomeIcons.box,
               description:
-                  'Organiza tu código en módulos y distribúyelo fácilmente con paquetes.',
+                  'Organiza tu código en módulos y distribúyelo con paquetes instalables.',
               items: const [
-                'Módulos básicos',
+                'Creación de módulos',
                 'Paquetes y distribuciones',
               ],
             ),
@@ -145,7 +223,7 @@ class LearnPythonPage extends StatelessWidget {
               title: '11. Ficheros',
               icon: FontAwesomeIcons.folderOpen,
               description:
-                  'Manipula archivos y datos serializados con Pickle para automatización y análisis.',
+                  'Maneja ficheros de texto y binarios, además de serializar con Pickle.',
               items: const [
                 'Lectura/escritura de ficheros',
                 'Serialización con Pickle',
@@ -155,30 +233,30 @@ class LearnPythonPage extends StatelessWidget {
               title: '12. Interfaces Gráficas',
               icon: FontAwesomeIcons.desktop,
               description:
-                  'Crea GUIs para herramientas de hacking con Tkinter: ventanas, botones y formularios.',
+                  'Crea ventanas, botones y formularios con Tkinter para herramientas visuales.',
               items: const [
-                'Tk root y frames',
-                'Widgets: Button, Listbox, Popups',
-                'Ejercicios de calculadora',
+                'Tk root, frames y widgets',
+                'Eventos y Popups',
+                'Ejercicio: Calculadora',
               ],
             ),
             _ModuleTile(
               title: '13. App con GUI y POO',
               icon: FontAwesomeIcons.mobileAlt,
               description:
-                  'Desarrolla apps completas con diseño profesional y POO.',
+                  'Desarrolla aplicaciones móviles con POO y widgets avanzados de Tcl/Tk.',
               items: const [
-                'TtkButtons y ProgressBar',
-                'Páginas con ttk.Notebook',
+                'TtkButton y ProgressBar',
+                'ttk.Notebook para pestañas',
               ],
             ),
             _ModuleTile(
               title: '14. Bases de Datos SQLite',
               icon: FontAwesomeIcons.database,
               description:
-                  'Integra Python con SQLite para crear herramientas de gestión de datos.',
+                  'Aprende CRUD básico y manejo de claves primarias en bases de datos locales.',
               items: const [
-                'CRUD básico',
+                'Conexión y consultas SQL',
                 'Primary Key y autoincrement',
               ],
             ),
@@ -186,19 +264,19 @@ class LearnPythonPage extends StatelessWidget {
               title: '15. Funciones Avanzadas',
               icon: FontAwesomeIcons.code,
               description:
-                  'Potencia tu código con lambdas, filter, map y generadores.',
+                  'Aplica lambdas, filter, map y generadores para manipulación de datos avanzada.',
               items: const [
                 'Filter, map y lambda',
-                'Generadores',
+                'Generadores I & II',
               ],
             ),
             _ModuleTile(
               title: '16. Documentación y Pruebas',
               icon: FontAwesomeIcons.book,
               description:
-                  'Documenta y prueba tu código con Pydoc y Doctest para calidad profesional.',
+                  'Documenta tu proyecto con Pydoc y crea pruebas automáticas con Doctest.',
               items: const [
-                'Pydoc',
+                'Pydoc y comentarios',
                 'Doctest',
               ],
             ),
@@ -206,9 +284,9 @@ class LearnPythonPage extends StatelessWidget {
               title: '17. Aplicación de Escritorio',
               icon: FontAwesomeIcons.desktop,
               description:
-                  'Empaqueta tu aplicación en un ejecutable independiente.',
+                  'Empaqueta tu aplicación en un ejecutable multiplataforma con PyInstaller.',
               items: const [
-                'Generar ejecutable',
+                'Generar ejecutable con PyInstaller',
               ],
             ),
             const SizedBox(height: 30),
