@@ -251,9 +251,9 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> with SingleTickerProvider
               textAlign: TextAlign.justify,
             ),
             SizedBox(height: 12),
-            Text(
+            Text(NUITKA
               "Domina librerías como requests, BeautifulSoup, paramiko y crea desde scripts de automatización hasta herramientas de hacking ético.",
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
                 height: 1.5,
@@ -331,7 +331,7 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> with SingleTickerProvider
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          BounceIn(
+          Bounce(
             child: Text(
               "Apoya nuestro crecimiento: invierte en conocimiento, un commit a la vez.",
               style: const TextStyle(
@@ -340,9 +340,10 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> with SingleTickerProvider
               ),
               textAlign: TextAlign.center,
             ),
+            duration: const Duration(milliseconds: 800),
           ),
           const SizedBox(height: 16),
-          Shake(
+          ShakeX(
             child: ElevatedButton(
               onPressed: () => Navigator.pushNamed(context, '/donar'),
               style: ElevatedButton.styleFrom(
@@ -360,6 +361,7 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> with SingleTickerProvider
                 ),
               ),
             ),
+            duration: const Duration(milliseconds: 1000),
           ),
         ],
       ),
@@ -371,7 +373,7 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> with SingleTickerProvider
     final items = [
       {'icon': FontAwesomeIcons.github, 'url': 'https://github.com/Rk13termux'},
       {'icon': FontAwesomeIcons.instagram, 'url': 'https://instagram.com/Rk13termux'},
-      {'icon': FontAwesomeIcons.telegram, 'url': 'https://t.me/Rk13termux'},
+      {'	icon': FontAwesomeIcons.telegram, 'url': 'https://t.me/Rk13termux'},
       {'icon': FontAwesomeIcons.youtube, 'url': 'https://youtube.com/@rk13termux'},
     ];
     return Wrap(
@@ -446,7 +448,7 @@ class FeatureCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Shake(
+    return ShakeX(
       child: Container(
         width: 160,
         padding: const EdgeInsets.all(16),
@@ -481,6 +483,7 @@ class FeatureCard extends StatelessWidget {
           ],
         ),
       ),
+      duration: const Duration(milliseconds: 800),
     );
   }
 }
