@@ -120,19 +120,19 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
           style: const TextStyle(color: Colors.white, fontSize: 14, height: 1.6),
           children: [
             const TextSpan(text: '🚨 Atención: '),
-            TextSpan(text: '''¿Te imaginas tener el poder de programar directamente desde tu móvil? Con nuestro curso, dominarás Python en Termux sin instalaciones tediosas ni configuraciones complejas. En solo minutos, podrás escribir tus primeros scripts y ver los resultados al instante.'''),
-            const TextSpan(text: '
+            TextSpan(text: "¿Te imaginas programar sin límites directamente desde tu móvil? Nuestro curso de Python en Termux transforma tu dispositivo en un centro de automatización: olvídate de configuraciones complejas y comienza a codificar al instante."),
+            const TextSpan(text: "
 
-🛠️ Interés: '),
-            TextSpan(text: '''Accede a guías paso a paso que te llevarán desde lo básico hasta proyectos avanzados. Aprende a automatizar tareas repetitivas, extraer datos de webs, y controlar dispositivos remotos con simples líneas de código.'''),
-            const TextSpan(text: '
+🛠️ Interés: "),
+            TextSpan(text: "Accede a guías prácticas que te muestran paso a paso cómo conectar APIs, extraer datos y controlar sistemas remotos. Domina librerías clave como Requests, BeautifulSoup y Paramiko para proyectos reales."),
+            const TextSpan(text: "
 
-🔥 Deseo: '),
-            TextSpan(text: '''Imagina la emoción de crear herramientas prácticas que solucionen tus problemas diarios, o la libertad de ofrecer servicios de automatización profesional. Nuestro enfoque te dará la confianza y habilidades para transformar tus ideas en realidad.'''),
-            const TextSpan(text: '
+🔥 Deseo: "),
+            TextSpan(text: "Imagina la satisfacción de crear herramientas que solucionen problemas cotidianos o la posibilidad de ofrecer servicios de automatización profesional. Este curso te da la confianza y habilidades para materializar tus ideas."),
+            const TextSpan(text: "
 
-⚡ Acción: '),
-            TextSpan(text: '''Inscríbete ahora y recibe acceso inmediato a todo el contenido. Pulsa "Aprende Python Ahora" y comienza tu viaje hacia el dominio de la programación móvil. ¡Tu futuro profesional te espera!'''),
+⚡ Acción: "),
+            TextSpan(text: "Haz clic en “Aprende Python Ahora” y desbloquea acceso inmediato a todos los módulos. Da el primer paso hacia tu independencia tecnológica. ¡Tu aventura en programación móvil comienza hoy mismo!"),
           ],
         ),
       ),
