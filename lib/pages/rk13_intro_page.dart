@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:animate_do/animate_do.dart';
+import 'learn_python_page.dart';
+import 'donar_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'pages/learn_python_page.dart';
 import 'pages/donar_page.dart';
@@ -108,31 +110,29 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
   Widget _buildAIDASection() {
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(color: Colors.grey[900], borderRadius: BorderRadius.circular(8), border: Border.all(color: Colors.redAccent, width: 1.2)),
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.redAccent, width: 1.2),
+      ),
       child: RichText(
         text: TextSpan(
           style: const TextStyle(color: Colors.white, fontSize: 14, height: 1.6),
           children: [
             const TextSpan(text: '🚨 Atención: '),
-            const TextSpan(text: '¿Te imaginas manejar Python directamente desde tu móvil sin fricciones ni configuraciones complicadas? Hazlo realidad.
+            TextSpan(text: '''¿Te imaginas tener el poder de programar directamente desde tu móvil? Con nuestro curso, dominarás Python en Termux sin instalaciones tediosas ni configuraciones complejas. En solo minutos, podrás escribir tus primeros scripts y ver los resultados al instante.'''),
+            const TextSpan(text: '
 
-'),
-            const TextSpan(text: '🛠️ Interés: '),
-            const TextSpan(
-                text:
-                    'Aprende las técnicas paso a paso para crear bots, analizar datos y controlar dispositivos remotos. Domina librerías esenciales como Requests, BeautifulSoup y Paramiko, y siente la satisfacción de automatizar tareas tediosas en segundos.
+🛠️ Interés: '),
+            TextSpan(text: '''Accede a guías paso a paso que te llevarán desde lo básico hasta proyectos avanzados. Aprende a automatizar tareas repetitivas, extraer datos de webs, y controlar dispositivos remotos con simples líneas de código.'''),
+            const TextSpan(text: '
 
-'),
-            const TextSpan(text: '🔥 Deseo: '),
-            const TextSpan(
-                text:
-                    'Imagina la libertad de generar ingresos extra ofreciendo soluciones automatizadas, o la emoción de prototipar ideas locas y verlas funcionar al instante. Con Python en Termux, tu creatividad no tiene límites.
+🔥 Deseo: '),
+            TextSpan(text: '''Imagina la emoción de crear herramientas prácticas que solucionen tus problemas diarios, o la libertad de ofrecer servicios de automatización profesional. Nuestro enfoque te dará la confianza y habilidades para transformar tus ideas en realidad.'''),
+            const TextSpan(text: '
 
-'),
-            const TextSpan(text: '⚡ Acción: '),
-            const TextSpan(
-                text:
-                    'Únete hoy a nuestro curso de Python para Termux. Haz clic en “Aprende Python Ahora” y da el primer paso hacia el dominio de la automatización móvil. Tu futuro empieza en este momento.'),
+⚡ Acción: '),
+            TextSpan(text: '''Inscríbete ahora y recibe acceso inmediato a todo el contenido. Pulsa "Aprende Python Ahora" y comienza tu viaje hacia el dominio de la programación móvil. ¡Tu futuro profesional te espera!'''),
           ],
         ),
       ),
