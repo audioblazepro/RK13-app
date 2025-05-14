@@ -26,13 +26,11 @@ class LearnPythonPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Módulos con ExpansionTile
             const Text(
               'Módulos del Curso',
               style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            // 1 Intro
             _ModuleTile(
               title: '1. Introducción',
               icon: FontAwesomeIcons.play,
@@ -44,7 +42,6 @@ class LearnPythonPage extends StatelessWidget {
                 'Únete al canal de Telegram',
               ],
             ),
-            // 2 Primeros Pasos
             _ModuleTile(
               title: '2. Primeros Pasos',
               icon: FontAwesomeIcons.robot,
@@ -59,7 +56,6 @@ class LearnPythonPage extends StatelessWidget {
                 'Ejercicios prácticos',
               ],
             ),
-            // 3 Operadores
             _ModuleTile(
               title: '3. Operadores y Expresiones',
               icon: FontAwesomeIcons.calculator,
@@ -71,7 +67,6 @@ class LearnPythonPage extends StatelessWidget {
                 'Ejercicios prácticos',
               ],
             ),
-            // 4 Control de flujo
             _ModuleTile(
               title: '4. Control de Flujo',
               icon: FontAwesomeIcons.exchangeAlt,
@@ -83,7 +78,6 @@ class LearnPythonPage extends StatelessWidget {
                 'Ejercicios prácticos',
               ],
             ),
-            // 5 Colecciones
             _ModuleTile(
               title: '5. Colecciones',
               icon: FontAwesomeIcons.thList,
@@ -95,7 +89,6 @@ class LearnPythonPage extends StatelessWidget {
                 'Ejercicios prácticos',
               ],
             ),
-            // 6 Scripts
             _ModuleTile(
               title: '6. Scripts',
               icon: FontAwesomeIcons.fileCode,
@@ -106,10 +99,9 @@ class LearnPythonPage extends StatelessWidget {
                 'Creación de scripts',
               ],
             ),
-            // 7 Funciones
             _ModuleTile(
               title: '7. Funciones',
-              icon: FontAwesomeIcons.function,
+              icon: FontAwesomeIcons.code,
               description:
                   'Modulariza tu código con funciones; clave en desarrollo profesional y pruebas de pentesting.',
               items: const [
@@ -118,7 +110,6 @@ class LearnPythonPage extends StatelessWidget {
                 'Funciones avanzadas y ejercicios',
               ],
             ),
-            // 8 Errores y Excepciones
             _ModuleTile(
               title: '8. Errores y Excepciones',
               icon: FontAwesomeIcons.exclamationTriangle,
@@ -129,7 +120,6 @@ class LearnPythonPage extends StatelessWidget {
                 'Errores múltiples',
               ],
             ),
-            // 9 POO
             _ModuleTile(
               title: '9. Programación Orientada a Objetos',
               icon: FontAwesomeIcons.objectGroup,
@@ -141,7 +131,6 @@ class LearnPythonPage extends StatelessWidget {
                 'Encapsulamiento',
               ],
             ),
-            //10 Módulos y paquetes
             _ModuleTile(
               title: '10. Módulos y Paquetes',
               icon: FontAwesomeIcons.box,
@@ -152,7 +141,6 @@ class LearnPythonPage extends StatelessWidget {
                 'Paquetes y distribuciones',
               ],
             ),
-            //11 Ficheros
             _ModuleTile(
               title: '11. Ficheros',
               icon: FontAwesomeIcons.folderOpen,
@@ -163,7 +151,6 @@ class LearnPythonPage extends StatelessWidget {
                 'Serialización con Pickle',
               ],
             ),
-            //12 Interfaces Gráficas
             _ModuleTile(
               title: '12. Interfaces Gráficas',
               icon: FontAwesomeIcons.desktop,
@@ -175,7 +162,6 @@ class LearnPythonPage extends StatelessWidget {
                 'Ejercicios de calculadora',
               ],
             ),
-            //13 App Gráfica
             _ModuleTile(
               title: '13. App con GUI y POO',
               icon: FontAwesomeIcons.mobileAlt,
@@ -186,7 +172,6 @@ class LearnPythonPage extends StatelessWidget {
                 'Páginas con ttk.Notebook',
               ],
             ),
-            //14 Bases de datos
             _ModuleTile(
               title: '14. Bases de Datos SQLite',
               icon: FontAwesomeIcons.database,
@@ -197,7 +182,6 @@ class LearnPythonPage extends StatelessWidget {
                 'Primary Key y autoincrement',
               ],
             ),
-            //15 Funciones avanzadas
             _ModuleTile(
               title: '15. Funciones Avanzadas',
               icon: FontAwesomeIcons.code,
@@ -208,7 +192,6 @@ class LearnPythonPage extends StatelessWidget {
                 'Generadores',
               ],
             ),
-            //16 Documentación y pruebas
             _ModuleTile(
               title: '16. Documentación y Pruebas',
               icon: FontAwesomeIcons.book,
@@ -219,7 +202,6 @@ class LearnPythonPage extends StatelessWidget {
                 'Doctest',
               ],
             ),
-            //17 Aplicación de Escritorio
             _ModuleTile(
               title: '17. Aplicación de Escritorio',
               icon: FontAwesomeIcons.desktop,
