@@ -72,24 +72,26 @@ class LearnPythonPage extends StatelessWidget {
             ),
             const SizedBox(height: 30),
 
-            // Detailed Persuasive Copy
+            // Persuasive Detail
             FadeInUp(
               child: const Text(
-                'Imagina automatizar tareas en tu móvil, desarrollar aplicaciones de escritorio y crear GUIs profesionales usando solo Python. Este curso de 19 módulos te lleva de la instalación de Termux a la creación de herramientas de hacking ético, bots y análisis de datos.',
+                'Imagina automatizar tareas en tu móvil, desarrollar aplicaciones de escritorio y crear GUIs profesionales usando solo Python. '
+                'Este curso de 19 módulos te lleva de la instalación de Termux a la creación de herramientas de hacking ético, bots y '
+                'análisis de datos.',
                 style: TextStyle(color: Colors.white70, fontSize: 16, height: 1.5),
                 textAlign: TextAlign.justify,
               ),
             ),
             const SizedBox(height: 20),
 
-            // Modules Section
+            // Modules Header
             const Text(
               'Módulos del Curso',
               style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
 
-            // ExpansionTiles for each module...
+            // ExpansionTiles for Modules 1–17
             _ModuleTile(
               title: '1. Introducción',
               icon: FontAwesomeIcons.play,
@@ -105,73 +107,73 @@ class LearnPythonPage extends StatelessWidget {
             _ModuleTile(
               title: '3. Operadores y Expresiones',
               icon: FontAwesomeIcons.calculator,
-              description: 'Lógica booleana y aritmética para scripts avanzados.',
+              description: 'Lógica booleana y aritmética avanzada.',
               items: const ['Operadores lógicos', 'Relacionales', 'Asignación', 'Ejercicios'],
             ),
             _ModuleTile(
               title: '4. Control de Flujo',
               icon: FontAwesomeIcons.exchangeAlt,
-              description: 'Condicionales y bucles para decisiones y automatizaciones.',
+              description: 'Condicionales y bucles para automatizar tus scripts.',
               items: const ['Sentencia if', 'Bucles while/for', 'Ejercicios'],
             ),
             _ModuleTile(
               title: '5. Colecciones',
               icon: FontAwesomeIcons.thList,
-              description: 'Listas, tuplas, diccionarios y estructuras de datos.',
+              description: 'Manejo de tuplas, listas, diccionarios y estructuras de pila.',
               items: const ['Tuplas', 'Conjuntos', 'Diccionarios', 'Colas y pilas'],
             ),
             _ModuleTile(
               title: '6. Scripts',
               icon: FontAwesomeIcons.fileCode,
               description: 'Gestión de archivos y automatización de procesos.',
-              items: const ['Entrada/Salida', 'Scripts ejecutables'],
+              items: const ['Entrada/Salida', 'Archivos ejecutables'],
             ),
             _ModuleTile(
               title: '7. Funciones',
               icon: FontAwesomeIcons.code,
-              description: 'Modularidad y reutilización con funciones.',
-              items: const ['Declarar/retornar', 'Argumentos', 'Funciones avanzadas'],
+              description: 'Modulariza tu lógica con funciones reutilizables.',
+              items: const ['Declarar y retornar', 'Argumentos y parámetros', 'Funciones avanzadas'],
             ),
             _ModuleTile(
               title: '8. Errores y Excepciones',
               icon: FontAwesomeIcons.exclamationTriangle,
-              description: 'Manejo de excepciones para robustez.',
+              description: 'Manejo de excepciones para código robusto.',
               items: const ['try/catch', 'Errores múltiples'],
             ),
             _ModuleTile(
               title: '9. POO',
               icon: FontAwesomeIcons.objectGroup,
-              description: 'Clases, objetos, herencia y polimorfismo.',
-              items: const ['Clases y objetos', 'Herencia', 'Polimorfismo'],
+              description: 'Clases, herencia y polimorfismo.',
+              items: const ['Clases y objetos', 'Métodos especiales', 'Encapsulamiento'],
             ),
             _ModuleTile(
               title: '10. Módulos y Paquetes',
               icon: FontAwesomeIcons.box,
-              description: 'Organiza y distribuye tu código.',
+              description: 'Organiza tu proyecto y distribúyelo.',
               items: const ['Módulos', 'Paquetes'],
             ),
             _ModuleTile(
               title: '11. Ficheros',
               icon: FontAwesomeIcons.folderOpen,
-              description: 'Lectura, escritura y serialización Pickle.',
+              description: 'Lectura, escritura y serialización con Pickle.',
               items: const ['Textos', 'Binarios', 'Pickle'],
             ),
             _ModuleTile(
               title: '12. Interfaces Gráficas',
               icon: FontAwesomeIcons.desktop,
               description: 'Crea GUIs con Tkinter.',
-              items: const ['Ventanas', 'Widgets', 'Ejercicio calculadora'],
+              items: const ['Ventanas', 'Widgets', 'Ejercicio: calculadora'],
             ),
             _ModuleTile(
               title: '13. App con GUI y POO',
               icon: FontAwesomeIcons.mobileAlt,
-              description: 'Apps profesionales con POO y ttk.',
+              description: 'Apps móviles con ttk.Notebook y ProgressBar.',
               items: const ['TtkButton', 'ProgressBar', 'Notebook'],
             ),
             _ModuleTile(
               title: '14. SQLite',
               icon: FontAwesomeIcons.database,
-              description: 'Bases de datos locales con Python.',
+              description: 'Bases de datos locales fáciles de usar.',
               items: const ['CRUD', 'Autoincrement'],
             ),
             _ModuleTile(
@@ -183,15 +185,16 @@ class LearnPythonPage extends StatelessWidget {
             _ModuleTile(
               title: '16. Documentación y Pruebas',
               icon: FontAwesomeIcons.book,
-              description: 'Pydoc y Doctest para calidad de código.',
+              description: 'Pydoc y Doctest para calidad profesional.',
               items: const ['Pydoc', 'Doctest'],
             ),
             _ModuleTile(
-              title: '17. Escritorio',
+              title: '17. Aplicación de Escritorio',
               icon: FontAwesomeIcons.desktop,
               description: 'Empaqueta con PyInstaller.',
               items: const ['Generar ejecutable'],
             ),
+
             const SizedBox(height: 30),
 
             // Gallery Section
@@ -243,13 +246,15 @@ class LearnPythonPage extends StatelessWidget {
                 },
               ),
             ),
+
             const SizedBox(height: 30),
 
-            // Persuasive CTA
+            // Persuasive CTA with Earnings
             Center(
               child: Pulse(
                 infinite: true,
                 child: RichText(
+                  textAlign: TextAlign.center,
                   text: const TextSpan(
                     style: TextStyle(color: Colors.white70, fontSize: 16),
                     children: [
@@ -258,31 +263,18 @@ class LearnPythonPage extends StatelessWidget {
                         style: TextStyle(color: Colors.orangeAccent, fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
-                        text: '''
-Un programador Python puede ganar hasta US\$7,000 al mes plasmando ideas innovadoras en scripts y aplicaciones.
+                        text:
+                            'Un programador Python puede ganar hasta US\$7,000 al mes plasmando ideas innovadoras en scripts y aplicaciones. '
+                            'Este curso te da las llaves: domina automatización, hacking ético y desarrollo profesional.',
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
 
-Este curso te da las llaves: domina automatización, hacking ético y desarrollo profesional.''',
-                        style: TextStyle(color: Colors.white70, fontSize: 16),
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-                      ),
-                      TextSpan(
-                        text: 'Un programador Python puede ganar hasta US\$7,000 al mes plasmando ideas.
-Completa este curso y toma el control de tu futuro.',
-                        style: TextStyle(color: Colors.white70, fontSize: 16),
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
             const SizedBox(height: 16),
+
             Center(
               child: Bounce(
                 infinite: true,
@@ -299,6 +291,7 @@ Completa este curso y toma el control de tu futuro.',
                 ),
               ),
             ),
+
             const SizedBox(height: 40),
           ],
         ),
@@ -312,7 +305,12 @@ class _ModuleTile extends StatelessWidget {
   final IconData icon;
   final String description;
   final List<String> items;
-  const _ModuleTile({required this.title, required this.icon, required this.description, required this.items});
+  const _ModuleTile({
+    required this.title,
+    required this.icon,
+    required this.description,
+    required this.items,
+  });
 
   @override
   Widget build(BuildContext context) {
