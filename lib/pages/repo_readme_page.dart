@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -62,7 +60,10 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
         isSaving = false;
         isSaved = true;
       });
-      _mostrarToast("✅ Script guardado en /storage/emulated/0/termuxcode", Colors.green);
+      _mostrarToast(
+        "✅ Script guardado en /storage/emulated/0/termuxcode",
+        Colors.green,
+      );
     } catch (e) {
       setState(() => isSaving = false);
       _mostrarToast("❌ Error al guardar script", Colors.redAccent);
@@ -85,31 +86,39 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
 
   void _mostrarToast(String mensaje, Color color) {
     final overlay = Overlay.of(context);
-    if (overlay == null) return;
 
     final entry = OverlayEntry(
-      builder: (_) => Positioned(
-        bottom: 90,
-        left: 24,
-        right: 24,
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.95),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                const Icon(Icons.info_outline, color: Colors.white),
-                const SizedBox(width: 12),
-                Expanded(child: Text(mensaje, style: const TextStyle(color: Colors.white))),
-              ],
+      builder:
+          (_) => Positioned(
+            bottom: 90,
+            left: 24,
+            right: 24,
+            child: Material(
+              color: Colors.transparent,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.95),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.info_outline, color: Colors.white),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        mensaje,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
-      ),
     );
 
     overlay.insert(entry);
@@ -158,9 +167,19 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
               ),
               child: Markdown(
                 data: readmeContent,
-                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-                  p: const TextStyle(color: Colors.white, fontSize: 15, height: 1.6, fontFamily: 'monospace'),
-                  code: const TextStyle(color: Colors.greenAccent, fontFamily: 'Courier'),
+                styleSheet: MarkdownStyleSheet.fromTheme(
+                  Theme.of(context),
+                ).copyWith(
+                  p: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    height: 1.6,
+                    fontFamily: 'monospace',
+                  ),
+                  code: const TextStyle(
+                    color: Colors.greenAccent,
+                    fontFamily: 'Courier',
+                  ),
                   h1: const TextStyle(color: Colors.redAccent, fontSize: 22),
                   h2: const TextStyle(color: Colors.blueAccent, fontSize: 18),
                 ),
@@ -173,17 +192,24 @@ class _RepoReadmePageState extends State<RepoReadmePage> {
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: isSaving ? null : (isSaved ? _copiarComando : _guardarScript),
-                    icon: Icon(isSaving
-                        ? Icons.hourglass_empty
-                        : isSaved
-                            ? Icons.copy
-                            : Icons.download),
-                    label: Text(isSaving
-                        ? "Guardando..."
-                        : isSaved
-                            ? "Copiar bash"
-                            : "Instalar"),
+                    onPressed:
+                        isSaving
+                            ? null
+                            : (isSaved ? _copiarComando : _guardarScript),
+                    icon: Icon(
+                      isSaving
+                          ? Icons.hourglass_empty
+                          : isSaved
+                          ? Icons.copy
+                          : Icons.download,
+                    ),
+                    label: Text(
+                      isSaving
+                          ? "Guardando..."
+                          : isSaved
+                          ? "Copiar bash"
+                          : "Instalar",
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
