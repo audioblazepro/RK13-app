@@ -15,15 +15,15 @@ class Rk13IntroPage extends StatefulWidget {
 
 class _Rk13IntroPageState extends State<Rk13IntroPage>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _bgController;
   String? _zoomImagePath;
+  late final AnimationController _bgController;
 
   @override
   void initState() {
     super.initState();
     _bgController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 2),
     )..repeat(reverse: true);
   }
 
@@ -34,10 +34,10 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
   }
 
   /// Lanza una URL en el navegador externo
-  void _launchUrl(String url) async {
+  Future<void> _launchUrl(String url) async {
     final uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      debugPrint('No se pudo abrir la URL: \$url');
+      debugPrint('No se pudo abrir la URL: $url');
     }
   }
 
@@ -76,6 +76,8 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
                   _buildAIDASection(),
                   const SizedBox(height: 24),
                   _buildGallerySection(),
+                  const SizedBox(height: 24),
+                  _buildTermuxExclusiveSection(),
                   const SizedBox(height: 24),
                   _buildPythonSection(),
                   const SizedBox(height: 24),
@@ -119,6 +121,7 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
           fit: BoxFit.cover,
           width: double.infinity,
           height: 200,
+          filterQuality: FilterQuality.high,
         ),
         Container(
           width: double.infinity,
@@ -133,6 +136,7 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
               'assets/images/rk13_logo.png',
               width: 100,
               height: 100,
+              filterQuality: FilterQuality.high,
             ),
           ),
         ),
@@ -142,55 +146,44 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
 
   // TERMUX section
   Widget _buildTermuxSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        FadeInUp(
-          child: Text(
-            'Termux + Python on Android',
-            style: TextStyle(
-              color: Colors.redAccent,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+    return Container(
+      color: Colors.black,
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FadeInUp(
+            child: const Text(
+              'Termux + Python on Android',
+              style: TextStyle(
+                color: Colors.redAccent,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 8),
-        FadeInUp(
-          delay: const Duration(milliseconds: 200),
-          child: Text(
-            'Convierte tu móvil en una terminal Linux. Ligero, rápido y potente: automatiza, hackea y desarrolla.',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              height: 1.4,
+          const SizedBox(height: 8),
+          FadeInUp(
+            delay: const Duration(milliseconds: 200),
+            child: const Text(
+              'Convierte tu móvil en una terminal Linux. Ligero, rápido y potente: automatiza, hackea y desarrolla.',
+              style: TextStyle(color: Colors.white, fontSize: 14, height: 1.4),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  // AIDA section
+  // AIDA
   Widget _buildAIDASection() {
     return Container(
+      color: Colors.black,
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.grey[900],
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.redAccent, width: 1.2),
-      ),
       child: ElasticInLeft(
-        child: Text(
-          '''🚨 Atención: Instalación fácil en Termux
-🛠️ Interés: Python, scripts, bots
-🔥 Deseo: Automatiza tus tareas
-⚡ Acción: ¡Empieza ahora!''',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            height: 1.6,
-          ),
+        child: const Text(
+          '🚨 Atención: Instalación fácil en Termux\n🛠️ Interés: Python, scripts, bots\n🔥 Deseo: Automatiza tus tareas\n⚡ Acción: ¡Empieza ahora!',
+          style: TextStyle(color: Colors.white, fontSize: 14, height: 1.6),
         ),
       ),
     );
@@ -198,43 +191,81 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
 
   // Gallery with zoom
   Widget _buildGallerySection() {
-    return SizedBox(
-      height: 140,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: 8,
-        separatorBuilder: (_, __) => const SizedBox(width: 12),
-        itemBuilder: (context, i) {
-          final path = 'assets/images/termux${i + 1}.png';
-          return GestureDetector(
-            onTap: () => _openZoom(path),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
-                path,
-                fit: BoxFit.cover,
-                width: 120,
-                height: 140,
+    return Container(
+      color: Colors.black,
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: SizedBox(
+        height: 140,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: 10,
+          separatorBuilder: (_, __) => const SizedBox(width: 12),
+          itemBuilder: (context, i) {
+            final path = 'assets/images/termux${i + 1}.png';
+            return GestureDetector(
+              onTap: () => _openZoom(path),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                  path,
+                  fit: BoxFit.cover,
+                  width: 120,
+                  height: 140,
+                  filterQuality: FilterQuality.high,
+                ),
               ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  // Exclusive Termux section
+  Widget _buildTermuxExclusiveSection() {
+    return Container(
+      color: Colors.black,
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Text(
+            '¿Qué es Termux? Qué puedes hacer y quién lo utiliza',
+            style: TextStyle(
+              color: Colors.redAccent,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
-          );
-        },
+          ),
+          SizedBox(height: 8),
+          Text(
+            '• Termux es un emulador de terminal Linux para Android, usado por desarrolladores, pentesters y entusiastas del código abierto.\n'
+            '• Automatiza tareas con scripts, analiza redes, y despliega herramientas de seguridad.\n'
+            '• Ejemplo: con \`ssh user@192.168.1.10\` conecta tu móvil a una máquina Kali Linux en PCI.\n'
+            '• Poder completo: desde Python hasta Ansible, todo desde tu APK RK13.',
+            style: TextStyle(color: Colors.white, fontSize: 14, height: 1.6),
+          ),
+        ],
       ),
     );
   }
 
   // Python detailed section
   Widget _buildPythonSection() {
-    return ZoomIn(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: List.generate(
-          10,
-          (index) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text(
-              '- Idea ${index + 1}: usa requests para APIs en Termux',
-              style: const TextStyle(color: Colors.white, fontSize: 14),
+    return Container(
+      color: Colors.black,
+      padding: const EdgeInsets.all(12),
+      child: ZoomIn(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: List.generate(
+            10,
+            (index) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Text(
+                '- Idea ${index + 1}: usa requests para APIs en Termux',
+                style: const TextStyle(color: Colors.white, fontSize: 14),
+              ),
             ),
           ),
         ),
@@ -260,53 +291,69 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
     );
   }
 
-  // Quotes section
+  // Quotes
   Widget _buildQuotesSection() {
-    return Column(
-      children: const [
-        Text(
-          '"El conocimiento es la mejor arma" - Chema Alonso',
-          style: TextStyle(color: Colors.white54, fontStyle: FontStyle.italic),
-        ),
-        SizedBox(height: 6),
-        Text(
-          '"La mejor forma de predecir el futuro es crearlo" - Alan Kay',
-          style: TextStyle(color: Colors.white54, fontStyle: FontStyle.italic),
-        ),
-      ],
+    return Container(
+      color: Colors.black,
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        children: const [
+          Text(
+            '"El conocimiento es la mejor arma" - Chema Alonso',
+            style: TextStyle(
+              color: Colors.white54,
+              fontStyle: FontStyle.italic,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 6),
+          Text(
+            '"La mejor forma de predecir el futuro es crearlo" - Alan Kay',
+            style: TextStyle(
+              color: Colors.white54,
+              fontStyle: FontStyle.italic,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 
-  // Donate section
+  // Donate
   Widget _buildDonateSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const Text(
-          'Apoya el proyecto con tu donación',
-          style: TextStyle(color: Colors.white, fontSize: 14),
-        ),
-        const SizedBox(height: 8),
-        ShakeX(
-          child: ElevatedButton(
-            onPressed: () => Navigator.pushNamed(context, '/donar'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.redAccent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+    return Container(
+      color: Colors.black,
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Text(
+            'Apoya el proyecto con tu donación',
+            style: TextStyle(color: Colors.white, fontSize: 14),
+          ),
+          const SizedBox(height: 8),
+          ShakeX(
+            child: ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/donar'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text(
+                'Donar y Apoyar',
+                style: TextStyle(color: Colors.white),
               ),
             ),
-            child: const Text(
-              'Donar y Apoyar',
-              style: TextStyle(color: Colors.white),
-            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  // Social icons row
+  // Social row
   Widget _buildSocialRow() {
     final list = [
       {'icon': FontAwesomeIcons.github, 'url': 'https://github.com/Rk13termux'},
@@ -320,33 +367,38 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
         'url': 'https://youtube.com/@rk13termux',
       },
     ];
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children:
-          list.map((item) {
-            return GestureDetector(
-              onTap: () => _launchUrl(item['url']! as String),
-              child: Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.redAccent, width: 2),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: FaIcon(
-                    item['icon'] as IconData,
-                    color: Colors.redAccent,
-                    size: 24,
+    return Container(
+      color: Colors.black,
+      padding: const EdgeInsets.all(8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children:
+            list.map((item) {
+              return GestureDetector(
+                onTap: () => _launchUrl(item['url'] as String),
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    border: Border.all(color: Colors.redAccent, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                    child: FaIcon(
+                      item['icon'] as IconData,
+                      color: Colors.redAccent,
+                      size: 24,
+                    ),
                   ),
                 ),
-              ),
-            );
-          }).toList(),
+              );
+            }).toList(),
+      ),
     );
   }
 
-  // Footer text
+  // Footer
   Widget _buildFooter() {
     return Center(
       child: Text(
@@ -356,7 +408,7 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
     );
   }
 
-  // Zoomed image overlay
+  // Zoom overlay
   Widget _buildZoomOverlay() {
     return Positioned.fill(
       child: Material(
