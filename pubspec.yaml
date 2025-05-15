@@ -95,7 +95,7 @@ flutter:
 
     # images intro pages
     
-    - assets/images/intro_background.png
+    - assets/images/intro_banner.png
     - assets/images/rk13_logo.png
     - assets/images/termux1.png
     - assets/images/termux2.png
