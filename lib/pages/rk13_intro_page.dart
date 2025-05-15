@@ -6,26 +6,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'learn_python_page.dart';
 import 'donar_page.dart';
 
-/// -----------------------------------------------------------
-/// RK13 Intro Page - Versión Extensa con Secciones Termux
-/// -----------------------------------------------------------
-/// Asegúrate de declarar en pubspec.yaml:
-/// 
-/// flutter:
-///   assets:
-///     - assets/images/intro_banner.png
-///     - assets/images/rk13_logo.png
-///     - assets/images/termux1.png
-///     - assets/images/termux2.png
-///     - assets/images/termux3.png
-///     - assets/images/termux4.png
-///     - assets/images/termux5.png
-///     - assets/images/termux6.png
-///     - assets/images/termux7.png
-///     - assets/images/termux8.png
-///     - assets/images/termux9.png
-///     - assets/images/termux10.png
-/// -----------------------------------------------------------
 
 class Rk13IntroPage extends StatefulWidget {
   const Rk13IntroPage({Key? key}) : super(key: key);
@@ -143,7 +123,7 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
         Positioned(
           left: width * 0.05,
           top: width * 0.05,
-          child: ElasticInDown(
+          child: ZoomIn(
             child: Image.asset(
               'assets/images/rk13_logo.png',
               width: width * 0.15,
@@ -161,7 +141,7 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Termux + Python en Android',
+          'RK13-APP V-TC-13',
           style: TextStyle(
             color: Colors.redAccent,
             fontSize: 22,
@@ -187,7 +167,7 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.grey[850],
+        color: Colors.black,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.redAccent, width: 1.5),
       ),
