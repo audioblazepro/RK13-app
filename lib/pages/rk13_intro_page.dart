@@ -6,7 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'learn_python_page.dart';
 import 'donar_page.dart';
 
-// Rk13IntroPage final v5 — static black background, embedded galleries, persuasive AIDA copy, linked pages
+// -----------------------------------------------------------
+// RK13 Intro Page - Versión Extensa con Secciones Termux
+// -----------------------------------------------------------
 
 class Rk13IntroPage extends StatefulWidget {
   const Rk13IntroPage({Key? key}) : super(key: key);
@@ -25,13 +27,8 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
     }
   }
 
-  void _openZoom(String asset) {
-    setState(() => _zoomImagePath = asset);
-  }
-
-  void _closeZoom() {
-    setState(() => _zoomImagePath = null);
-  }
+  void _openZoom(String asset) => setState(() => _zoomImagePath = asset);
+  void _closeZoom() => setState(() => _zoomImagePath = null);
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +51,27 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
                   const SizedBox(height: 24),
                   _buildGallerySection(),
                   const SizedBox(height: 24),
-                  _buildPythonSectionPart1(),
+                  _buildPythonAIDA(),
                   const SizedBox(height: 24),
-                  _buildPythonSectionPart2(),
+                  _buildCommandsSection(),
                   const SizedBox(height: 24),
-                  _buildPythonSectionPart3(),
+                  _buildPackagesSection(),
+                  const SizedBox(height: 24),
+                  _buildVirtualenvSection(),
+                  const SizedBox(height: 24),
+                  _buildCronSection(),
+                  const SizedBox(height: 24),
+                  _buildGitIntegrationSection(),
+                  const SizedBox(height: 24),
+                  _buildSecurityToolsSection(),
+                  const SizedBox(height: 24),
+                  _buildSSHSection(),
+                  const SizedBox(height: 24),
+                  _buildShellCustomizationSection(),
+                  const SizedBox(height: 24),
+                  _buildPerformanceTipsSection(),
+                  const SizedBox(height: 24),
+                  _buildCommunityResourcesSection(),
                   const SizedBox(height: 24),
                   _buildLearnButton(),
                   const SizedBox(height: 24),
@@ -81,29 +94,14 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
   }
 
   Widget _buildBanner() {
-    return Stack(
-      children: [
-        Image.asset(
-          'assets/images/intro_background.gif',
-          fit: BoxFit.cover,
-          width: double.infinity,
-          height: 200,
-        ),
-        Container(
-          width: double.infinity,
-          height: 200,
-          color: Colors.black.withOpacity(0.5),
-        ),
-        Positioned(
-          left: 16,
-          top: 16,
-          child: Image.asset(
-            'assets/images/rk13_logo.png',
-            width: 80,
-            height: 80,
-          ),
-        ),
-      ],
+    final width = MediaQuery.of(context).size.width;
+    return ElasticInDown(
+      child: Image.asset(
+        'assets/images/intro_banner.png',
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: width * 0.4,
+      ),
     );
   }
 
@@ -113,20 +111,12 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
       children: [
         Text(
           'Termux + Python en Android',
-          style: TextStyle(
-            color: Colors.redAccent,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.redAccent, fontSize: 22, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         Text(
-          'Convierte tu teléfono en tu herramienta más poderosa. Instala, automatiza y crea scripts en cuestión de segundos.',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            height: 1.4,
-          ),
+          'Transforma tu móvil en una terminal Linux avanzada. Instala paquetes, automatiza tareas y desarrolla scripts donde quieras.',
+          style: const TextStyle(color: Colors.white70, fontSize: 16, height: 1.4),
         ),
       ],
     );
@@ -134,36 +124,20 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
 
   Widget _buildAIDASection() {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.grey[900],
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.redAccent, width: 1.2),
+        color: Colors.grey[850],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.redAccent, width: 1.5),
       ),
       child: RichText(
         text: TextSpan(
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            height: 1.6,
-          ),
+          style: const TextStyle(color: Colors.white, fontSize: 15, height: 1.6),
           children: <TextSpan>[
-            const TextSpan(
-              text:
-                '🚨 Atención: ¿Te imaginas programar sin límites directamente desde tu móvil? Nuestro curso convierte tu dispositivo en un laboratorio creativo sin configuraciones complicadas.',
-            ),
-            const TextSpan(
-              text:
-                '\n\n🛠️ Interés: Accede a guías prácticas paso a paso para conectar APIs, extraer datos de sitios web y controlar sistemas remotos con Python. Domina librerías esenciales como Requests, BeautifulSoup y Paramiko.',
-            ),
-            const TextSpan(
-              text:
-                '\n\n🔥 Deseo: Siente la emoción de crear soluciones que automatizan tareas diarias y la libertad de ofrecer servicios de automatización profesional desde tu teléfono.',
-            ),
-            const TextSpan(
-              text:
-                '\n\n⚡ Acción: Pulsa "Aprende Python Ahora" y desbloquea acceso inmediato a todos los módulos. Comienza hoy tu viaje hacia el dominio de la programación móvil.',
-            ),
+            const TextSpan(text: '🚨 Atención: Hábitos de programación rígidos terminan hoy...'),
+            const TextSpan(text: '\n\n🛠️ Interés: Aprende con ejemplos prácticos...'),
+            const TextSpan(text: '\n\n🔥 Deseo: Imagina crear herramientas que ahorran horas...'),
+            const TextSpan(text: '\n\n⚡ Acción: Presiona “Aprende Python Ahora” y desbloquea acceso...'),
           ],
         ),
       ),
@@ -172,23 +146,18 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
 
   Widget _buildGallerySection() {
     return SizedBox(
-      height: 140,
+      height: 160,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: 8,
+        itemCount: 10,
         separatorBuilder: (_, __) => const SizedBox(width: 12),
-        itemBuilder: (context, i) {
-          final path = 'assets/images/termux${i + 1}.png';
+        itemBuilder: (context, index) {
+          final asset = 'assets/images/termux\${index + 1}.png';
           return GestureDetector(
-            onTap: () => _openZoom(path),
+            onTap: () => _openZoom(asset),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
-                path,
-                fit: BoxFit.cover,
-                width: 120,
-                height: 140,
-              ),
+              child: Image.asset(asset, fit: BoxFit.cover, width: 120, height: 160),
             ),
           );
         },
@@ -196,101 +165,230 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
     );
   }
 
-  Widget _buildPythonSectionPart1() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          'Python en Termux - Parte 1',
-          style: TextStyle(
-            color: Colors.redAccent,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 8),
-        _buildGallerySection(),
-        const SizedBox(height: 8),
-        ...List.generate(
-          5,
-          (i) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text(
-              '- Punto ${i + 1}: Introducción a Requests y consumo de APIs.',
-              style: const TextStyle(color: Colors.white, fontSize: 14),
-            ),
-          ),
-        ),
-      ],
+  /// AIDA específica de Python (~300 caracteres)
+  Widget _buildPythonAIDA() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.grey[850],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.redAccent, width: 1.5),
+      ),
+      child: const Text(
+        '🚀 Python en tu móvil, sin instalaciones tediosas. '
+        '\n\n🔍 Automatiza tareas, analiza datos y crea bots con simples líneas de código. '
+        '\n\n💡 Materializa tus ideas al instante y ofrece servicios profesionales desde Termux. '
+        '\n\n🔥 Pulsa “Aprende Python Ahora” y convierte tu teléfono en tu mejor herramienta.',
+        style: TextStyle(color: Colors.white, fontSize: 14, height: 1.6),
+      ),
     );
   }
 
-  Widget _buildPythonSectionPart2() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          'Python en Termux - Parte 2',
-          style: TextStyle(
-            color: Colors.redAccent,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 8),
-        _buildGallerySection(),
-        const SizedBox(height: 8),
-        ...List.generate(
-          5,
-          (i) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text(
-              '- Punto ${i + 6}: Scraping con BeautifulSoup y manejo de HTML.',
-              style: const TextStyle(color: Colors.white, fontSize: 14),
-            ),
-          ),
-        ),
-      ],
+  // --------------------------------------------
+  // Secciones adicionales de Termux
+  // --------------------------------------------
+
+  Widget _buildCommandsSection() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[800],
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.redAccent),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Text('Comandos Esenciales', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+          SizedBox(height: 6),
+          Text('- pkg install python (Instala Python)', style: TextStyle(color: Colors.white)),
+          Text('- pkg install git (Instala Git)', style: TextStyle(color: Colors.white)),
+          Text('- apt update && apt upgrade (Actualiza paquetes)', style: TextStyle(color: Colors.white)),
+          Text('- ls, cd, mv, cp (Comandos básicos de navegación)', style: TextStyle(color: Colors.white)),
+        ],
+      ),
     );
   }
 
-  Widget _buildPythonSectionPart3() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          'Python en Termux - Parte 3',
-          style: TextStyle(
-            color: Colors.redAccent,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 8),
-        _buildGallerySection(),
-        const SizedBox(height: 8),
-        ...List.generate(
-          5,
-          (i) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text(
-              '- Punto ${i + 11}: Automatización SSH con Paramiko.',
-              style: const TextStyle(color: Colors.white, fontSize: 14),
-            ),
-          ),
-        ),
-      ],
+  Widget _buildPackagesSection() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[800],
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.redAccent),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Text('Paquetes Populares', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+          SizedBox(height: 6),
+          Text('- nmap (Exploración de redes)', style: TextStyle(color: Colors.white)),
+          Text('- hydra (Ataques de fuerza bruta)', style: TextStyle(color: Colors.white)),
+          Text('- metasploit (Framework de explotación)', style: TextStyle(color: Colors.white)),
+          Text('- termux-api (Integración con Android)', style: TextStyle(color: Colors.white)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildVirtualenvSection() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[800],
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.redAccent),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Text('Entornos Virtuales', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+          Text('- pip install virtualenv', style: TextStyle(color: Colors.white)),
+          Text('- virtualenv venv', style: TextStyle(color: Colors.white)),
+          Text('- source venv/bin/activate', style: TextStyle(color: Colors.white)),
+          Text('- deactivate (Salir del entorno)', style: TextStyle(color: Colors.white)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCronSection() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[800],
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.redAccent),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Text('Automatización con Cron', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+          Text('- crontab -e (Editar tareas)', style: TextStyle(color: Colors.white)),
+          Text('- 0 * * * * python script.py (Cada hora)', style: TextStyle(color: Colors.white)),
+          Text('- Guardar y salir para aplicar cambios', style: TextStyle(color: Colors.white)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGitIntegrationSection() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[800],
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.redAccent),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [
+        Text('Integración con Git', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+        Text('- git clone <repo_url>', style: TextStyle(color: Colors.white)),
+        Text('- git add . && git commit -m "msg"', style: TextStyle(color: Colors.white)),
+        Text('- git push origin main', style: TextStyle(color: Colors.white)),
+        Text('- Configurar SSH para autenticación', style: TextStyle(color: Colors.white)),
+      ]),
+    );
+  }
+
+  Widget _buildSecurityToolsSection() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[800],
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.redAccent),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [
+        Text('Herramientas de Seguridad', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+        Text('- nmap -sV <IP> (Escaneo de puertos)', style: TextStyle(color: Colors.white)),
+        Text('- hydra -l admin -P passlist.txt ssh://<IP>', style: TextStyle(color: Colors.white)),
+        Text('- sqlmap -u "<URL>" --batch', style: TextStyle(color: Colors.white)),
+        Text('- msfconsole (Iniciar Metasploit)', style: TextStyle(color: Colors.white)),
+      ]),
+    );
+  }
+
+  Widget _buildSSHSection() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[800],
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.redAccent),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [
+        Text('Acceso Remoto / SSH', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+        Text('- pkg install openssh', style: TextStyle(color: Colors.white)),
+        Text('- sshd (Iniciar servidor)', style: TextStyle(color: Colors.white)),
+        Text('- ssh user@<IP> (Conexión remota)', style: TextStyle(color: Colors.white)),
+        Text('- ssh-copy-id user@<IP> (Copiar llave pública)', style: TextStyle(color: Colors.white)),
+      ]),
+    );
+  }
+
+  Widget _buildShellCustomizationSection() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[800],
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.redAccent),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [
+        Text('Personalización del Shell', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+        Text('- pkg install zsh', style: TextStyle(color: Colors.white)),
+        Text('- pkg install oh-my-zsh', style: TextStyle(color: Colors.white)),        Text('- Configura ~/.zshrc con alias útiles', style: TextStyle(color: Colors.white)),
+        Text('- Agrega temas y plugins de tu preferencia', style: TextStyle(color: Colors.white)),
+      ]),
+    );
+  }
+
+  Widget _buildPerformanceTipsSection() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[800],
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.redAccent),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [
+        Text('Tips de Rendimiento', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+        Text('- termux-wake-lock (Evita suspensión)', style: TextStyle(color: Colors.white)),
+        Text('- Ajusta CPU Governor desde Android settings', style: TextStyle(color: Colors.white)),
+        Text('- Usa termux-telephony-call para scripts', style: TextStyle(color: Colors.white)),
+        Text('- Cierra apps en background para más RAM', style: TextStyle(color: Colors.white)),
+      ]),
+    );
+  }
+
+  Widget _buildCommunityResourcesSection() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[800],
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.redAccent),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [
+        Text('Comunidad & Recursos', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+        Text('- Foro oficial: termux.com/community', style: TextStyle(color: Colors.white)),        Text('- Subreddit: reddit.com/r/termux', style: TextStyle(color: Colors.white)),
+        Text('- Canal Telegram: t.me/termuxgroup', style: TextStyle(color: Colors.white)),
+        Text('- Repos GitHub: github.com/termux', style: TextStyle(color: Colors.white)),
+      ]),
     );
   }
 
   Widget _buildLearnButton() {
     return ElevatedButton(
-      onPressed: () =>
-          Navigator.push(context, MaterialPageRoute(builder: (_) => const LearnPythonPage())),
+      onPressed: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const LearnPythonPage()),
+      ),
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.redAccent,
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
       child: const Text('Aprende Python Ahora', style: TextStyle(color: Colors.white, fontSize: 16)),
     );
@@ -299,34 +397,27 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
   Widget _buildQuotesSection() {
     return Column(
       children: const [
-        Text(
-          '"El conocimiento es la mejor arma" - Chema Alonso',
-          style: TextStyle(color: Colors.white54, fontStyle: FontStyle.italic),
-        ),
-        SizedBox(height: 6),
-        Text(
-          '"La mejor forma de predecir el futuro es crearlo" - Alan Kay',
-          style: TextStyle(color: Colors.white54, fontStyle: FontStyle.italic),
-        ),
+        Text('"El conocimiento es la mejor arma" - Chema Alonso', style: TextStyle(color: Colors.white54, fontStyle: FontStyle.italic), textAlign: TextAlign.center),
+        SizedBox(height: 8),
+        Text('"La mejor forma de predecir el futuro es crearlo" - Alan Kay', style: TextStyle(color: Colors.white54, fontStyle: FontStyle.italic), textAlign: TextAlign.center),
       ],
     );
   }
 
   Widget _buildDonateSection() {
     return ElevatedButton(
-      onPressed: () =>
-          Navigator.push(context, MaterialPageRoute(builder: (_) => const DonarPage())),
+      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const DonarPage())),
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.redAccent,
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
-      child: const Text('Donar y Apoyar', style: TextStyle(color: Colors.white)),
+      child: const Text('Donar y Apoyar', style: TextStyle(color: Colors.white, fontSize: 16)),
     );
   }
 
   Widget _buildSocialRow() {
-    final list = [
+    final items = [
       {'icon': FontAwesomeIcons.github, 'url': 'https://github.com/Rk13termux'},
       {'icon': FontAwesomeIcons.instagram, 'url': 'https://instagram.com/Rk13termux'},
       {'icon': FontAwesomeIcons.telegram, 'url': 'https://t.me/Rk13termux'},
@@ -334,20 +425,13 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
     ];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: list.map((item) {
+      children: items.map((item) {
         return GestureDetector(
           onTap: () => _launchUrl(item['url'] as String),
           child: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.redAccent, width: 2),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Center(
-              child: FaIcon(item['icon'] as IconData,
-                  color: Colors.redAccent, size: 24),
-            ),
+            width: 50, height: 50,
+            decoration: BoxDecoration(border: Border.all(color: Colors.redAccent, width: 2), borderRadius: BorderRadius.circular(8)),
+            child: Center(child: FaIcon(item['icon'] as IconData, color: Colors.redAccent, size: 24)),
           ),
         );
       }).toList(),
@@ -355,42 +439,17 @@ class _Rk13IntroPageState extends State<Rk13IntroPage> {
   }
 
   Widget _buildFooter() {
-    return Center(
-      child: Text(
-        '© 2025 Rk13Termux',
-        style: TextStyle(color: Colors.white24, fontSize: 12),
-      ),
-    );
+    return Center(child: Text('© 2025 Rk13Termux - Todos los derechos reservados', style: TextStyle(color: Colors.white24, fontSize: 12)));
   }
 
   Widget _buildZoomOverlay() {
-    return Positioned.fill(
-      child: Material(
-        color: Colors.black.withOpacity(0.8),
-        child: Stack(
-          children: [
-            Center(
-              child: Image.asset(_zoomImagePath!, fit: BoxFit.contain),
-            ),
-            Positioned(
-              top: 40,
-              right: 20,
-              child: GestureDetector(
-                onTap: _closeZoom,
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(Icons.close, color: Colors.white),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    return Positioned.fill(child: Material(color: Colors.black.withOpacity(0.8), child: Stack(children: [
+      Center(child: Image.asset(_zoomImagePath!, fit: BoxFit.contain)),
+      Positioned(top: 40, right: 20, child: GestureDetector(onTap: _closeZoom, child: Container(width: 40, height: 40, decoration: BoxDecoration(color: Colors.redAccent, shape: BoxShape.circle), child: const Icon(Icons.close, color: Colors.white))),
+    ])));
   }
 }
+
+// -----------------------------------------------------------
+// Nota: El banner recomendado es una imagen de al menos 1080×432 px
+// -----------------------------------------------------------
