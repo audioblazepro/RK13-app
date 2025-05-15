@@ -33,7 +33,10 @@ class RepoListPage extends StatelessWidget {
               repo.description,
               style: const TextStyle(color: Colors.white70),
             ),
-            trailing: const Icon(Icons.arrow_forward, color: Colors.redAccent),
+            trailing: const Icon(
+              Icons.arrow_forward,
+              color: Color.fromARGB(255, 0, 0, 0),
+            ),
             onTap: () {
               Navigator.push(
                 context,
