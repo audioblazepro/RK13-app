@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'dart:ui';
 import 'pages/rk13_intro_page.dart';
 import 'pages/home_page.dart';
 import 'pages/learn_python_page.dart';
@@ -9,8 +9,6 @@ import 'pages/donar_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  // Force portrait orientation
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const RK13App());
 }
 
@@ -20,38 +18,50 @@ class RK13App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'RK13 Installer',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
-        primaryColor: const Color(0xFFFF1744),
         scaffoldBackgroundColor: const Color(0xFF000000),
+        canvasColor: Colors.transparent,
+        primaryColor: const Color(0xFFFF1744),
+        cardColor: Colors.black.withOpacity(0.5),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
-          elevation: 1,
+          elevation: 0,
+          centerTitle: true,
+          iconTheme: IconThemeData(color: Color(0xFFFF1744)),
           titleTextStyle: TextStyle(
             color: Color(0xFFFF1744),
             fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
-          iconTheme: IconThemeData(color: Color(0xFFFF1744)),
         ),
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: Color(0xFF111111),
-          selectedItemColor: Color(0xFFFF1744),
-          unselectedItemColor: Colors.white70,
-          showUnselectedLabels: true,
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(color: Colors.white, fontSize: 16, height: 1.5),
+          bodyLarge: TextStyle(color: Colors.white70, fontSize: 18),
         ),
-        cardColor: const Color(0xFF1A1A1A),
+        iconTheme: const IconThemeData(color: Color(0xFFFF1744)),
+        drawerTheme: const DrawerThemeData(backgroundColor: Colors.black),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFFFF1744),
             foregroundColor: Colors.white,
+            elevation: 6,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(12),
             ),
-            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 32),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+            textStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
           ),
+        ),
+        listTileTheme: const ListTileThemeData(
+          iconColor: Color(0xFFFF1744),
+          textColor: Colors.white,
+          selectedColor: Color(0xFFFF1744),
         ),
       ),
       home: const MainLayout(),
@@ -66,11 +76,8 @@ class MainLayout extends StatefulWidget {
   State<MainLayout> createState() => _MainLayoutState();
 }
 
-class _MainLayoutState extends State<MainLayout>
-    with SingleTickerProviderStateMixin {
+class _MainLayoutState extends State<MainLayout> {
   int _currentIndex = 0;
-  late final AnimationController _animController;
-  late final Animation<double> _fadeAnimation;
 
   final List<Widget> _pages = [
     const Rk13IntroPage(),
@@ -78,42 +85,132 @@ class _MainLayoutState extends State<MainLayout>
     const LearnPythonPage(),
     const TermuxCommandsPage(),
     const BashToolsPage(),
-    const DonarPage(),
   ];
 
   final List<String> _titles = [
-    'Bienvenido a RK13',
-    'Repositorios',
-    'Aprende Python',
-    'Comandos Termux',
-    'Scripts Bash Tools',
-    'Donar',
+    "Bienvenido a RK13",
+    "Repositorios",
+    "Aprende Python",
+    "Comandos Termux",
+    "Scripts Bash Tools",
   ];
 
   @override
-  void initState() {
-    super.initState();
-    _animController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_titles[_currentIndex]),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            tooltip: 'Sobre esta app',
+            onPressed: () => _mostrarInfo(context),
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        child: Stack(
+          children: [
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+              child: Container(color: Colors.black.withOpacity(0.7)),
+            ),
+            Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      DrawerHeader(
+                        decoration: const BoxDecoration(
+                          color: Colors.transparent,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Icon(Icons.terminal, size: 48, color: Colors.white),
+                            SizedBox(height: 10),
+                            Text(
+                              "RK13 Tools",
+                              style: TextStyle(
+                                fontSize: 24,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              "Instala y explora herramientas de hacking ético.",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.white70,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      for (var i = 0; i < _titles.length; i++)
+                        _buildDrawerItem(_getIcon(i), _titles[i], i),
+                    ],
+                  ),
+                ),
+                const Divider(color: Colors.white38),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "developer & programmer;",
+                        style: TextStyle(color: Colors.white70),
+                      ),
+                      const Text(
+                        "Sebastian Lara - RK13",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const DonarPage(),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.redAccent,
+                        ),
+                        icon: const Icon(
+                          Icons.favorite,
+                          color: Colors.greenAccent,
+                        ),
+                        label: const Text(
+                          "DONAR",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: _pages[_currentIndex],
     );
-    _fadeAnimation = CurvedAnimation(
-      parent: _animController,
-      curve: Curves.easeIn,
-    );
-    _animController.forward();
   }
 
-  @override
-  void dispose() {
-    _animController.dispose();
-    super.dispose();
-  }
-
-  IconData _getIcon(int idx) {
-    switch (idx) {
+  IconData _getIcon(int index) {
+    switch (index) {
       case 0:
-        return Icons.info_outline;
+        return Icons.info;
       case 1:
         return Icons.extension;
       case 2:
@@ -122,14 +219,33 @@ class _MainLayoutState extends State<MainLayout>
         return Icons.computer;
       case 4:
         return Icons.build;
-      case 5:
-        return Icons.favorite;
       default:
         return Icons.device_unknown;
     }
   }
 
-  void _showInfo() {
+  ListTile _buildDrawerItem(IconData icon, String title, int index) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: _currentIndex == index ? const Color(0xFFFF1744) : Colors.white,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          color:
+              _currentIndex == index ? const Color(0xFFFF1744) : Colors.white,
+        ),
+      ),
+      selected: _currentIndex == index,
+      onTap: () {
+        setState(() => _currentIndex = index);
+        Navigator.pop(context);
+      },
+    );
+  }
+
+  void _mostrarInfo(BuildContext context) {
     showAboutDialog(
       context: context,
       applicationName: 'RK13 Installer',
@@ -139,119 +255,12 @@ class _MainLayoutState extends State<MainLayout>
         size: 40,
         color: Color(0xFFFF1744),
       ),
-      children: const [
-        Text(
-          'Accede a herramientas de hacking ético con una interfaz moderna, animaciones suaves y navegación intuitiva.',
+      children: [
+        const Text(
+          'Una app de herramientas automatizadas para usuarios de Termux. '
+          'Incluye scripts y accesos rápidos a más de 30 repositorios de seguridad.',
         ),
       ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(0, 0, 0, 0.5),
-        title: Text(_titles[_currentIndex]),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.info_outline),
-            tooltip: 'Sobre esta app',
-            onPressed: _showInfo,
-          ),
-        ],
-      ),
-      drawer: Drawer(
-        backgroundColor: const Color(0xFF121212),
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              DrawerHeader(
-                decoration: const BoxDecoration(color: Color(0xFF1A1A1A)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Icon(Icons.terminal, size: 48, color: Color(0xFFFF1744)),
-                    SizedBox(height: 12),
-                    Text(
-                      'RK13 Tools',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      'Hacking ético simplificado.',
-                      style: TextStyle(color: Colors.white70),
-                    ),
-                  ],
-                ),
-              ),
-              ...List.generate(_titles.length, (i) {
-                return ListTile(
-                  leading: Icon(
-                    _getIcon(i),
-                    color:
-                        _currentIndex == i
-                            ? const Color(0xFFFF1744)
-                            : Colors.white70,
-                  ),
-                  title: Text(
-                    _titles[i],
-                    style: TextStyle(
-                      color:
-                          _currentIndex == i
-                              ? const Color(0xFFFF1744)
-                              : Colors.white70,
-                      fontWeight:
-                          _currentIndex == i
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                    ),
-                  ),
-                  onTap: () {
-                    setState(() => _currentIndex = i);
-                    Navigator.of(context).pop();
-                  },
-                );
-              }),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: ElevatedButton.icon(
-                  onPressed: () => setState(() => _currentIndex = 5),
-                  icon: const Icon(Icons.favorite, color: Colors.white),
-                  label: const Text('DONAR'),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: FadeTransition(
-        opacity: _fadeAnimation,
-        child: _pages[_currentIndex],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (i) {
-          setState(() => _currentIndex = i);
-          _animController.reset();
-          _animController.forward();
-        },
-        items: List.generate(
-          _titles.length,
-          (i) => BottomNavigationBarItem(
-            icon: Icon(_getIcon(i)),
-            label: _titles[i],
-          ),
-        ),
-      ),
     );
   }
 }

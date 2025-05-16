@@ -39,7 +39,11 @@ class DonarPage extends StatelessWidget {
           children: [
             const Text(
               "Sebastian Lara - RK13",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.redAccent),
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.redAccent,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
@@ -51,18 +55,29 @@ class DonarPage extends StatelessWidget {
             const SizedBox(height: 30),
             const Text(
               "Elige tu criptomoneda favorita y copia la dirección para donar:",
-              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             const SizedBox(height: 20),
             ..._wallets.map(
               (wallet) => Card(
                 color: Colors.grey[900],
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: ListTile(
-                  title: Text(wallet['name']!, style: const TextStyle(color: Colors.greenAccent)),
-                  subtitle: Text(wallet['address']!,
-                      style: const TextStyle(color: Colors.white70, fontSize: 13)),
+                  title: Text(
+                    wallet['name']!,
+                    style: const TextStyle(color: Colors.greenAccent),
+                  ),
+                  subtitle: Text(
+                    wallet['address']!,
+                    style: const TextStyle(color: Colors.white70, fontSize: 13),
+                  ),
                   trailing: IconButton(
                     icon: const Icon(Icons.copy, color: Colors.white),
                     onPressed: () => _copiar(context, wallet['address']!),
@@ -76,14 +91,27 @@ class DonarPage extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.redAccent,
                   foregroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 28),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 28,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                 ),
-                icon: const Icon(Icons.favorite, color: Colors.greenAccent),
-                label: const Text("DONAR", style: TextStyle(fontWeight: FontWeight.bold)),
+                icon: const Icon(
+                  Icons.favorite,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
+                label: const Text(
+                  "DONAR",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Gracias por tu apoyo ético!")),
+                    const SnackBar(
+                      content: Text("Gracias por tu apoyo ético!"),
+                    ),
                   );
                 },
               ),
