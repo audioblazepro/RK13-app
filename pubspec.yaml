@@ -18,9 +18,10 @@ dependencies:
   fluttertoast: ^8.2.4
   flutter_markdown: ^0.6.17
   path_provider: ^2.1.2
-  animate_do: ^3.0.2
+  animate_do: ^3.1.2
   font_awesome_flutter: ^10.7.0
   animations: ^2.0.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
