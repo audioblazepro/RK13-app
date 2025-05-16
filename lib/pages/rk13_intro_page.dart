@@ -9,10 +9,10 @@ class Rk13IntroPage extends StatefulWidget {
   const Rk13IntroPage({super.key});
 
   @override
-  State<Rk13IntroPage> createState() => _Rk13IntroPageState();
+  State<Rk13IntroPage> createState() => Rk13IntroPageState();
 }
 
-class _Rk13IntroPageState extends State<Rk13IntroPage>
+class Rk13IntroPageState extends State<Rk13IntroPage>
     with SingleTickerProviderStateMixin {
   String? _zoomImagePath;
   late final AnimationController _bgController;
@@ -39,64 +39,92 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
     }
   }
 
-  void _openZoom(String asset) {
-    setState(() => _zoomImagePath = asset);
-  }
-
-  void _closeZoom() {
-    setState(() => _zoomImagePath = null);
-  }
+  void _openZoom(String asset) => setState(() => _zoomImagePath = asset);
+  void _closeZoom() => setState(() => _zoomImagePath = null);
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(child: _buildAnimatedOverlay()),
-        SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _buildBanner(),
-                const SizedBox(height: 24),
-                _buildSection(_buildTermuxSection()),
-                const SizedBox(height: 24),
-                _buildSection(_buildAIDASection()),
-                const SizedBox(height: 24),
-                _buildSection(_buildGallerySection()),
-                const SizedBox(height: 24),
-                _buildSection(_buildLearnButton()),
-                const SizedBox(height: 24),
-                _buildSection(_buildDonateButton()),
-                const SizedBox(height: 24),
-                _buildSection(_buildSocialRow()),
-                const SizedBox(height: 40),
-                _buildFooter(),
-              ],
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          // Fondo negro + pulso rojo
+          Positioned.fill(child: Container(color: Colors.black)),
+          Positioned.fill(child: _buildAnimatedOverlay()),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 24),
+                  _buildBanner(),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildTermuxSection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildAIDASection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildGallerySection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildTermuxExclusiveSection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildPythonAIDASection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildCommandsSection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildPackagesSection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildVirtualenvSection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildCronSection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildGitIntegrationSection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildSecurityToolsSection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildSSHSection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildShellCustomizationSection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildPerformanceTipsSection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildCommunityResourcesSection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildLearnButton()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildQuotesSection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildDonateSection()),
+                  const SizedBox(height: 24),
+                  _buildBlackSection(child: _buildSocialRow()),
+                  const SizedBox(height: 40),
+                  _buildFooter(),
+                  const SizedBox(height: 20),
+                ],
+              ),
             ),
           ),
-        ),
-        if (_zoomImagePath != null) _buildZoomOverlay(),
-      ],
+          if (_zoomImagePath != null) _buildZoomOverlay(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBlackSection({required Widget child}) {
+    return Container(
+      color: Colors.black,
+      padding: const EdgeInsets.all(16),
+      child: child,
     );
   }
 
   Widget _buildAnimatedOverlay() {
     return AnimatedBuilder(
       animation: _bgController,
-      builder: (context, child) {
+      builder: (_, __) {
         final alpha = (_bgController.value * 0.15 + 0.05) * 255;
         return Container(color: Colors.redAccent.withAlpha(alpha.toInt()));
       },
-    );
-  }
-
-  Widget _buildSection(Widget child) {
-    return Container(
-      color: Colors.black,
-      padding: const EdgeInsets.all(16),
-      child: child,
     );
   }
 
@@ -116,7 +144,7 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
         Container(
           width: w,
           height: w * 0.4,
-          color: const Color.fromRGBO(0, 0, 0, 0.5),
+          color: Colors.black.withAlpha(128),
         ),
         Positioned(
           left: w * 0.05,
@@ -148,7 +176,8 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
         ),
         SizedBox(height: 8),
         Text(
-          'Transforma tu móvil en una terminal Linux avanzada. Instala paquetes, automatiza tareas y desarrolla scripts donde quieras.',
+          'Transforma tu móvil en una terminal Linux avanzada. '
+          'Instala paquetes, automatiza tareas y desarrolla scripts donde quieras.',
           style: TextStyle(color: Colors.white70, fontSize: 16, height: 1.4),
         ),
       ],
@@ -158,8 +187,8 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
   Widget _buildAIDASection() {
     return RichText(
       text: TextSpan(
-        style: const TextStyle(color: Colors.white, fontSize: 15, height: 1.6),
-        children: const [
+        style: TextStyle(color: Colors.white, fontSize: 15, height: 1.6),
+        children: [
           TextSpan(
             text:
                 '🚨 Atención: Hábitos rígidos terminan hoy. Nuestro método te lleva a experto Python en Termux.',
@@ -171,6 +200,10 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
           TextSpan(
             text:
                 '\n\n🔥 Deseo: Crea herramientas que ahorran horas y ofrecen servicios profesionales.',
+          ),
+          TextSpan(
+            text:
+                '\n\n⚡ Acción: “Aprende Python Ahora” y desbloquea todos los módulos.',
           ),
         ],
       ),
@@ -204,6 +237,99 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
     );
   }
 
+  Widget _buildTermuxExclusiveSection() {
+    return const Text(
+      '¿Qué es Termux? Qué puedes hacer y quién lo utiliza:\n'
+      '• Emulador Linux móvil para devs y pentesters.\n'
+      '• Automatiza tareas, analiza redes, despliega herramientas.\n'
+      '• SSH: ssh user@192.168.1.10 a Kali Linux.\n'
+      '• De Python a Ansible, todo en RK13-APP.',
+      style: TextStyle(color: Colors.white, fontSize: 14, height: 1.6),
+    );
+  }
+
+  Widget _buildPythonAIDASection() {
+    return const Text(
+      '🚀 Python en tu móvil, sin instalaciones tediosas.\n\n'
+      '🔍 Automatiza tareas, analiza datos y crea bots con líneas de código.\n\n'
+      '💡 Materializa ideas y ofrece servicios desde Termux.\n\n'
+      '🔥 Pulsa “Aprende Python Ahora” y convierte tu teléfono en tu mejor herramienta.',
+      style: TextStyle(color: Colors.white, fontSize: 14, height: 1.6),
+    );
+  }
+
+  Widget _buildCommandsSection() => _buildBox('Comandos Esenciales', [
+    '- pkg install python',
+    '- pkg install git',
+    '- apt update && apt upgrade',
+    '- ls, cd, mv, cp',
+  ]);
+
+  Widget _buildPackagesSection() => _buildBox('Paquetes Populares', [
+    '- nmap',
+    '- hydra',
+    '- metasploit',
+    '- termux-api',
+  ]);
+
+  Widget _buildVirtualenvSection() => _buildBox('Entornos Virtuales', [
+    '- pip install virtualenv',
+    '- virtualenv venv',
+    '- source venv/bin/activate',
+    '- deactivate',
+  ]);
+
+  Widget _buildCronSection() => _buildBox('Automatización con Cron', [
+    '- crontab -e',
+    '- 0 * * * * script.sh',
+    '- :wq guardar y salir',
+  ]);
+
+  Widget _buildGitIntegrationSection() => _buildBox('Integración con Git', [
+    '- git clone <url>',
+    '- git add . && git commit',
+    '- git push origin main',
+    '- Configurar SSH',
+  ]);
+
+  Widget _buildSecurityToolsSection() =>
+      _buildBox('Herramientas de Seguridad', [
+        '- nmap -sV <IP>',
+        '- hydra -l admin -P pass',
+        '- sqlmap -u "<url>" --batch',
+        '- msfconsole',
+      ]);
+
+  Widget _buildSSHSection() => _buildBox('Acceso Remoto / SSH', [
+    '- pkg install openssh',
+    '- sshd',
+    '- ssh user@<IP>',
+    '- ssh-copy-id user@<IP>',
+  ]);
+
+  Widget _buildShellCustomizationSection() =>
+      _buildBox('Personalización del Shell', [
+        '- pkg install zsh',
+        '- pkg install oh-my-zsh',
+        '- Configura ~/.zshrc',
+        '- Agrega temas y plugins',
+      ]);
+
+  Widget _buildPerformanceTipsSection() => _buildBox('Tips de Rendimiento', [
+    '- termux-wake-lock',
+    '- Ajusta Governor',
+    '- Cierra apps de fondo',
+    '- Usa termux-api scripts',
+  ]);
+
+  Widget _buildCommunityResourcesSection() =>
+      _buildBox('Comunidad & Recursos', [
+        '- termux.com/community',
+        '- reddit.com/r/termux',
+        '- t.me/termuxgroup',
+        '- github.com/termux',
+      ]);
+
   Widget _buildLearnButton() {
     return Center(
       child: ElevatedButton(
@@ -227,7 +353,25 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
     );
   }
 
-  Widget _buildDonateButton() {
+  Widget _buildQuotesSection() {
+    return Column(
+      children: const [
+        Text(
+          '"El conocimiento es la mejor arma" - Chema Alonso',
+          style: TextStyle(color: Colors.white54, fontStyle: FontStyle.italic),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: 8),
+        Text(
+          '"La mejor forma de predecir el futuro es crearlo" - Alan Kay',
+          style: TextStyle(color: Colors.white54, fontStyle: FontStyle.italic),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDonateSection() {
     return Center(
       child: ElevatedButton(
         onPressed:
@@ -251,7 +395,7 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
   }
 
   Widget _buildSocialRow() {
-    final items = [
+    final items = <Map<String, dynamic>>[
       {'icon': FontAwesomeIcons.github, 'url': 'https://github.com/Rk13termux'},
       {
         'icon': FontAwesomeIcons.instagram,
@@ -291,7 +435,7 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
   }
 
   Widget _buildFooter() {
-    return Center(
+    return const Center(
       child: Text(
         '© 2025 Rk13Termux - Todos los derechos reservados',
         style: TextStyle(color: Colors.white24, fontSize: 12),
@@ -324,6 +468,33 @@ class _Rk13IntroPageState extends State<Rk13IntroPage>
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  // Helper para las cajas de texto con borde
+  Widget _buildBox(String title, List<String> lines) {
+    return Container(
+      color: Colors.black,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.redAccent),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              color: Colors.redAccent,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 6),
+          for (var l in lines)
+            Text(l, style: const TextStyle(color: Colors.white)),
+        ],
       ),
     );
   }

@@ -184,11 +184,11 @@ class _MainLayoutState extends State<MainLayout> {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.redAccent,
+                          backgroundColor: const Color.fromARGB(255, 255, 0, 0),
                         ),
                         icon: const Icon(
                           Icons.favorite,
-                          color: Colors.greenAccent,
+                          color: Color.fromARGB(255, 0, 0, 0),
                         ),
                         label: const Text(
                           "DONAR",
@@ -228,13 +228,18 @@ class _MainLayoutState extends State<MainLayout> {
     return ListTile(
       leading: Icon(
         icon,
-        color: _currentIndex == index ? const Color(0xFFFF1744) : Colors.white,
+        color:
+            _currentIndex == index
+                ? const Color.fromARGB(255, 255, 0, 51)
+                : Colors.white,
       ),
       title: Text(
         title,
         style: TextStyle(
           color:
-              _currentIndex == index ? const Color(0xFFFF1744) : Colors.white,
+              _currentIndex == index
+                  ? const Color.fromARGB(255, 255, 0, 51)
+                  : Colors.white,
         ),
       ),
       selected: _currentIndex == index,
@@ -253,7 +258,7 @@ class _MainLayoutState extends State<MainLayout> {
       applicationIcon: const Icon(
         Icons.security,
         size: 40,
-        color: Color(0xFFFF1744),
+        color: Color.fromARGB(255, 255, 0, 51),
       ),
       children: [
         const Text(
