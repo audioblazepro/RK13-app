@@ -23,7 +23,7 @@ class RK13App extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         scaffoldBackgroundColor: const Color(0xFF000000),
-        canvasColor: Colors.transparent,
+        canvasColor: const Color(0xFF000000),
         primaryColor: const Color.fromARGB(255, 255, 0, 51),
         cardColor: Colors.black.withOpacity(0.5),
         appBarTheme: const AppBarTheme(
@@ -39,7 +39,10 @@ class RK13App extends StatelessWidget {
         ),
         textTheme: const TextTheme(
           bodyMedium: TextStyle(color: Colors.white, fontSize: 16, height: 1.5),
-          bodyLarge: TextStyle(color: Colors.white70, fontSize: 18),
+          bodyLarge: TextStyle(
+            color: Color.fromARGB(179, 255, 255, 255),
+            fontSize: 18,
+          ),
         ),
         iconTheme: const IconThemeData(color: Color.fromARGB(255, 255, 0, 51)),
         drawerTheme: const DrawerThemeData(backgroundColor: Colors.black),
@@ -123,7 +126,7 @@ class _MainLayoutState extends State<MainLayout> {
                     children: [
                       DrawerHeader(
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(0, 255, 0, 0),
+                          color: Color.fromARGB(0, 0, 0, 0),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,7 +150,7 @@ class _MainLayoutState extends State<MainLayout> {
                               "Instala y explora herramientas de hacking ético.",
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Color.fromARGB(179, 175, 156, 156),
+                                color: Color.fromARGB(179, 255, 255, 255),
                               ),
                             ),
                           ],
