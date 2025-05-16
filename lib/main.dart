@@ -24,15 +24,15 @@ class RK13App extends StatelessWidget {
         brightness: Brightness.dark,
         scaffoldBackgroundColor: const Color(0xFF000000),
         canvasColor: Colors.transparent,
-        primaryColor: const Color(0xFFFF1744),
+        primaryColor: const Color.fromARGB(255, 255, 0, 51),
         cardColor: Colors.black.withOpacity(0.5),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
           elevation: 0,
           centerTitle: true,
-          iconTheme: IconThemeData(color: Color(0xFFFF1744)),
+          iconTheme: IconThemeData(color: Color.fromARGB(255, 255, 0, 51)),
           titleTextStyle: TextStyle(
-            color: Color(0xFFFF1744),
+            color: Color.fromARGB(255, 255, 0, 51),
             fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
@@ -41,11 +41,11 @@ class RK13App extends StatelessWidget {
           bodyMedium: TextStyle(color: Colors.white, fontSize: 16, height: 1.5),
           bodyLarge: TextStyle(color: Colors.white70, fontSize: 18),
         ),
-        iconTheme: const IconThemeData(color: Color(0xFFFF1744)),
+        iconTheme: const IconThemeData(color: Color.fromARGB(255, 255, 0, 51)),
         drawerTheme: const DrawerThemeData(backgroundColor: Colors.black),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFFF1744),
+            backgroundColor: const Color.fromARGB(255, 255, 0, 51),
             foregroundColor: Colors.white,
             elevation: 6,
             shape: RoundedRectangleBorder(
@@ -59,9 +59,9 @@ class RK13App extends StatelessWidget {
           ),
         ),
         listTileTheme: const ListTileThemeData(
-          iconColor: Color(0xFFFF1744),
+          iconColor: Color.fromARGB(255, 255, 0, 51),
           textColor: Colors.white,
-          selectedColor: Color(0xFFFF1744),
+          selectedColor: Color.fromARGB(255, 255, 0, 51),
         ),
       ),
       home: const MainLayout(),
@@ -128,13 +128,17 @@ class _MainLayoutState extends State<MainLayout> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: const [
-                            Icon(Icons.terminal, size: 48, color: Colors.white),
+                            Icon(
+                              Icons.terminal,
+                              size: 48,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                            ),
                             SizedBox(height: 10),
                             Text(
                               "RK13 Tools",
                               style: TextStyle(
                                 fontSize: 24,
-                                color: Colors.white,
+                                color: Color.fromARGB(255, 255, 255, 255),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -143,7 +147,7 @@ class _MainLayoutState extends State<MainLayout> {
                               "Instala y explora herramientas de hacking ético.",
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.white70,
+                                color: Color.fromARGB(179, 175, 156, 156),
                               ),
                             ),
                           ],
@@ -154,7 +158,7 @@ class _MainLayoutState extends State<MainLayout> {
                     ],
                   ),
                 ),
-                const Divider(color: Colors.white38),
+                const Divider(color: Color.fromARGB(97, 255, 0, 0)),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
@@ -163,14 +167,16 @@ class _MainLayoutState extends State<MainLayout> {
                   child: Column(
                     children: [
                       const Text(
-                        "developer & programmer;",
-                        style: TextStyle(color: Colors.white70),
+                        "Developer & Programmer;",
+                        style: TextStyle(
+                          color: Color.fromARGB(179, 187, 157, 157),
+                        ),
                       ),
                       const Text(
                         "Sebastian Lara - RK13",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 255, 255, 255),
                         ),
                       ),
                       const SizedBox(height: 10),
@@ -188,11 +194,13 @@ class _MainLayoutState extends State<MainLayout> {
                         ),
                         icon: const Icon(
                           Icons.favorite,
-                          color: Color.fromARGB(255, 0, 0, 0),
+                          color: Color.fromARGB(255, 255, 255, 255),
                         ),
                         label: const Text(
                           "DONAR",
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
                         ),
                       ),
                     ],
@@ -231,7 +239,7 @@ class _MainLayoutState extends State<MainLayout> {
         color:
             _currentIndex == index
                 ? const Color.fromARGB(255, 255, 0, 51)
-                : Colors.white,
+                : const Color.fromARGB(255, 255, 255, 255),
       ),
       title: Text(
         title,
@@ -239,7 +247,7 @@ class _MainLayoutState extends State<MainLayout> {
           color:
               _currentIndex == index
                   ? const Color.fromARGB(255, 255, 0, 51)
-                  : Colors.white,
+                  : const Color.fromARGB(255, 255, 255, 255),
         ),
       ),
       selected: _currentIndex == index,

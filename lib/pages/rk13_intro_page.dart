@@ -12,25 +12,8 @@ class Rk13IntroPage extends StatefulWidget {
   State<Rk13IntroPage> createState() => Rk13IntroPageState();
 }
 
-class Rk13IntroPageState extends State<Rk13IntroPage>
-    with SingleTickerProviderStateMixin {
+class Rk13IntroPageState extends State<Rk13IntroPage> {
   String? _zoomImagePath;
-  late final AnimationController _bgController;
-
-  @override
-  void initState() {
-    super.initState();
-    _bgController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    )..repeat(reverse: true);
-  }
-
-  @override
-  void dispose() {
-    _bgController.dispose();
-    super.dispose();
-  }
 
   Future<void> _launchUrl(String url) async {
     final uri = Uri.parse(url);
@@ -46,85 +29,70 @@ class Rk13IntroPageState extends State<Rk13IntroPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          // Fondo negro + pulso rojo
-          Positioned.fill(child: Container(color: Colors.black)),
-          Positioned.fill(child: _buildAnimatedOverlay()),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 24),
-                  _buildBanner(),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildTermuxSection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildAIDASection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildGallerySection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildTermuxExclusiveSection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildPythonAIDASection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildCommandsSection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildPackagesSection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildVirtualenvSection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildCronSection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildGitIntegrationSection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildSecurityToolsSection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildSSHSection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildShellCustomizationSection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildPerformanceTipsSection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildCommunityResourcesSection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildLearnButton()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildQuotesSection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildDonateSection()),
-                  const SizedBox(height: 24),
-                  _buildBlackSection(child: _buildSocialRow()),
-                  const SizedBox(height: 40),
-                  _buildFooter(),
-                  const SizedBox(height: 20),
-                ],
-              ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 24),
+                _buildBanner(),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildTermuxSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildAIDASection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildGallerySection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildTermuxExclusiveSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildPythonAIDASection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildCommandsSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildPackagesSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildVirtualenvSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildCronSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildGitIntegrationSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildSecurityToolsSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildSSHSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildShellCustomizationSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildPerformanceTipsSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildCommunityResourcesSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildLearnButton()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildQuotesSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildDonateSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildSocialRow()),
+                const SizedBox(height: 40),
+                _buildFooter(),
+                const SizedBox(height: 20),
+                if (_zoomImagePath != null) _buildZoomOverlay(),
+              ],
             ),
           ),
-          if (_zoomImagePath != null) _buildZoomOverlay(),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildBlackSection({required Widget child}) {
+  Widget _buildSection({required Widget child}) {
     return Container(
       color: Colors.black,
       padding: const EdgeInsets.all(16),
       child: child,
-    );
-  }
-
-  Widget _buildAnimatedOverlay() {
-    return AnimatedBuilder(
-      animation: _bgController,
-      builder: (_, __) {
-        final alpha = (_bgController.value * 0.15 + 0.05) * 255;
-        return Container(color: Colors.redAccent.withAlpha(alpha.toInt()));
-      },
     );
   }
 
@@ -218,13 +186,13 @@ class Rk13IntroPageState extends State<Rk13IntroPage>
         itemCount: 10,
         separatorBuilder: (_, __) => const SizedBox(width: 12),
         itemBuilder: (c, i) {
-          final a = 'assets/images/termux${i + 1}.png';
+          final asset = 'assets/images/termux${i + 1}.png';
           return GestureDetector(
-            onTap: () => _openZoom(a),
+            onTap: () => _openZoom(asset),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.asset(
-                a,
+                asset,
                 width: 120,
                 height: 160,
                 fit: BoxFit.cover,
@@ -472,7 +440,6 @@ class Rk13IntroPageState extends State<Rk13IntroPage>
     );
   }
 
-  // Helper para las cajas de texto con borde
   Widget _buildBox(String title, List<String> lines) {
     return Container(
       color: Colors.black,
