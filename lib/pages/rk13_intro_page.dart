@@ -52,25 +52,15 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
                 const SizedBox(height: 24),
                 _buildSection(child: _buildPythonAIDASection()),
                 const SizedBox(height: 24),
-                _buildSection(child: _buildCommandsSection()),
+                _buildSection(child: _buildPythonPackagesSection()),
                 const SizedBox(height: 24),
-                _buildSection(child: _buildPackagesSection()),
+                _buildSection(child: _buildPythonSecToolsSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildAutomationSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildWebHackingSection()),
                 const SizedBox(height: 24),
                 _buildSection(child: _buildVirtualenvSection()),
-                const SizedBox(height: 24),
-                _buildSection(child: _buildCronSection()),
-                const SizedBox(height: 24),
-                _buildSection(child: _buildGitIntegrationSection()),
-                const SizedBox(height: 24),
-                _buildSection(child: _buildSecurityToolsSection()),
-                const SizedBox(height: 24),
-                _buildSection(child: _buildSSHSection()),
-                const SizedBox(height: 24),
-                _buildSection(child: _buildShellCustomizationSection()),
-                const SizedBox(height: 24),
-                _buildSection(child: _buildPerformanceTipsSection()),
-                const SizedBox(height: 24),
-                _buildSection(child: _buildCommunityResourcesSection()),
                 const SizedBox(height: 24),
                 _buildSection(child: _buildLearnButton()),
                 const SizedBox(height: 24),
@@ -104,24 +94,40 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
     return Stack(
       children: [
         ElasticInDown(
-          child: Image.asset(
-            'assets/images/intro_banner.png',
+          child: Container(
             width: w,
-            height: w * 0.4,
-            fit: BoxFit.cover,
-            filterQuality: FilterQuality.high,
+            height: w * 0.45, // Increased height ratio
+            child: Image.asset(
+              'assets/images/intro_banner.png',
+              width: w,
+              height: w * 0.45,
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.high,
+            ),
           ),
         ),
-
         Positioned(
-          left: w * 0.05,
-          top: w * 0.05,
+          right: w * 0.05, // Changed from left to right
+          top: w * 0.15, // Increased top position
           child: ZoomIn(
-            child: Image.asset(
-              'assets/images/rk13_logo.png',
-              width: w * 0.15,
-              height: w * 0.15,
-              filterQuality: FilterQuality.high,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    spreadRadius: 2,
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Image.asset(
+                'assets/images/rk13_logo.png',
+                width: w * 0.18, // Slightly larger logo
+                height: w * 0.18, // Keep aspect ratio
+                filterQuality: FilterQuality.high,
+              ),
             ),
           ),
         ),
@@ -132,8 +138,8 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
   Widget _buildTermuxSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        Text(
+      children: [
+        const Text(
           'RK13-APP V-TC-13',
           style: TextStyle(
             color: Color.fromARGB(255, 255, 0, 0),
@@ -141,18 +147,42 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 8),
-        Text(
-          '[ ADVERTENCIA ] Tu móvil está a punto de convertirse en una máquina de hackeo. '
-          'Transforma tu dispositivo en una terminal Linux ultra-potente, capaz de ejecutar scripts, '
-          'automatizar ataques y desplegar herramientas de pentesting. Con RK13, tendrás el poder '
-          'de un laboratorio completo de hacking en tu bolsillo. Olvídate de las limitaciones - '
-          'programa en Python, despliega servidores, ejecuta exploits y domina el arte del pentesting '
-          'móvil. ¿Estás listo para unirte a la élite del hacking? El poder está en tus manos. 🔥⚡',
-          style: TextStyle(
-            color: Color.fromARGB(179, 255, 255, 255),
-            fontSize: 16,
-            height: 1.4,
+        const SizedBox(height: 8),
+        RichText(
+          text: TextSpan(
+            children: [
+              const TextSpan(
+                text: '[ ADVERTENCIA ] ',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 255, 0, 0),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              TextSpan(
+                text:
+                    'Integración avanzada de subsistemas Linux en Android.\n\n'
+                    'Características técnicas:\n'
+                    '• Kernel Linux: Acceso directo a syscalls y API nativa\n'
+                    '• Shell: Bash/ZSH con autocompletado y scripting\n'
+                    '• Networking: Soporte TCP/IP, DNS, SSL/TLS\n'
+                    '• Package Manager: APT con +1000 paquetes optimizados\n'
+                    '• Runtime: Python3, Node.js, Ruby y más\n'
+                    '• Storage: Acceso a filesystem Android y ext4\n'
+                    '• Security: AppArmor profiles y SELinux policies\n\n'
+                    'Capacidades:\n'
+                    '• Pentesting: Nmap, Metasploit, Wireshark\n'
+                    '• Development: Git, Docker, VSCode Server\n'
+                    '• Automation: Cron, systemd, supervisord\n'
+                    '• Cryptography: OpenSSL, GPG, hash tools\n\n'
+                    '¿Preparado para el poder del computing móvil? 🔥⚡',
+                style: const TextStyle(
+                  color: Color.fromARGB(179, 255, 255, 255),
+                  fontSize: 16,
+                  height: 1.4,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -310,87 +340,79 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
   }
 
   Widget _buildPythonAIDASection() {
-    return const Text(
-      '🚀 Python en tu móvil, sin instalaciones tediosas.\n\n'
-      '🔍 Automatiza tareas, analiza datos y crea bots con líneas de código.\n\n'
-      '💡 Materializa ideas y ofrece servicios desde Termux.\n\n'
-      '🔥 Pulsa “Aprende Python Ahora” y convierte tu teléfono en tu mejor herramienta.',
-      style: TextStyle(color: Colors.white, fontSize: 14, height: 1.6),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: const [
+        Text(
+          '🚀 DOMINA PYTHON Y CONQUISTA LA ERA DE LA IA',
+          style: TextStyle(
+            color: Colors.redAccent,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 16),
+        Text(
+          '💰 Python: Tu Camino al Éxito Digital\n\n'
+          '🤖 La IA genera código, pero ¿quién lo revisa y optimiza? Los desarrolladores Python ganan \$70-150k/año '
+          'porque entienden la lógica real detrás del código.\n\n'
+          '🔄 Freelancing desde tu móvil: Automatiza procesos, crea bots de trading, desarrolla APIs. '
+          'Cobra por resolver problemas reales mientras otros siguen pegados a la oficina.\n\n'
+          '🎯 La IA es tu asistente, Python tu lenguaje: Los equipos necesitan devs que sepan comunicar '
+          'y traducir ideas a código limpio. La colaboración humana sigue siendo insuperable.\n\n'
+          '⚡ Transforma ideas en ingresos: Crea tu primer script hoy, véndelo mañana. '
+          'Python + Termux = Tu oficina móvil para ganar desde cualquier lugar.',
+          style: TextStyle(color: Colors.white, fontSize: 14, height: 1.6),
+        ),
+      ],
     );
   }
 
-  Widget _buildCommandsSection() => _buildBox('Comandos Esenciales', [
-    '- pkg install python',
-    '- pkg install git',
-    '- apt update && apt upgrade',
-    '- ls, cd, mv, cp',
-  ]);
-
-  Widget _buildPackagesSection() => _buildBox('Paquetes Populares', [
-    '- nmap',
-    '- hydra',
-    '- metasploit',
-    '- termux-api',
-  ]);
-
-  Widget _buildVirtualenvSection() => _buildBox('Entornos Virtuales', [
-    '- pip install virtualenv',
-    '- virtualenv venv',
-    '- source venv/bin/activate',
-    '- deactivate',
-  ]);
-
-  Widget _buildCronSection() => _buildBox('Automatización con Cron', [
-    '- crontab -e',
-    '- 0 * * * * script.sh',
-    '- :wq guardar y salir',
-  ]);
-
-  Widget _buildGitIntegrationSection() => _buildBox('Integración con Git', [
-    '- git clone <url>',
-    '- git add . && git commit',
-    '- git push origin main',
-    '- Configurar SSH',
-  ]);
-
-  Widget _buildSecurityToolsSection() =>
-      _buildBox('Herramientas de Seguridad', [
-        '- nmap -sV <IP>',
-        '- hydra -l admin -P pass',
-        '- sqlmap -u "<url>" --batch',
-        '- msfconsole',
+  Widget _buildVirtualenvSection() =>
+      _buildBox('🐍 Entorno Python Profesional', [
+        '- python3 -m venv hackenv',
+        '- source hackenv/bin/activate',
+        '- pip install --upgrade pip',
+        '- deactivate (salir del entorno)',
       ]);
 
-  Widget _buildSSHSection() => _buildBox('Acceso Remoto / SSH', [
-    '- pkg install openssh',
-    '- sshd',
-    '- ssh user@<IP>',
-    '- ssh-copy-id user@<IP>',
-  ]);
-
-  Widget _buildShellCustomizationSection() =>
-      _buildBox('Personalización del Shell', [
-        '- pkg install zsh',
-        '- pkg install oh-my-zsh',
-        '- Configura ~/.zshrc',
-        '- Agrega temas y plugins',
+  Widget _buildPythonPackagesSection() =>
+      _buildBox('🛠️ Arsenal Python Hacking', [
+        '- requests (Manipulación HTTP avanzada)',
+        '- scapy (Análisis y forge de paquetes)',
+        '- beautifulsoup4 (Web scraping sigiloso)',
+        '- paramiko (Automatización SSH)',
+        '- pycryptodome (Criptografía ofensiva)',
+        '- shodan (Búsqueda de objetivos)',
       ]);
 
-  Widget _buildPerformanceTipsSection() => _buildBox('Tips de Rendimiento', [
-    '- termux-wake-lock',
-    '- Ajusta Governor',
-    '- Cierra apps de fondo',
-    '- Usa termux-api scripts',
-  ]);
-
-  Widget _buildCommunityResourcesSection() =>
-      _buildBox('Comunidad & Recursos', [
-        '- termux.com/community',
-        '- reddit.com/r/termux',
-        '- t.me/termuxgroup',
-        '- github.com/termux',
+  Widget _buildPythonSecToolsSection() =>
+      _buildBox('🔐 Herramientas Python Security', [
+        '- theHarvester (OSINT y recon)',
+        '- impacket (Protocolos de red)',
+        '- mechanize (Automatización web)',
+        '- dnspython (Análisis DNS)',
+        '- cryptography (Cifrado/descifrado)',
+        '- python-nmap (Escaneo de redes)',
       ]);
 
+  Widget _buildAutomationSection() => _buildBox('🤖 Automatización Python', [
+    '- selenium (Web automation)',
+    '- pyautogui (Control GUI)',
+    '- schedule (Tareas programadas)',
+    '- pandas (Análisis de datos)',
+    '- numpy (Cálculos numéricos)',
+    '- matplotlib (Visualización)',
+  ]);
+
+  Widget _buildWebHackingSection() => _buildBox('🌐 Web Hacking Python', [
+    '- flask (API maliciosa)',
+    '- urllib3 (Requests avanzados)',
+    '- aiohttp (Async attacks)',
+    '- websockets (WS exploitation)',
+    '- scrapy (Scraping masivo)',
+    '- jwt (Token manipulation)',
+  ]);
   Widget _buildLearnButton() {
     return Center(
       child: ElevatedButton(
