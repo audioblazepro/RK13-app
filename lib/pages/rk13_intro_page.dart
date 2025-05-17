@@ -5,7 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'learn_python_page.dart';
 import 'donar_page.dart';
 import 'termux_install.dart';
+import 'package:flutter/services.dart'; // Añade esta línea
 
+// ...resto de imports
 class Rk13IntroPage extends StatefulWidget {
   const Rk13IntroPage({super.key});
 
@@ -55,10 +57,6 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
                 _buildSection(child: _buildPythonPackagesSection()),
                 const SizedBox(height: 24),
                 _buildSection(child: _buildPythonSecToolsSection()),
-                const SizedBox(height: 24),
-                _buildSection(child: _buildAutomationSection()),
-                const SizedBox(height: 24),
-                _buildSection(child: _buildWebHackingSection()),
                 const SizedBox(height: 24),
                 _buildSection(child: _buildVirtualenvSection()),
                 const SizedBox(height: 24),
@@ -421,51 +419,89 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
     );
   }
 
-  Widget _buildVirtualenvSection() =>
-      _buildBox('🐍 Entorno Python Profesional', [
-        '- python3 -m venv hackenv',
-        '- source hackenv/bin/activate',
-        '- pip install --upgrade pip',
-        '- deactivate (salir del entorno)',
-      ]);
+  Widget _buildVirtualenvSection() => _buildBoxWithCode(
+    '🐍 Entorno Python Profesional',
+    [
+      '- python3 -m venv hackenv',
+      '- source hackenv/bin/activate',
+      '- pip install --upgrade pip',
+      '- deactivate (salir del entorno)',
+    ],
+    '''
+  #!/usr/bin/env python3
+  # Setup virtual environment
+  import venv
+  import sys
+  
+  def create_venv():
+      venv.create("hackenv",
+                  system_site_packages=False,
+                  with_pip=True)
+      print("🚀 Entorno virtual creado!")
+  
+  if __name__ == "__main__":
+      create_venv()''',
+  );
 
-  Widget _buildPythonPackagesSection() =>
-      _buildBox('🛠️ Arsenal Python Hacking', [
-        '- requests (Manipulación HTTP avanzada)',
-        '- scapy (Análisis y forge de paquetes)',
-        '- beautifulsoup4 (Web scraping sigiloso)',
-        '- paramiko (Automatización SSH)',
-        '- pycryptodome (Criptografía ofensiva)',
-        '- shodan (Búsqueda de objetivos)',
-      ]);
+  Widget _buildPythonPackagesSection() => _buildBoxWithCode(
+    '🛠️ Arsenal Python Hacking',
+    [
+      '- requests (Manipulación HTTP avanzada)',
+      '- scapy (Análisis y forge de paquetes)',
+      '- beautifulsoup4 (Web scraping sigiloso)',
+      '- paramiko (Automatización SSH)',
+      '- pycryptodome (Criptografía ofensiva)',
+      '- shodan (Búsqueda de objetivos)',
+    ],
+    '''
+  import requests
+  from bs4 import BeautifulSoup
+  from Crypto.Cipher import AES
+  
+  def hack_the_planet():
+      # Realizar request HTTP
+      r = requests.get("https://target.com")
+      
+      # Parsear HTML
+      soup = BeautifulSoup(r.text, "html.parser")
+      
+      # Cifrar datos
+      cipher = AES.new(key, AES.MODE_CBC)
+      encrypted = cipher.encrypt(data)
+      
+      return encrypted''',
+  );
 
-  Widget _buildPythonSecToolsSection() =>
-      _buildBox('🔐 Herramientas Python Security', [
-        '- theHarvester (OSINT y recon)',
-        '- impacket (Protocolos de red)',
-        '- mechanize (Automatización web)',
-        '- dnspython (Análisis DNS)',
-        '- cryptography (Cifrado/descifrado)',
-        '- python-nmap (Escaneo de redes)',
-      ]);
-
-  Widget _buildAutomationSection() => _buildBox('🤖 Automatización Python', [
-    '- selenium (Web automation)',
-    '- pyautogui (Control GUI)',
-    '- schedule (Tareas programadas)',
-    '- pandas (Análisis de datos)',
-    '- numpy (Cálculos numéricos)',
-    '- matplotlib (Visualización)',
-  ]);
-
-  Widget _buildWebHackingSection() => _buildBox('🌐 Web Hacking Python', [
-    '- flask (API maliciosa)',
-    '- urllib3 (Requests avanzados)',
-    '- aiohttp (Async attacks)',
-    '- websockets (WS exploitation)',
-    '- scrapy (Scraping masivo)',
-    '- jwt (Token manipulation)',
-  ]);
+  Widget _buildPythonSecToolsSection() => _buildBoxWithCode(
+    '🔐 Herramientas Python Security',
+    [
+      '- theHarvester (OSINT y recon)',
+      '- impacket (Protocolos de red)',
+      '- mechanize (Automatización web)',
+      '- dnspython (Análisis DNS)',
+      '- cryptography (Cifrado/descifrado)',
+      '- python-nmap (Escaneo de redes)',
+    ],
+    '''
+  import nmap
+  from dns import resolver
+  from cryptography.fernet import Fernet
+  
+  def scan_target(host):
+      # Configurar scanner
+      nm = nmap.PortScanner()
+      
+      # Escanear puertos
+      nm.scan(host, '1-1024')
+      
+      # Resolver DNS
+      answers = resolver.resolve(host, 'A')
+      
+      return {
+          'ports': nm[host].all_tcp(),
+          'dns': [rdata.address for rdata in answers]
+      }''',
+  );
   Widget _buildLearnButton() {
     return Center(
       child: ElevatedButton(
@@ -621,27 +657,78 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
     );
   }
 
-  Widget _buildBox(String title, List<String> lines) {
+  Widget _buildBoxWithCode(String title, List<String> items, String code) {
     return Container(
-      color: Colors.black,
-      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
+        color: Colors.black,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: const Color.fromARGB(255, 255, 0, 0)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: Color.fromARGB(255, 255, 0, 0),
-              fontWeight: FontWeight.bold,
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 255, 0, 0),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                ...items.map(
+                  (l) => Text(l, style: const TextStyle(color: Colors.white)),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 6),
-          for (var l in lines)
-            Text(l, style: const TextStyle(color: Colors.white)),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.black87,
+              border: Border(
+                top: BorderSide(
+                  color: const Color.fromARGB(255, 255, 0, 0).withOpacity(0.3),
+                ),
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      '📝 Ejemplo:',
+                      style: TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.copy, color: Colors.white54),
+                      onPressed:
+                          () => Clipboard.setData(ClipboardData(text: code)),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  code,
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 0, 255, 0),
+                    fontFamily: 'monospace',
+                    height: 1.5,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
