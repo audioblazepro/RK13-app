@@ -143,8 +143,12 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
         ),
         SizedBox(height: 8),
         Text(
-          'Transforma tu móvil en una terminal Linux avanzada. '
-          'Instala paquetes, automatiza tareas y desarrolla scripts donde quieras.',
+          '[ ADVERTENCIA ] Tu móvil está a punto de convertirse en una máquina de hackeo. '
+          'Transforma tu dispositivo en una terminal Linux ultra-potente, capaz de ejecutar scripts, '
+          'automatizar ataques y desplegar herramientas de pentesting. Con RK13, tendrás el poder '
+          'de un laboratorio completo de hacking en tu bolsillo. Olvídate de las limitaciones - '
+          'programa en Python, despliega servidores, ejecuta exploits y domina el arte del pentesting '
+          'móvil. ¿Estás listo para unirte a la élite del hacking? El poder está en tus manos. 🔥⚡',
           style: TextStyle(
             color: Color.fromARGB(179, 255, 255, 255),
             fontSize: 16,
@@ -162,19 +166,30 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
         children: [
           TextSpan(
             text:
-                '🚨 Atención: Hábitos rígidos terminan hoy. Nuestro método te lleva a experto Python en Termux.',
+                '🧠 El Poder de la Programación:\n'
+                'Todo a tu alrededor es binario (0s y 1s). Tu smartphone, igual que un interruptor de luz: '
+                'encendido (1) o apagado (0). Millones de estos switches crean la magia digital que usas cada día.',
           ),
           TextSpan(
             text:
-                '\n\n🛠️ Interés: Aprende con ejemplos prácticos: APIs y automatización.',
+                '\n\n💫 El Futuro es Cuántico:\n'
+                'Mientras las computadoras actuales procesan bits, las cuánticas usarán qubits, '
+                'resolviendo en segundos lo que hoy toma años. Imagina desbloquear todos los secretos '
+                'de la naturaleza con algoritmos cuánticos.',
           ),
           TextSpan(
             text:
-                '\n\n🔥 Deseo: Crea herramientas que ahorran horas y ofrecen servicios profesionales.',
+                '\n\n🎮 Programar es Como Jugar:\n'
+                'Si puedes armar LEGO, puedes programar. Cada pieza es una instrucción: '
+                '"si llueve (condición) → abre paraguas (acción)". Así de simple es dar órdenes '
+                'a una computadora.',
           ),
           TextSpan(
             text:
-                '\n\n⚡ Acción: “Aprende Python Ahora” y desbloquea todos los módulos.',
+                '\n\n⚡ Tu Superpoder:\n'
+                'Imagina controlar luces, crear robots, automatizar tareas... '
+                'Todo lo que puedas imaginar, puedes programarlo. El límite es tu creatividad. '
+                '¿Listo para iniciar tu viaje hacia el futuro digital?',
           ),
         ],
       ),
@@ -209,13 +224,43 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
   }
 
   Widget _buildTermuxExclusiveSection() {
-    return const Text(
-      '¿Qué es Termux? Qué puedes hacer y quién lo utiliza:\n'
-      '• Emulador Linux móvil para devs y pentesters.\n'
-      '• Automatiza tareas, analiza redes, despliega herramientas.\n'
-      '• SSH: ssh user@192.168.1.10 a Kali Linux.\n'
-      '• De Python a Ansible, todo en RK13-APP.',
-      style: TextStyle(color: Colors.white, fontSize: 14, height: 1.6),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.redAccent),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Text(
+            '🚀 TERMUX: Tu Centro de Comando Móvil',
+            style: TextStyle(
+              color: Colors.redAccent,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 16),
+          Text(
+            '💼 Para Profesionales y Empresas:\n'
+            '• Terminal Linux completa en tu bolsillo: ejecuta servidores, APIs y bases de datos.\n'
+            '• Automatiza backups, monitoreo y despliegues desde cualquier lugar.\n'
+            '• Integración con sistemas empresariales vía SSH y APIs.\n\n'
+            '🛠️ Herramientas Potentes:\n'
+            '• Gestiona servidores remotos desde la playa.\n'
+            '• Programa en Python, Node.js, Ruby mientras viajas.\n'
+            '• Ejecuta scripts de pentesting en tiempo real.\n'
+            '• Analiza redes y sistemas desde tu smartphone.\n\n'
+            '🎯 Casos de Uso:\n'
+            '• DevOps: Monitoreo 24/7 de infraestructura.\n'
+            '• SysAdmin: Respuesta rápida a incidentes.\n'
+            '• Desarrollador: Coding desde cualquier lugar.\n'
+            '• Seguridad: Auditorías on-the-go.',
+            style: TextStyle(color: Colors.white, fontSize: 14, height: 1.6),
+          ),
+        ],
+      ),
     );
   }
 
