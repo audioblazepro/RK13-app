@@ -172,7 +172,7 @@ class _MainLayoutState extends State<MainLayout> {
                       const Text(
                         "Developer & Programmer;",
                         style: TextStyle(
-                          color: Color.fromARGB(179, 187, 157, 157),
+                          color: Color.fromARGB(179, 255, 251, 0),
                         ),
                       ),
                       const Text(

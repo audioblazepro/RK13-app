@@ -4,6 +4,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'learn_python_page.dart';
 import 'donar_page.dart';
+import 'termux_install.dart';
 
 class Rk13IntroPage extends StatefulWidget {
   const Rk13IntroPage({super.key});
@@ -46,6 +47,8 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
                 _buildSection(child: _buildGallerySection()),
                 const SizedBox(height: 24),
                 _buildSection(child: _buildTermuxExclusiveSection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildTermuxInstallSection()),
                 const SizedBox(height: 24),
                 _buildSection(child: _buildPythonAIDASection()),
                 const SizedBox(height: 24),
@@ -213,6 +216,51 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
       '• SSH: ssh user@192.168.1.10 a Kali Linux.\n'
       '• De Python a Ansible, todo en RK13-APP.',
       style: TextStyle(color: Colors.white, fontSize: 14, height: 1.6),
+    );
+  }
+
+  Widget _buildTermuxInstallSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Text(
+          '¿Quieres instalar Termux?',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 12),
+        const Text(
+          'Descarga la versión oficial desde F-Droid para comenzar tu viaje en el desarrollo móvil.',
+          style: TextStyle(color: Colors.white, fontSize: 14),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 16),
+        Center(
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const TermuxInstallPage()),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.redAccent,
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: const Text(
+              'Instalar Ahora',
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
