@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'learn_python_page.dart';
 import 'donar_page.dart';
 import 'termux_install.dart';
-import 'package:flutter/services.dart'; // Añade esta línea
+import 'package:flutter/services.dart';
 
 // ...resto de imports
 class Rk13IntroPage extends StatefulWidget {
@@ -92,7 +92,7 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
     return Stack(
       children: [
         ElasticInDown(
-          child: Container(
+          child: SizedBox(
             width: w,
             height: w * 0.45,
             child: Image.asset(
@@ -188,88 +188,118 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
   }
 
   Widget _buildAIDASection() {
-    return RichText(
-      text: TextSpan(
-        style: TextStyle(color: Colors.white, fontSize: 15, height: 1.6),
-        children: [
-          TextSpan(
-            text:
-                '🧠 El Poder de la Programación:\n'
-                'Todo a tu alrededor es binario (0s y 1s). Tu smartphone, igual que un interruptor de luz: '
-                'encendido (1) o apagado (0). Millones de estos switches crean la magia digital que usas cada día.',
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          '🚀 PROGRAMACIÓN: EL ARTE DE CREAR EL FUTURO',
+          style: TextStyle(
+            color: Color.fromARGB(255, 255, 0, 0),
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
           ),
-          TextSpan(
-            text:
-                '\n\n💫 El Futuro es Cuántico:\n'
-                'Mientras las computadoras actuales procesan bits, las cuánticas usarán qubits, '
-                'resolviendo en segundos lo que hoy toma años. Imagina desbloquear todos los secretos '
-                'de la naturaleza con algoritmos cuánticos.',
+        ),
+        const SizedBox(height: 16),
+        RichText(
+          text: TextSpan(
+            style: TextStyle(color: Colors.white, fontSize: 15, height: 1.6),
+            children: [
+              TextSpan(
+                text:
+                    '🧠 El Poder de la Programación:\n'
+                    'Todo a tu alrededor es binario (0s y 1s). Tu smartphone, igual que un interruptor de luz: '
+                    'encendido (1) o apagado (0). Millones de estos switches crean la magia digital que usas cada día.',
+              ),
+              TextSpan(
+                text:
+                    '\n\n💫 El Futuro es Cuántico:\n'
+                    'Mientras las computadoras actuales procesan bits, las cuánticas usarán qubits, '
+                    'resolviendo en segundos lo que hoy toma años. Imagina desbloquear todos los secretos '
+                    'de la naturaleza con algoritmos cuánticos.',
+              ),
+              TextSpan(
+                text:
+                    '\n\n🎮 Programar es Como Jugar:\n'
+                    'Si puedes armar LEGO, puedes programar. Cada pieza es una instrucción: '
+                    '"si llueve (condición) → abre paraguas (acción)". Así de simple es dar órdenes '
+                    'a una computadora.',
+              ),
+              TextSpan(
+                text:
+                    '\n\n⚡ Tu Superpoder:\n'
+                    'Imagina controlar luces, crear robots, automatizar tareas... '
+                    'Todo lo que puedas imaginar, puedes programarlo. El límite es tu creatividad. '
+                    '¿Listo para iniciar tu viaje hacia el futuro digital?',
+              ),
+            ],
           ),
-          TextSpan(
-            text:
-                '\n\n🎮 Programar es Como Jugar:\n'
-                'Si puedes armar LEGO, puedes programar. Cada pieza es una instrucción: '
-                '"si llueve (condición) → abre paraguas (acción)". Así de simple es dar órdenes '
-                'a una computadora.',
-          ),
-          TextSpan(
-            text:
-                '\n\n⚡ Tu Superpoder:\n'
-                'Imagina controlar luces, crear robots, automatizar tareas... '
-                'Todo lo que puedas imaginar, puedes programarlo. El límite es tu creatividad. '
-                '¿Listo para iniciar tu viaje hacia el futuro digital?',
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _buildGallerySection() {
-    final ScrollController _scrollController = ScrollController();
+    final ScrollController scrollController = ScrollController();
 
-    // Auto-scroll animation
+    // Auto-scroll animation with better timing
     void autoScroll() {
-      if (_scrollController.hasClients) {
-        final double maxScroll = _scrollController.position.maxScrollExtent;
-        final double currentScroll = _scrollController.offset;
-        if (currentScroll >= maxScroll) {
-          _scrollController.animateTo(
-            0,
-            duration: const Duration(seconds: 15),
-            curve: Curves.linear,
-          );
-        } else {
-          _scrollController.animateTo(
-            maxScroll,
-            duration: const Duration(seconds: 15),
-            curve: Curves.linear,
-          );
-        }
+      if (!scrollController.hasClients) return;
+
+      final double maxScroll = scrollController.position.maxScrollExtent;
+      final double currentScroll = scrollController.offset;
+
+      if (currentScroll >= maxScroll) {
+        // Scroll back to start
+        scrollController.animateTo(
+          0,
+          duration: const Duration(seconds: 30), // Slower scroll
+          curve: Curves.easeInOut, // Smoother animation
+        );
+      } else {
+        // Scroll to end
+        scrollController.animateTo(
+          maxScroll,
+          duration: const Duration(seconds: 30), // Slower scroll
+          curve: Curves.easeInOut, // Smoother animation
+        );
       }
     }
 
-    // Start auto-scroll when widget is built
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    // Initialize auto-scroll with proper cleanup
+    void startAutoScroll() {
       autoScroll();
-      // Repeat animation
-      _scrollController.addListener(() {
-        if (_scrollController.position.pixels ==
-                _scrollController.position.maxScrollExtent ||
-            _scrollController.position.pixels == 0) {
-          autoScroll();
+      scrollController.addListener(() {
+        if (scrollController.hasClients &&
+            (scrollController.position.pixels ==
+                    scrollController.position.maxScrollExtent ||
+                scrollController.position.pixels == 0)) {
+          Future.delayed(
+            const Duration(seconds: 2),
+            autoScroll,
+          ); // Add pause between scrolls
         }
       });
+    }
+
+    // Start auto-scroll after build with proper error handling
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      try {
+        startAutoScroll();
+      } catch (e) {
+        debugPrint('Error starting auto-scroll: $e');
+      }
     });
 
     return SizedBox(
-      height: 200, // Increased height
+      height: 200,
       child: ListView.separated(
-        controller: _scrollController,
+        controller: scrollController,
         scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(), // Add bounce effect
         itemCount: 10,
         separatorBuilder: (_, __) => const SizedBox(width: 16),
-        itemBuilder: (c, i) {
-          final asset = 'assets/images/termux${i + 1}.png';
+        itemBuilder: (context, index) {
+          final asset = 'assets/images/termux${index + 1}.png';
           return GestureDetector(
             onTap: () => _openZoom(asset),
             child: Hero(
@@ -290,8 +320,8 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
                   borderRadius: BorderRadius.circular(12),
                   child: Image.asset(
                     asset,
-                    width: 150, // Increased width
-                    height: 200, // Increased height
+                    width: 150,
+                    height: 200,
                     fit: BoxFit.cover,
                     filterQuality: FilterQuality.high,
                   ),
@@ -428,19 +458,52 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
       '- deactivate (salir del entorno)',
     ],
     '''
-  #!/usr/bin/env python3
-  # Setup virtual environment
-  import venv
-  import sys
-  
-  def create_venv():
-      venv.create("hackenv",
-                  system_site_packages=False,
-                  with_pip=True)
-      print("🚀 Entorno virtual creado!")
-  
-  if __name__ == "__main__":
-      create_venv()''',
+  01  #!/usr/bin/env python3
+  02  """
+  03  RK13 Virtual Environment Setup
+  04  Create and configure a secure hacking environment
+  05  """
+  06  
+  07  import os
+  08  import venv
+  09  import sys
+  10  import logging
+  11  
+  12  logging.basicConfig(level=logging.INFO)
+  13  logger = logging.getLogger(__name__)
+  14  
+  15  class HackEnv:
+  16      def __init__(self, name="hackenv"):
+  17          self.name = name
+  18          self.requirements = [
+  19              "requests",
+  20              "scapy",
+  21              "beautifulsoup4",
+  22              "paramiko",
+  23          ]
+  24  
+  25      def setup(self):
+  26          logger.info("🚀 Creando entorno virtual: %s", self.name)
+  27          venv.create(
+  28              self.name,
+  29              system_site_packages=False,
+  30              with_pip=True,
+  31              prompt="🐍"
+  32          )
+  33          logger.info("✨ Entorno creado exitosamente!")
+  34  
+  35      def install_requirements(self):
+  36          if not os.path.exists(self.name):
+  37              raise ValueError("❌ Entorno no encontrado!")
+  38          logger.info("📦 Instalando paquetes...")
+  39          for pkg in self.requirements:
+  40              os.system(f"{self.name}/bin/pip install {pkg}")
+  41  
+  42  if __name__ == "__main__":
+  43      env = HackEnv()
+  44      env.setup()
+  45      env.install_requirements()
+  46      logger.info("🎉 Setup completo!")''',
   );
 
   Widget _buildPythonPackagesSection() => _buildBoxWithCode(
@@ -454,22 +517,70 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
       '- shodan (Búsqueda de objetivos)',
     ],
     '''
-  import requests
-  from bs4 import BeautifulSoup
-  from Crypto.Cipher import AES
-  
-  def hack_the_planet():
-      # Realizar request HTTP
-      r = requests.get("https://target.com")
-      
-      # Parsear HTML
-      soup = BeautifulSoup(r.text, "html.parser")
-      
-      # Cifrar datos
-      cipher = AES.new(key, AES.MODE_CBC)
-      encrypted = cipher.encrypt(data)
-      
-      return encrypted''',
+  01  #!/usr/bin/env python3
+  02  """
+  03  RK13 Web Reconnaissance Tool
+  04  Automated web scanning and data extraction
+  05  """
+  06  
+  07  import requests
+  08  from bs4 import BeautifulSoup
+  09  from Crypto.Cipher import AES
+  10  from datetime import datetime
+  11  import json
+  12  import logging
+  13  
+  14  class WebRecon:
+  15      def __init__(self, target):
+  16          self.target = target
+  17          self.session = requests.Session()
+  18          self.results = {}
+  19  
+  20      def scan_target(self):
+  21          try:
+  22              response = self.session.get(
+  23                  f"https://{self.target}",
+  24                  verify=False,
+  25                  timeout=10
+  26              )
+  27              soup = BeautifulSoup(response.text, "html.parser")
+  28              
+  29              # Extraer información
+  30              self.results["title"] = soup.title.string
+  31              self.results["links"] = [
+  32                  link.get("href") 
+  33                  for link in soup.find_all("a")
+  34              ]
+  35              self.results["forms"] = [
+  36                  {"action": form.get("action")}
+  37                  for form in soup.find_all("form")
+  38              ]
+  39              
+  40              return self.encrypt_results()
+  41              
+  42          except Exception as e:
+  43              logging.error(f"Error: {str(e)}")
+  44              return None
+  45      
+  46      def encrypt_results(self):
+  47          key = os.urandom(16)
+  48          iv = os.urandom(16)
+  49          cipher = AES.new(key, AES.MODE_CBC, iv)
+  50          
+  51          # Convertir resultados a JSON y cifrar
+  52          data = json.dumps(self.results).encode()
+  53          encrypted = cipher.encrypt(self._pad(data))
+  54          
+  55          return {
+  56              "data": encrypted,
+  57              "key": key,
+  58              "iv": iv
+  59          }
+  60  
+  61  if __name__ == "__main__":
+  62      recon = WebRecon("target.com")
+  63      results = recon.scan_target()
+  64      print("🎯 Reconocimiento completado!")''',
   );
 
   Widget _buildPythonSecToolsSection() => _buildBoxWithCode(
@@ -483,24 +594,76 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
       '- python-nmap (Escaneo de redes)',
     ],
     '''
-  import nmap
-  from dns import resolver
-  from cryptography.fernet import Fernet
-  
-  def scan_target(host):
-      # Configurar scanner
-      nm = nmap.PortScanner()
-      
-      # Escanear puertos
-      nm.scan(host, '1-1024')
-      
-      # Resolver DNS
-      answers = resolver.resolve(host, 'A')
-      
-      return {
-          'ports': nm[host].all_tcp(),
-          'dns': [rdata.address for rdata in answers]
-      }''',
+  01  #!/usr/bin/env python3
+  02  """
+  03  RK13 Network Scanner
+  04  Herramienta avanzada de reconocimiento de red
+  05  """
+  06  
+  07  import nmap
+  08  from dns import resolver
+  09  from cryptography.fernet import Fernet
+  10  import asyncio
+  11  import json
+  12  import logging
+  13  
+  14  class NetworkScanner:
+  15      def __init__(self, target):
+  16          self.target = target
+  17          self.nm = nmap.PortScanner()
+  18          self.results = {}
+  19          
+  20      async def scan_ports(self):
+  21          logging.info(f"🔍 Escaneando puertos: {self.target}")
+  22          self.nm.scan(self.target, '1-1024', '-sV -sS -T4')
+  23          
+  24          for host in self.nm.all_hosts():
+  25              self.results[host] = {
+  26                  "state": self.nm[host].state(),
+  27                  "protocols": {}
+  28              }
+  29              
+  30              for proto in self.nm[host].all_protocols():
+  31                  ports = self.nm[host][proto].keys()
+  32                  for port in ports:
+  33                      service = self.nm[host][proto][port]
+  34                      self.results[host]["protocols"][port] = {
+  35                          "state": service["state"],
+  36                          "service": service["name"],
+  37                          "version": service["version"]
+  38                      }
+  39  
+  40      async def resolve_dns(self):
+  41          logging.info("🌐 Resolviendo DNS...")
+  42          try:
+  43              answers = resolver.resolve(self.target, 'A')
+  44              self.results["dns"] = {
+  45                  "records": [rdata.address for rdata in answers],
+  46                  "nameservers": resolver.resolve(self.target, 'NS')
+  47              }
+  48          except Exception as e:
+  49              logging.error(f"Error DNS: {str(e)}")
+  50  
+  51      async def run_scan(self):
+  52          tasks = [
+  53              self.scan_ports(),
+  54              self.resolve_dns()
+  55          ]
+  56          await asyncio.gather(*tasks)
+  57          return self.encrypt_results()
+  58  
+  59      def encrypt_results(self):
+  60          key = Fernet.generate_key()
+  61          f = Fernet(key)
+  62          encrypted = f.encrypt(
+  63              json.dumps(self.results).encode()
+  64          )
+  65          return {"data": encrypted, "key": key}
+  66  
+  67  if __name__ == "__main__":
+  68      scanner = NetworkScanner("target.com")
+  69      results = asyncio.run(scanner.run_scan())
+  70      print("🎉 Escaneo completado!")''',
   );
   Widget _buildLearnButton() {
     return Center(
@@ -544,24 +707,80 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
   }
 
   Widget _buildDonateSection() {
-    return Center(
-      child: ElevatedButton(
-        onPressed:
-            () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const DonarPage()),
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.redAccent.withAlpha(25), // Fixed deprecated withOpacity
+            Colors.black,
+          ],
+        ),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.redAccent.withAlpha(76), // Fixed deprecated withOpacity
+        ),
+      ),
+      child: Column(
+        children: [
+          const Text(
+            "💡 ¿Sabías que...",
+            style: TextStyle(
+              color: Colors.redAccent,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.redAccent,
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
           ),
-        ),
-        child: const Text(
-          'Donar y Apoyar',
-          style: TextStyle(color: Colors.white, fontSize: 16),
-        ),
+          const SizedBox(height: 12),
+          // Removed const from Text with string interpolation
+          Text(
+            "Con solo \$1 USD ayudas a mantener vivo este proyecto?\n"
+            "Tu donación = Más herramientas gratis para la comunidad.",
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              height: 1.5,
+            ),
+          ),
+          const SizedBox(height: 16),
+          const Text(
+            "☕ Es menos que un café,\n"
+            "🚀 pero impulsa miles de desarrolladores",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white70, fontSize: 14, height: 1.4),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton.icon(
+            onPressed:
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const DonarPage()),
+                ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.redAccent,
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            icon: const Icon(Icons.favorite, color: Colors.white),
+            // Removed const from Text with string interpolation
+            label: Text(
+              'Donar \$1 USD',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          const Text(
+            "🔒 100% Seguro • ⚡ Simple y Rápido",
+            style: TextStyle(color: Colors.white38, fontSize: 12),
+          ),
+        ],
       ),
     );
   }
