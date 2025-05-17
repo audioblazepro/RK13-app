@@ -114,6 +114,15 @@ class _MainLayoutState extends State<MainLayout> {
       drawer: Drawer(
         child: Stack(
           children: [
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 2, // Line thickness
+                color: const Color.fromARGB(255, 255, 0, 0),
+              ),
+            ),
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
               child: Container(color: Colors.black.withOpacity(0.7)),
@@ -126,7 +135,7 @@ class _MainLayoutState extends State<MainLayout> {
                     children: [
                       DrawerHeader(
                         decoration: const BoxDecoration(
-                          color: Color(0xFFFF0000),
+                          color: Color.fromARGB(255, 0, 0, 0),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
