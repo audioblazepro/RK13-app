@@ -126,7 +126,7 @@ class _MainLayoutState extends State<MainLayout> {
                     children: [
                       DrawerHeader(
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(0, 0, 0, 0),
+                          color: Color(0xFFFF0000),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +138,7 @@ class _MainLayoutState extends State<MainLayout> {
                             ),
                             SizedBox(height: 10),
                             Text(
-                              "RK13 Tools",
+                              "RK13 T00l5",
                               style: TextStyle(
                                 fontSize: 24,
                                 color: Color.fromARGB(255, 255, 255, 255),
@@ -150,7 +150,7 @@ class _MainLayoutState extends State<MainLayout> {
                               "Instala y explora herramientas de hacking ético.",
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Color.fromARGB(179, 255, 255, 255),
+                                color: Color.fromARGB(179, 226, 217, 217),
                               ),
                             ),
                           ],
@@ -172,7 +172,7 @@ class _MainLayoutState extends State<MainLayout> {
                       const Text(
                         "Developer & Programmer;",
                         style: TextStyle(
-                          color: Color.fromARGB(179, 255, 251, 0),
+                          color: Color.fromARGB(255, 30, 255, 0),
                         ),
                       ),
                       const Text(

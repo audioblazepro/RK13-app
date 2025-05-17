@@ -96,7 +96,7 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
         ElasticInDown(
           child: Container(
             width: w,
-            height: w * 0.45, // Increased height ratio
+            height: w * 0.45,
             child: Image.asset(
               'assets/images/intro_banner.png',
               width: w,
@@ -107,8 +107,8 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
           ),
         ),
         Positioned(
-          right: w * 0.05, // Changed from left to right
-          top: w * 0.15, // Increased top position
+          left: w * 0.05, // Changed from right to left
+          top: w * 0.15,
           child: ZoomIn(
             child: Container(
               decoration: BoxDecoration(
@@ -124,8 +124,8 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
               ),
               child: Image.asset(
                 'assets/images/rk13_logo.png',
-                width: w * 0.18, // Slightly larger logo
-                height: w * 0.18, // Keep aspect ratio
+                width: w * 0.18,
+                height: w * 0.18,
                 filterQuality: FilterQuality.high,
               ),
             ),
@@ -227,24 +227,77 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
   }
 
   Widget _buildGallerySection() {
+    final ScrollController _scrollController = ScrollController();
+
+    // Auto-scroll animation
+    void autoScroll() {
+      if (_scrollController.hasClients) {
+        final double maxScroll = _scrollController.position.maxScrollExtent;
+        final double currentScroll = _scrollController.offset;
+        if (currentScroll >= maxScroll) {
+          _scrollController.animateTo(
+            0,
+            duration: const Duration(seconds: 15),
+            curve: Curves.linear,
+          );
+        } else {
+          _scrollController.animateTo(
+            maxScroll,
+            duration: const Duration(seconds: 15),
+            curve: Curves.linear,
+          );
+        }
+      }
+    }
+
+    // Start auto-scroll when widget is built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      autoScroll();
+      // Repeat animation
+      _scrollController.addListener(() {
+        if (_scrollController.position.pixels ==
+                _scrollController.position.maxScrollExtent ||
+            _scrollController.position.pixels == 0) {
+          autoScroll();
+        }
+      });
+    });
+
     return SizedBox(
-      height: 160,
+      height: 200, // Increased height
       child: ListView.separated(
+        controller: _scrollController,
         scrollDirection: Axis.horizontal,
         itemCount: 10,
-        separatorBuilder: (_, __) => const SizedBox(width: 12),
+        separatorBuilder: (_, __) => const SizedBox(width: 16),
         itemBuilder: (c, i) {
           final asset = 'assets/images/termux${i + 1}.png';
           return GestureDetector(
             onTap: () => _openZoom(asset),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
-                asset,
-                width: 120,
-                height: 160,
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.high,
+            child: Hero(
+              tag: asset,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      spreadRadius: 2,
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    asset,
+                    width: 150, // Increased width
+                    height: 200, // Increased height
+                    fit: BoxFit.cover,
+                    filterQuality: FilterQuality.high,
+                  ),
+                ),
               ),
             ),
           );
@@ -528,28 +581,41 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
 
   Widget _buildZoomOverlay() {
     return Positioned.fill(
-      child: Material(
-        color: Colors.black.withAlpha(200),
-        child: Stack(
-          children: [
-            Center(child: Image.asset(_zoomImagePath!, fit: BoxFit.contain)),
-            Positioned(
-              top: 40,
-              right: 20,
-              child: GestureDetector(
-                onTap: _closeZoom,
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 255, 0, 0),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(Icons.close, color: Colors.white),
+      child: GestureDetector(
+        onTap: _closeZoom,
+        child: Material(
+          color: Colors.black.withOpacity(0.9),
+          child: Stack(
+            children: [
+              Center(
+                child: Hero(
+                  tag: _zoomImagePath!,
+                  child: Image.asset(_zoomImagePath!, fit: BoxFit.contain),
                 ),
               ),
-            ),
-          ],
+              Positioned(
+                top: 40,
+                right: 20,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 8,
+                      ),
+                    ],
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.close, color: Colors.white),
+                    onPressed: _closeZoom,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
