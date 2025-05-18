@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'learn_python_page.dart';
 import 'donar_page.dart';
 import 'termux_install.dart';
-import 'package:flutter/services.dart';
 
 // ...resto de imports
 class Rk13IntroPage extends StatefulWidget {
@@ -44,9 +43,9 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
                 const SizedBox(height: 24),
                 _buildSection(child: _buildTermuxSection()),
                 const SizedBox(height: 24),
-                _buildSection(child: _buildAIDASection()),
-                const SizedBox(height: 24),
                 _buildSection(child: _buildGallerySection()),
+                const SizedBox(height: 24),
+                _buildSection(child: _buildAIDASection()),
                 const SizedBox(height: 24),
                 _buildSection(child: _buildTermuxExclusiveSection()),
                 const SizedBox(height: 24),
@@ -113,7 +112,12 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.black.withValues(
+                      red: 0,
+                      green: 0,
+                      blue: 0,
+                      alpha: 76,
+                    ),
                     spreadRadius: 2,
                     blurRadius: 8,
                     offset: const Offset(0, 2),
@@ -187,6 +191,113 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
     );
   }
 
+  // Actualiza el método _buildGallerySection
+  Widget _buildGallerySection() {
+    final ScrollController scrollController = ScrollController();
+
+    void autoScroll() {
+      if (!scrollController.hasClients) return;
+      final double maxScroll = scrollController.position.maxScrollExtent;
+      final double currentScroll = scrollController.offset;
+
+      if (currentScroll >= maxScroll) {
+        scrollController.animateTo(
+          0,
+          duration: const Duration(seconds: 30),
+          curve: Curves.easeInOut,
+        );
+      } else {
+        scrollController.animateTo(
+          maxScroll,
+          duration: const Duration(seconds: 30),
+          curve: Curves.easeInOut,
+        );
+      }
+    }
+
+    void startAutoScroll() {
+      autoScroll();
+      scrollController.addListener(() {
+        if (scrollController.hasClients &&
+            (scrollController.position.pixels ==
+                    scrollController.position.maxScrollExtent ||
+                scrollController.position.pixels == 0)) {
+          Future.delayed(const Duration(seconds: 2), autoScroll);
+        }
+      });
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      try {
+        startAutoScroll();
+      } catch (e) {
+        debugPrint('Error starting auto-scroll: $e');
+      }
+    });
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 16, bottom: 12),
+          child: Text(
+            '📱 Vista previa',
+            style: TextStyle(
+              color: Colors.redAccent,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 220,
+          child: ListView.builder(
+            controller: scrollController,
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              final asset = 'assets/images/termux${index + 1}.png';
+              return Padding(
+                padding: EdgeInsets.only(
+                  left: index == 0 ? 16 : 8,
+                  right: index == 9 ? 16 : 8,
+                ),
+                child: GestureDetector(
+                  onTap: () => _openZoom(asset),
+                  child: Hero(
+                    tag: asset,
+                    child: Container(
+                      width: 160,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withAlpha(100),
+                            blurRadius: 8,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.asset(
+                          asset,
+                          fit: BoxFit.cover,
+                          filterQuality: FilterQuality.high,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildAIDASection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,98 +349,67 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
     );
   }
 
-  Widget _buildGallerySection() {
-    final ScrollController scrollController = ScrollController();
-
-    // Auto-scroll animation with better timing
-    void autoScroll() {
-      if (!scrollController.hasClients) return;
-
-      final double maxScroll = scrollController.position.maxScrollExtent;
-      final double currentScroll = scrollController.offset;
-
-      if (currentScroll >= maxScroll) {
-        // Scroll back to start
-        scrollController.animateTo(
-          0,
-          duration: const Duration(seconds: 30), // Slower scroll
-          curve: Curves.easeInOut, // Smoother animation
-        );
-      } else {
-        // Scroll to end
-        scrollController.animateTo(
-          maxScroll,
-          duration: const Duration(seconds: 30), // Slower scroll
-          curve: Curves.easeInOut, // Smoother animation
-        );
-      }
-    }
-
-    // Initialize auto-scroll with proper cleanup
-    void startAutoScroll() {
-      autoScroll();
-      scrollController.addListener(() {
-        if (scrollController.hasClients &&
-            (scrollController.position.pixels ==
-                    scrollController.position.maxScrollExtent ||
-                scrollController.position.pixels == 0)) {
-          Future.delayed(
-            const Duration(seconds: 2),
-            autoScroll,
-          ); // Add pause between scrolls
-        }
-      });
-    }
-
-    // Start auto-scroll after build with proper error handling
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      try {
-        startAutoScroll();
-      } catch (e) {
-        debugPrint('Error starting auto-scroll: $e');
-      }
-    });
-
-    return SizedBox(
-      height: 200,
-      child: ListView.separated(
-        controller: scrollController,
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(), // Add bounce effect
-        itemCount: 10,
-        separatorBuilder: (_, __) => const SizedBox(width: 16),
-        itemBuilder: (context, index) {
-          final asset = 'assets/images/termux${index + 1}.png';
-          return GestureDetector(
-            onTap: () => _openZoom(asset),
+  // 2. Mantener solo esta versión actualizada:
+  Widget _buildZoomOverlay() {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      color: Colors.black.withValues(red: 0, green: 0, blue: 0, alpha: 240),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Interactive image viewer with zoom
+          InteractiveViewer(
+            minScale: 0.5,
+            maxScale: 4.0,
             child: Hero(
-              tag: asset,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      spreadRadius: 2,
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    asset,
-                    width: 150,
-                    height: 200,
-                    fit: BoxFit.cover,
-                    filterQuality: FilterQuality.high,
+              tag: _zoomImagePath!,
+              child: Image.asset(
+                _zoomImagePath!,
+                fit: BoxFit.contain,
+                filterQuality: FilterQuality.high,
+              ),
+            ),
+          ),
+          // Enhanced close button
+          Positioned(
+            top: 40,
+            right: 20,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: _closeZoom,
+                customBorder: const CircleBorder(),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(
+                          red: 0,
+                          green: 0,
+                          blue: 0,
+                          alpha: 76,
+                        ),
+                        blurRadius: 8,
+                        spreadRadius: 2,
+                      ),
+                    ],
                   ),
+                  child: const Icon(Icons.close, color: Colors.white, size: 30),
                 ),
               ),
             ),
-          );
-        },
+          ),
+          // Tap anywhere to close
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: _closeZoom,
+              behavior: HitTestBehavior.translucent,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -647,12 +727,7 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.redAccent.withAlpha(25), // Fixed deprecated withOpacity
-            Colors.black,
-          ],
-        ),
+        gradient: LinearGradient(colors: [Colors.black]),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: Colors.redAccent.withAlpha(76), // Fixed deprecated withOpacity
@@ -770,70 +845,4 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
       ),
     );
   }
-
-  Widget _buildZoomOverlay() {
-    return Positioned.fill(
-      child: Material(
-        color: Colors.black.withOpacity(0.9),
-        child: Stack(
-          fit: StackFit.expand, // Added to ensure full screen coverage
-          children: [
-            // Centered image with proper sizing
-            Center(
-              child: Hero(
-                tag: _zoomImagePath!,
-                child: Image.asset(
-                  _zoomImagePath!,
-                  fit: BoxFit.contain,
-                  width:
-                      MediaQuery.of(context).size.width *
-                      0.9, // 90% of screen width
-                  filterQuality: FilterQuality.high,
-                ),
-              ),
-            ),
-            // Close button
-            Positioned(
-              top: 40,
-              right: 20,
-              child: GestureDetector(
-                onTap: _closeZoom,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
-                        spreadRadius: 2,
-                        blurRadius: 8,
-                      ),
-                    ],
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.close, color: Colors.white),
-                    onPressed: _closeZoom,
-                  ),
-                ),
-              ),
-            ),
-            // Tap anywhere to close
-            Positioned.fill(
-              child: GestureDetector(
-                onTap: _closeZoom,
-                behavior: HitTestBehavior.translucent,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // TODO: Uncomment when code examples are needed
-  /*
-Widget _buildBoxWithCode(String title, List<String> items, String code) {
-  // ... código del método ...
-}
-*/
 }
