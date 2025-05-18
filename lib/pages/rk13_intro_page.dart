@@ -449,222 +449,111 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
     );
   }
 
-  Widget _buildVirtualenvSection() => _buildBoxWithCode(
-    '🐍 Entorno Python Profesional',
-    [
-      '- python3 -m venv hackenv',
-      '- source hackenv/bin/activate',
-      '- pip install --upgrade pip',
-      '- deactivate (salir del entorno)',
-    ],
-    '''
-  01  #!/usr/bin/env python3
-  02  """
-  03  RK13 Virtual Environment Setup
-  04  Create and configure a secure hacking environment
-  05  """
-  06  
-  07  import os
-  08  import venv
-  09  import sys
-  10  import logging
-  11  
-  12  logging.basicConfig(level=logging.INFO)
-  13  logger = logging.getLogger(__name__)
-  14  
-  15  class HackEnv:
-  16      def __init__(self, name="hackenv"):
-  17          self.name = name
-  18          self.requirements = [
-  19              "requests",
-  20              "scapy",
-  21              "beautifulsoup4",
-  22              "paramiko",
-  23          ]
-  24  
-  25      def setup(self):
-  26          logger.info("🚀 Creando entorno virtual: %s", self.name)
-  27          venv.create(
-  28              self.name,
-  29              system_site_packages=False,
-  30              with_pip=True,
-  31              prompt="🐍"
-  32          )
-  33          logger.info("✨ Entorno creado exitosamente!")
-  34  
-  35      def install_requirements(self):
-  36          if not os.path.exists(self.name):
-  37              raise ValueError("❌ Entorno no encontrado!")
-  38          logger.info("📦 Instalando paquetes...")
-  39          for pkg in self.requirements:
-  40              os.system(f"{self.name}/bin/pip install {pkg}")
-  41  
-  42  if __name__ == "__main__":
-  43      env = HackEnv()
-  44      env.setup()
-  45      env.install_requirements()
-  46      logger.info("🎉 Setup completo!")''',
+  Widget _buildPythonHackingSection() => Container(
+    padding: const EdgeInsets.all(16),
+    decoration: BoxDecoration(
+      color: Colors.black87,
+      borderRadius: BorderRadius.circular(12),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withAlpha(76),
+          blurRadius: 8,
+          spreadRadius: 2,
+        ),
+      ],
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          '🔥 DOMINA EL ARTE DEL HACKING CON PYTHON',
+          style: TextStyle(
+            color: Colors.redAccent,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 20),
+
+        // Virtual Environment Section
+        _buildHackingSubSection(
+          '🛡️ CONFIGURA TU LABORATORIO DE HACKING',
+          [
+            '⚡ Entorno Virtual Aislado y Seguro',
+            '🔒 Dependencias Controladas y Versionadas',
+            '🚀 Activación con un Solo Comando',
+            '♻️ Fácil Reset y Reconfiguración',
+          ],
+          'assets/images/venv_setup.png',
+        ),
+
+        const SizedBox(height: 24),
+
+        // Python Arsenal Section
+        _buildHackingSubSection('⚔️ ARSENAL DE HERRAMIENTAS LETALES', [
+          '🌐 Requests: Infiltración HTTP Silenciosa',
+          '📡 Scapy: Forja Paquetes a Voluntad',
+          '🕷️ BeautifulSoup4: Web Scraping Invisible',
+          '🔑 Paramiko: Control SSH Total',
+          '🔐 PyCryptodome: Cifrado Militar',
+          '🎯 Shodan: Reconocimiento Global',
+        ], 'assets/images/hacking_tools.png'),
+
+        const SizedBox(height: 24),
+
+        // Security Tools Section
+        _buildHackingSubSection('�️ HERRAMIENTAS DE ÉLITE', [
+          '🔍 theHarvester: OSINT Avanzado',
+          '🌍 Impacket: Dominio de Protocolos',
+          '🤖 Mechanize: Automatización Sigilosa',
+          '📡 DNSPython: Reconocimiento DNS',
+          '🔒 Cryptography: Arsenal Criptográfico',
+          '🎯 Python-Nmap: Escaneo Profesional',
+        ], 'assets/images/security_tools.png'),
+      ],
+    ),
   );
 
-  Widget _buildPythonPackagesSection() => _buildBoxWithCode(
-    '🛠️ Arsenal Python Hacking',
-    [
-      '- requests (Manipulación HTTP avanzada)',
-      '- scapy (Análisis y forge de paquetes)',
-      '- beautifulsoup4 (Web scraping sigiloso)',
-      '- paramiko (Automatización SSH)',
-      '- pycryptodome (Criptografía ofensiva)',
-      '- shodan (Búsqueda de objetivos)',
-    ],
-    '''
-  01  #!/usr/bin/env python3
-  02  """
-  03  RK13 Web Reconnaissance Tool
-  04  Automated web scanning and data extraction
-  05  """
-  06  
-  07  import requests
-  08  from bs4 import BeautifulSoup
-  09  from Crypto.Cipher import AES
-  10  from datetime import datetime
-  11  import json
-  12  import logging
-  13  
-  14  class WebRecon:
-  15      def __init__(self, target):
-  16          self.target = target
-  17          self.session = requests.Session()
-  18          self.results = {}
-  19  
-  20      def scan_target(self):
-  21          try:
-  22              response = self.session.get(
-  23                  f"https://{self.target}",
-  24                  verify=False,
-  25                  timeout=10
-  26              )
-  27              soup = BeautifulSoup(response.text, "html.parser")
-  28              
-  29              # Extraer información
-  30              self.results["title"] = soup.title.string
-  31              self.results["links"] = [
-  32                  link.get("href") 
-  33                  for link in soup.find_all("a")
-  34              ]
-  35              self.results["forms"] = [
-  36                  {"action": form.get("action")}
-  37                  for form in soup.find_all("form")
-  38              ]
-  39              
-  40              return self.encrypt_results()
-  41              
-  42          except Exception as e:
-  43              logging.error(f"Error: {str(e)}")
-  44              return None
-  45      
-  46      def encrypt_results(self):
-  47          key = os.urandom(16)
-  48          iv = os.urandom(16)
-  49          cipher = AES.new(key, AES.MODE_CBC, iv)
-  50          
-  51          # Convertir resultados a JSON y cifrar
-  52          data = json.dumps(self.results).encode()
-  53          encrypted = cipher.encrypt(self._pad(data))
-  54          
-  55          return {
-  56              "data": encrypted,
-  57              "key": key,
-  58              "iv": iv
-  59          }
-  60  
-  61  if __name__ == "__main__":
-  62      recon = WebRecon("target.com")
-  63      results = recon.scan_target()
-  64      print("🎯 Reconocimiento completado!")''',
-  );
+  Widget _buildHackingSubSection(
+    String title,
+    List<String> features,
+    String imagePath,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 12),
+        ...features.map(
+          (feature) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Text(
+              feature,
+              style: const TextStyle(color: Colors.white70, fontSize: 16),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.asset(
+            imagePath,
+            width: double.infinity,
+            height: 200,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ],
+    );
+  }
 
-  Widget _buildPythonSecToolsSection() => _buildBoxWithCode(
-    '🔐 Herramientas Python Security',
-    [
-      '- theHarvester (OSINT y recon)',
-      '- impacket (Protocolos de red)',
-      '- mechanize (Automatización web)',
-      '- dnspython (Análisis DNS)',
-      '- cryptography (Cifrado/descifrado)',
-      '- python-nmap (Escaneo de redes)',
-    ],
-    '''
-  01  #!/usr/bin/env python3
-  02  """
-  03  RK13 Network Scanner
-  04  Herramienta avanzada de reconocimiento de red
-  05  """
-  06  
-  07  import nmap
-  08  from dns import resolver
-  09  from cryptography.fernet import Fernet
-  10  import asyncio
-  11  import json
-  12  import logging
-  13  
-  14  class NetworkScanner:
-  15      def __init__(self, target):
-  16          self.target = target
-  17          self.nm = nmap.PortScanner()
-  18          self.results = {}
-  19          
-  20      async def scan_ports(self):
-  21          logging.info(f"🔍 Escaneando puertos: {self.target}")
-  22          self.nm.scan(self.target, '1-1024', '-sV -sS -T4')
-  23          
-  24          for host in self.nm.all_hosts():
-  25              self.results[host] = {
-  26                  "state": self.nm[host].state(),
-  27                  "protocols": {}
-  28              }
-  29              
-  30              for proto in self.nm[host].all_protocols():
-  31                  ports = self.nm[host][proto].keys()
-  32                  for port in ports:
-  33                      service = self.nm[host][proto][port]
-  34                      self.results[host]["protocols"][port] = {
-  35                          "state": service["state"],
-  36                          "service": service["name"],
-  37                          "version": service["version"]
-  38                      }
-  39  
-  40      async def resolve_dns(self):
-  41          logging.info("🌐 Resolviendo DNS...")
-  42          try:
-  43              answers = resolver.resolve(self.target, 'A')
-  44              self.results["dns"] = {
-  45                  "records": [rdata.address for rdata in answers],
-  46                  "nameservers": resolver.resolve(self.target, 'NS')
-  47              }
-  48          except Exception as e:
-  49              logging.error(f"Error DNS: {str(e)}")
-  50  
-  51      async def run_scan(self):
-  52          tasks = [
-  53              self.scan_ports(),
-  54              self.resolve_dns()
-  55          ]
-  56          await asyncio.gather(*tasks)
-  57          return self.encrypt_results()
-  58  
-  59      def encrypt_results(self):
-  60          key = Fernet.generate_key()
-  61          f = Fernet(key)
-  62          encrypted = f.encrypt(
-  63              json.dumps(self.results).encode()
-  64          )
-  65          return {"data": encrypted, "key": key}
-  66  
-  67  if __name__ == "__main__":
-  68      scanner = NetworkScanner("target.com")
-  69      results = asyncio.run(scanner.run_scan())
-  70      print("🎉 Escaneo completado!")''',
-  );
   Widget _buildLearnButton() {
     return Center(
       child: ElevatedButton(
@@ -836,21 +725,31 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
 
   Widget _buildZoomOverlay() {
     return Positioned.fill(
-      child: GestureDetector(
-        onTap: _closeZoom,
-        child: Material(
-          color: Colors.black.withOpacity(0.9),
-          child: Stack(
-            children: [
-              Center(
-                child: Hero(
-                  tag: _zoomImagePath!,
-                  child: Image.asset(_zoomImagePath!, fit: BoxFit.contain),
+      child: Material(
+        color: Colors.black.withOpacity(0.9),
+        child: Stack(
+          fit: StackFit.expand, // Added to ensure full screen coverage
+          children: [
+            // Centered image with proper sizing
+            Center(
+              child: Hero(
+                tag: _zoomImagePath!,
+                child: Image.asset(
+                  _zoomImagePath!,
+                  fit: BoxFit.contain,
+                  width:
+                      MediaQuery.of(context).size.width *
+                      0.9, // 90% of screen width
+                  filterQuality: FilterQuality.high,
                 ),
               ),
-              Positioned(
-                top: 40,
-                right: 20,
+            ),
+            // Close button
+            Positioned(
+              top: 40,
+              right: 20,
+              child: GestureDetector(
+                onTap: _closeZoom,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.redAccent,
@@ -869,8 +768,15 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+            // Tap anywhere to close
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: _closeZoom,
+                behavior: HitTestBehavior.translucent,
+              ),
+            ),
+          ],
         ),
       ),
     );
