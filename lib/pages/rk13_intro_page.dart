@@ -449,70 +449,118 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
     );
   }
 
-  Widget _buildPythonHackingSection() => Container(
-    padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(
-      color: Colors.black87,
-      borderRadius: BorderRadius.circular(12),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withAlpha(76),
-          blurRadius: 8,
-          spreadRadius: 2,
-        ),
-      ],
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          '🔥 DOMINA EL ARTE DEL HACKING CON PYTHON',
-          style: TextStyle(
-            color: Colors.redAccent,
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
+  // Add these methods inside the Rk13IntroPageState class:
+
+  Widget _buildPythonPackagesSection() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.black87,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(76),
+            blurRadius: 8,
+            spreadRadius: 2,
           ),
-        ),
-        const SizedBox(height: 20),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            '�️ ARSENAL DE HERRAMIENTAS PYTHON',
+            style: TextStyle(
+              color: Colors.redAccent,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          _buildHackingSubSection('🌐 HERRAMIENTAS WEB', [
+            'Requests: Cliente HTTP avanzado',
+            'BeautifulSoup4: Web Scraping profesional',
+            'Selenium: Automatización web',
+            'aiohttp: HTTP asíncrono',
+          ], 'assets/images/web_tools.png'),
+        ],
+      ),
+    );
+  }
 
-        // Virtual Environment Section
-        _buildHackingSubSection(
-          '🛡️ CONFIGURA TU LABORATORIO DE HACKING',
-          [
-            '⚡ Entorno Virtual Aislado y Seguro',
-            '🔒 Dependencias Controladas y Versionadas',
-            '🚀 Activación con un Solo Comando',
-            '♻️ Fácil Reset y Reconfiguración',
-          ],
-          'assets/images/venv_setup.png',
-        ),
+  Widget _buildPythonSecToolsSection() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.black87,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(76),
+            blurRadius: 8,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            '🔐 HERRAMIENTAS DE SEGURIDAD',
+            style: TextStyle(
+              color: Colors.redAccent,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          _buildHackingSubSection('🛡️ SEGURIDAD Y PENTESTING', [
+            'Scapy: Análisis de red',
+            'Cryptography: Cifrado seguro',
+            'Paramiko: Control SSH',
+            'Python-Nmap: Escaneo de redes',
+          ], 'assets/images/security_tools.png'),
+        ],
+      ),
+    );
+  }
 
-        const SizedBox(height: 24),
-
-        // Python Arsenal Section
-        _buildHackingSubSection('⚔️ ARSENAL DE HERRAMIENTAS LETALES', [
-          '🌐 Requests: Infiltración HTTP Silenciosa',
-          '📡 Scapy: Forja Paquetes a Voluntad',
-          '🕷️ BeautifulSoup4: Web Scraping Invisible',
-          '🔑 Paramiko: Control SSH Total',
-          '🔐 PyCryptodome: Cifrado Militar',
-          '🎯 Shodan: Reconocimiento Global',
-        ], 'assets/images/hacking_tools.png'),
-
-        const SizedBox(height: 24),
-
-        // Security Tools Section
-        _buildHackingSubSection('�️ HERRAMIENTAS DE ÉLITE', [
-          '🔍 theHarvester: OSINT Avanzado',
-          '🌍 Impacket: Dominio de Protocolos',
-          '🤖 Mechanize: Automatización Sigilosa',
-          '📡 DNSPython: Reconocimiento DNS',
-          '🔒 Cryptography: Arsenal Criptográfico',
-          '🎯 Python-Nmap: Escaneo Profesional',
-        ], 'assets/images/security_tools.png'),
-      ],
-    ),
-  );
+  Widget _buildVirtualenvSection() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.black87,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(76),
+            blurRadius: 8,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            '� ENTORNO VIRTUAL PYTHON',
+            style: TextStyle(
+              color: Colors.redAccent,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          _buildHackingSubSection('⚡ CONFIGURACIÓN RÁPIDA', [
+            'Aislamiento total de dependencias',
+            'Control de versiones de paquetes',
+            'Fácil respaldo y restauración',
+            'Portabilidad entre proyectos',
+          ], 'assets/images/venv_setup.png'),
+        ],
+      ),
+    );
+  }
 
   Widget _buildHackingSubSection(
     String title,
@@ -782,80 +830,10 @@ class Rk13IntroPageState extends State<Rk13IntroPage> {
     );
   }
 
-  Widget _buildBoxWithCode(String title, List<String> items, String code) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: const Color.fromARGB(255, 255, 0, 0)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 255, 0, 0),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                ...items.map(
-                  (l) => Text(l, style: const TextStyle(color: Colors.white)),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.black87,
-              border: Border(
-                top: BorderSide(
-                  color: const Color.fromARGB(255, 255, 0, 0).withOpacity(0.3),
-                ),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      '📝 Ejemplo:',
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.copy, color: Colors.white54),
-                      onPressed:
-                          () => Clipboard.setData(ClipboardData(text: code)),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  code,
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 0, 255, 0),
-                    fontFamily: 'monospace',
-                    height: 1.5,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // TODO: Uncomment when code examples are needed
+  /*
+Widget _buildBoxWithCode(String title, List<String> items, String code) {
+  // ... código del método ...
+}
+*/
 }
